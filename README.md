@@ -13,4 +13,4 @@ Since this repository contains different projects written in different languages
 * [java-8](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html) - installer for oracle-java-8 ubuntu 
 * [android-studio](https://developer.android.com/studio/install.html) - environment for developing android applications
 * [Maven](https://maven.apache.org/) - Dependency Management
-
+* [Eclipse](https://www.eclipse.org/downloads/?) - You will need eclipse if you want to import non-android projects
