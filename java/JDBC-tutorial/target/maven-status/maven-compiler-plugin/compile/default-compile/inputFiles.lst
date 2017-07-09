@@ -1,0 +1,7 @@
+/home/matija/testing-workspace/DomaciZadatakBaza/src/main/java/com/matija/dz5/data/Contact.java
+/home/matija/testing-workspace/DomaciZadatakBaza/src/main/java/com/matija/dz5/service/ContactService.java
+/home/matija/testing-workspace/DomaciZadatakBaza/src/main/java/com/matija/dz5/dao/ConnectionManager.java
+/home/matija/testing-workspace/DomaciZadatakBaza/src/main/java/com/matija/dz5/dao/PhoneNumberDao.java
+/home/matija/testing-workspace/DomaciZadatakBaza/src/main/java/com/matija/dz5/dao/EmailAddressDao.java
+/home/matija/testing-workspace/DomaciZadatakBaza/src/main/java/com/matija/dz5/dao/ContactDao.java
+/home/matija/testing-workspace/DomaciZadatakBaza/src/main/java/com/matija/dz5/service/ContactDemo.java

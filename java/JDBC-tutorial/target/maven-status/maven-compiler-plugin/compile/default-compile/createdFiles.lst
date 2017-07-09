@@ -1,0 +1,9 @@
+com/matija/dz5/dao/ConnectionManager.class
+com/matija/dz5/data/Contact.class
+com/matija/dz5/dao/PhoneNumberDao.class
+com/matija/dz5/data/Contact$PhoneNumber.class
+com/matija/dz5/dao/EmailAddressDao.class
+com/matija/dz5/service/ContactService.class
+com/matija/dz5/service/ContactDemo.class
+com/matija/dz5/dao/ContactDao.class
+com/matija/dz5/data/Contact$EmailAddress.class

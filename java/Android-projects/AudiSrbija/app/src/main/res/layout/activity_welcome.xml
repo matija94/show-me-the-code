@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_welcome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="@color/colorGrey"
+    tools:context="android.matija.com.audisrbija.WelcomeActivity">
+
+    <TextView
+        android:id="@+id/welcome_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/welcome_string"
+        android:textColor="@color/colorWhite"/>
+
+    <ImageView
+        android:id="@+id/audirs7_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_text_view"
+        android:src="@drawable/welcome_audi_rs7"/>
+
+    <TextView
+        android:id="@+id/izaberi_seriju"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/audirs7_image_view"
+        android:text="@string/izaberi_seriju"
+        android:textColor="@color/colorWhite"/>
+    <Spinner
+        android:id="@+id/spinner_audi_series"
+        android:layout_width="wrap_content"
+        android:spinnerMode="dialog"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/izaberi_seriju"
+        android:prompt="@string/izaberi_seriju">
+    </Spinner>
+    <Button
+        android:id="@+id/order_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_audi_series"
+        android:layout_centerHorizontal="true"
+        android:text="@string/order_button_string"
+        android:layout_marginTop="100dp"/>
+</RelativeLayout>

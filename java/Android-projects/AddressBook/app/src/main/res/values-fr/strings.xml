@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Address Book</string>
+    <string name="menuitem_delete">la delete</string>
+    <string name="menuitem_edit">la edit</string>
+</resources>

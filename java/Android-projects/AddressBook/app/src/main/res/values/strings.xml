@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Address Book</string>
+    <string name="menuitem_edit">Edit</string>
+    <string name="menuitem_delete">Delete</string>
+</resources>

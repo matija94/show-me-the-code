@@ -1,0 +1,16 @@
+<imenik>
+	<kontakt>
+		<ime>Ime</ime>
+		<prezime>Prezime</prezime>
+		<adresa>Ulica i broj</adresa>
+		<tel>064</tel>
+		<email>add@a.com</email>
+	</kontakt>
+	<kontakt>
+		<ime>Petar</ime>
+		<prezime>Peric</prezime>
+		<tel>065</tel>
+		<email>a@a.com</email>
+		<email>b@a.com</email>
+	</kontakt>
+</imenik>
