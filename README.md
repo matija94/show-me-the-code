@@ -16,4 +16,4 @@ Python 3+
 * [java-8](http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html) - installer for oracle-java-8 ubuntu 
 * [android-studio](https://developer.android.com/studio/install.html) - environment for developing android applications
 ```
-
+* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/)
