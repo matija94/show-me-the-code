@@ -1,3 +1,3 @@
 # show-me-the-code
 
-Personal repository for publishing own projects which main goal was to learn and practice
+Personal repository for publishing own projects which main goal is to learn and practice
