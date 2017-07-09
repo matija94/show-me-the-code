@@ -9,7 +9,7 @@ public class ConnectionManager {
 	
 	private static final String url = "jdbc:postgresql://localhost:5432/ysdb";
 	private static final String user = "matija";
-	private static final String password = "sjm2254wow";
+	private static final String password = "password";
 
 
 	private static Connection conn;
