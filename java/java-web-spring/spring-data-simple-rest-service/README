@@ -1,0 +1,13 @@
+This is simple application that shows how one can use spring-data with REST and spring boot!
+It is using maven for build and dependecy managment
+
+
+There are no configurations you have to define manually. Application.java is responsible for generating all needed configurations in order for spring to work(btw be careful to keep your annotated classes in child relationship to Application class, because this class will scan for it's children in project hierarchy and look for annoted classes such as Controller classes).
+This is called Spring boot. With regular spring you need to define web.xml and other xml configuration files to make the framework work.
+
+To run the application you need to navigate to it's root folder and run the command 'mvn spring-boot:run' 
+Spring boot maven plugin will take care of everything and bring your app alive.
+
+Visit http://localhost:8080/customer and insert different values for firstName and lastName params.
+
+For example requesting http://localhost:8080/customer?lastName=Lukovic would retrieve you a json list containing all customers which lastName matches with 'Lukovic' 
