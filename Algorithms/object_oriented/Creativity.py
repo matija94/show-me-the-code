@@ -61,7 +61,7 @@ class Vector:
     
     def __str__(self):
         return str(self._coords)
-
+#C-2.26
 class reversedSeq(seq):
     '''
         Implemented as iterator instead of generator
