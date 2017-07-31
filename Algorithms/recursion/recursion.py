@@ -279,3 +279,8 @@ if __name__ == '__main__':
     #even_before_odds(S)
     #print(S)
     print(product(2, 100000000))
+    
+    
+    
+    for i in range(5,1,-1):
+        print(i)
