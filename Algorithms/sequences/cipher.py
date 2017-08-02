@@ -7,15 +7,12 @@ class CaesarCipher:
     '''
     R = 26 # alphabet length A-Z
     def __init__(self, shift=3):
-        encoder = [None] * CaesarCipher.R
-        decoder = [None] * CaesarCipher.R
-        for k in range(CaesarCipher.R):
-            encoder[k] = chr((k+shift) % 26 + ord('A'))
-            decoder[k] = chr((k-shift) % 26 + ord('A'))
-        self._forward_upper = ''.join(encoder)
-        self._backward_upper = ''.join(decoder)
-        self._forward_lower = ''.join([chr(ord(e)+32) for e in encoder])
-        self._backward_lower = ''.join([chr(ord(d)+32) for d in decoder])
+        #R-5.10 exercise
+        self._forward_upper = ''.join([chr((k+shift)%26+ord('A')) for k in range(CaesarCipher.R)])
+        self._backward_upper = ''.join([chr((k-shift)%26+ord('A')) for k in range(CaesarCipher.R)])
+        self._forward_lower = ''.join([chr(ord(e)+32) for e in self._forward_upper])
+        self._backward_lower = ''.join([chr(ord(d)+32) for d in self._backward_upper])
+        
         
     def encrypt(self, message):
         return self._transform(message, self._forward_upper, self._forward_lower)
