@@ -75,6 +75,35 @@ class DynamicArray:
                 return
         raise ValueError(str(value) + " doesn't exist")
 
+    #C-5.25 exercise
+    def remove_all(self, value):
+        '''
+         Removes all occurrences of specified value
+         After removing all values that match criteria, all non values are copied to the new array in their respective order
+         Therefore this function uses exactly 2*n iterations.
+         Still it is better than calling function remove until it raises ValueError
+         It is still better than shifting values to left each time an item is replace with NaN as well
+         
+         Array will be resized by half if (n-removed_elements < capacity/4)
+        '''
+        removed = 0
+        for i in range(self._n):
+            if self._A[i] == value:
+                self._A[i] = None
+                removed+=1
+                
+        if self._n-removed < self._capacity//4:
+            self._capacity = self._capacity//2
+        
+        B = self._make_array(self._capacity)
+        b_index = 0
+        for i in range(self._n):
+            if self._A[i] is not None:
+                B[b_index] = self._A[i]
+                b_index+=1
+        self._n-=removed
+        self._A = B
+            
     #C-5.16 exercise
     def pop(self):
         '''
@@ -126,11 +155,11 @@ class DynamicArray:
 
 if __name__ == '__main__':
     arr = DynamicArray()
-    for i in range(12):
+    for i in range(8):
         arr.append(i+1)
-    arr.insert(3, 15)
     print(arr)
-    arr.remove(15)
+    for i in range(5):
+        arr.insert(i, 15)
     print(arr)
     
     print(sum(arr))
@@ -145,6 +174,8 @@ if __name__ == '__main__':
     print(shuffled)
     print(len(shuffled))
     
+    shuffled.remove_all(15)
+    print(shuffled)
     #test pop impl
     current_cap = shuffled._capacity
     while True:

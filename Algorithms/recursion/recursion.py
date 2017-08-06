@@ -1,13 +1,11 @@
 import os
-import sys
+import time
 from macpath import abspath
 
 def factoriel(n):
     if n == 0:
         return 1
     return n*factoriel(n-1)
-
-
 
 class RulerDrawer:
     
@@ -236,14 +234,32 @@ def listfiles(dirr, target_file_name=None):
             yield abs
 
 
+def slower_power(a,b):
+    if b==0:
+        return 1
+    return a*slower_power(a,b-1)
+
+def faster_power(a,b):
+    if b == 1:
+        return a
+    part = faster_power(a,b//2)
+    res = part*part
+    if b%2 == 1:
+        res = res * a
+    return res
+
        
 if __name__ == '__main__':
     #test ruler drawer
     #rd = RulerDrawer(1,3)
     #rd.draw()
+    t = time.time()
+    print(slower_power(2,560))
+    print(str(time.time()-t))
     
-    
-    
+    t = time.time()
+    print(faster_power(2, 1024))
+    print(str(time.time()-t))
     #test recursive binary search
     #print(rbs([1,2,3,4], 5))
  
