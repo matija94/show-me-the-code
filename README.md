@@ -2,8 +2,7 @@
 
 Personal repository for publishing own projects which main goal is to learn and practice
 
-I will be posting web-projects, android projects and some tutorials for different libraries.
-I have started learning data-science since July 2017, so i will post the code as i progress.
+I will be posting algorithms, data-science, web-projects, android projects and some tutorials for different libraries.
 
 ## Prerequisites
 
