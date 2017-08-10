@@ -1,16 +1,35 @@
 class Empty(Exception):
     pass
 
+class Full(Exception):
+    pass
+
+#C-6.16 exercise
+#C-6.17 exercise
+#C-6.18 exercise 
+#C-6.19 exercise
 class ArrayStack:
     
-    def __init__(self):
-        self._data = []
+    def __init__(self, maxlen=None):
+        if maxlen is None: 
+            self._data = [] 
+        else: 
+            self._data = [None] * maxlen
+        self._size = 0
+        self._maxlen = maxlen
         
     def push(self, val):
         '''
         Puts element on top of the stack
         '''
-        self._data.append(val)
+        
+        if self._maxlen==self._size:
+            raise Full('stack is full')
+        if self._maxlen is not None:
+            self._data[self._size] = val
+        else:
+            self._data.append(val)
+        self._size+=1
         
     def pop(self):
         '''
@@ -20,7 +39,15 @@ class ArrayStack:
         '''
         if self.is_empty():
             raise Empty('Stack is empty')
-        return self._data.pop()
+        if self._maxlen is not None:
+            current_last_index = self._size-1
+            ret = self._data[current_last_index]
+            self._data[current_last_index] = None
+        else:
+            ret = self._data.pop()
+        
+        self._size-=1
+        return ret
     
     def top(self):
         '''
@@ -33,12 +60,30 @@ class ArrayStack:
             raise Empty('Stack is empty')
         return self._data[-1]
 
+    def reverse(self):
+        '''
+        Reverses the stack using two temporary stacks.
+        This could be done using less space but exercises asks for this kind of implementation
+        '''
+        
+        s1 = ArrayStack(len(self))
+        s2 = ArrayStack(len(self))
+        
+        while not self.is_empty():
+            s1.push(self.pop())
+        while not s1.is_empty():
+            s2.push(s1.pop())
+        while not s2.is_empty():
+            self.push(s2.pop())
+
     def __len__(self):
-        return len(self._data)
+        return self._size
     
     def is_empty(self):
-        return len(self._data)==0
-
+        return len(self)==0
+    
+    def __str__(self):
+        return ' '.join([str(self._data[-i]) for i in range(1,len(self)+1)])
 
 class StackUsage:
     
@@ -100,13 +145,49 @@ class StackUsage:
                 if tag != stack.pop():
                     return False
             else:
-                stack.push(tag)
+                #ignore tag attributes if any
+                end = 0
+                while end<len(tag) and tag[end] != ' ':
+                    end+=1
+                stack.push(tag[0:end])
             k = html.find('<',j+1)
         return stack.is_empty()
+    
+    #R-6.3 exercise
+    @staticmethod
+    def transfer(S,T):
+        '''
+        Transfers from stack S to stack S
+        This will cause elements to be reversed in the stack T
+        '''
+        while not S.is_empty():
+            T.push(S.pop())
+        return T
+    
+    #R-6.4 exercise
+    @staticmethod
+    def clean(S,recursive=True):
+        '''
+        Cleans the stack, uses recursion to complete the task by default
+        '''
+        def _clean(S):
+            if S.is_empty():
+                return
+            else:
+                S.pop()
+            _clean(S)
+        _clean(S)
         
 if __name__ == '__main__':
     StackUsage.reverse_file('/home/matija/Desktop/test_reverse', True)
     
     print(StackUsage.parentheses_test('(((({}[]))))'))
     
-    print(StackUsage.valid_html("<html><head>This is head</head><body><h1>This is heading</h1><p>This is paragraph</p></body></html>"))                
+    print(StackUsage.valid_html("<html><head>This is head</head><body><h1 class='first_heading'>This is heading</h1><p style='color:red'>This is paragraph</p></body></html>"))                
+    
+    s = ArrayStack(10)
+    for i in range(10):
+        s.push(i+1)
+    print(s)
+    s.reverse()
+    print(s)
