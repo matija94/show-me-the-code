@@ -1,3 +1,4 @@
+from stack_queue_dequeue.queue import ArrayQueue
 class Empty(Exception):
     pass
 
@@ -177,8 +178,47 @@ class StackUsage:
                 S.pop()
             _clean(S)
         _clean(S)
+    
+    @staticmethod
+    def exercise_C_6_23(R,S,T):
+        '''
+         store all elements from T to S in their original order
+         S should have those elements from T below it's current elements
+         R should stay the same as it was on the input
+        '''
+        n = len(T)
+        while not T.is_empty():
+            R.push(T.pop())
+        while not S.is_empty():
+            T.push(S.pop())
+        for i in range(0,n):
+            S.push(R.pop())
+        while not T.is_empty():
+            S.push(T.pop())
+    
+    #C-6.22 exercise        
+    @staticmethod
+    def postfix(expr):
+        expr.split('\\([0-9')
         
+        expr = '('+expr+')'
+        res = ""
+        operator_s = ArrayStack()
+        for ch in expr:
+            if ch ==' ': continue
+            if ch == ')':
+                if operator_s.is_empty():
+                    return res
+                res+=operator_s.pop()
+            elif ch in '+-*/':
+                operator_s.push(ch)
+            elif ch != '(':
+                res+=ch
+        return res
+    
 if __name__ == '__main__':
+    print(StackUsage.postfix('(3 - (1 + 2)) + 2'))
+    
     StackUsage.reverse_file('/home/matija/Desktop/test_reverse', True)
     
     print(StackUsage.parentheses_test('(((({}[]))))'))
@@ -191,3 +231,20 @@ if __name__ == '__main__':
     print(s)
     s.reverse()
     print(s)
+
+    R = ArrayStack()
+    S = ArrayStack()
+    T = ArrayStack()
+    
+    for i in range(1,4):
+        R.push(i)
+    for i in range(7,10):
+        S.push(i)
+    for i in range(4,7):
+        T.push(i)
+    print(R)
+    print(S)
+    print(T)
+    StackUsage.exercise_C_6_23(R, S, T)
+    print(R)
+    print(S)

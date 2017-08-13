@@ -29,6 +29,7 @@ class ArrayQueue:
             self._front = (self._front+1) % self._size
         self._data = b
         self._front = 0
+        return
     
     def enqueue(self, val):
         '''
@@ -64,8 +65,5 @@ class ArrayQueue:
         if self._size == 0:
             raise ValueError('Queue is empty!')
         return self._data[self._front]
-    
-    
-    
     
     
