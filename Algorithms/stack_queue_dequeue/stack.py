@@ -211,69 +211,63 @@ class StackUsage:
             while len(signs)>0:
                 for index,token in enumerate(tokens):
                     if token in signs:
-                        left=-1
-                        right=-1
-                        if '(' not in tokens[index+1] and ')' not in tokens[index+1]:right=index+1
-                        else:
-                            for i in range(index+1,n):
-                                if ')' in tokens[i]:
-                                    right=i
-                                    break
-                        if '(' not in tokens[index-1] and ')' not in tokens[index-1]:left=index-1
-                        else:
-                            for i in range(index-1,-1,-1):
-                                if '(' in tokens[i]:
-                                    left=i
-                                    break
-                        if left!=-1 and right!=-1:
-                            tokens[left] ='('+tokens[left]
-                            tokens[right] = tokens[right]+')'
-                            
+                        if '(' not in tokens[index+1] and ')' not in tokens[index+1]:
+                            if ')' in tokens[index-1]:
+                                tokens[index+1]+=')'
+                                for i in range(index-1,-1,-1):
+                                    if '(' in tokens[i]:
+                                        tokens[i] = '(' + tokens[i]
+                                        break
+                            elif '(' not in tokens[index-1]:
+                                tokens[index-1] = '('+ tokens[index-1]
+                                tokens[index+1]+=')'
+                                
+                        if '(' not in tokens[index-1] and ')' not in tokens[index-1]:
+                            if '(' in tokens[index+1]:
+                                tokens[index-1]='('+tokens[index-1]
+                                for i in range(index+1,n,1):
+                                    if ')' in tokens[i]:
+                                        tokens[i]+=')'
+                                        break
+                            elif ')' not in tokens[index+1]:
+                                tokens[index+1]+=')'
+                                tokens[index-1]='('+tokens[index-1]
+                                
                 if signs == '-+':
                     signs = ''
                 else:
                     signs='-+'
-            print(' '.join(tokens))
             res = list(''.join(tokens))
-            right = 0
-            n = len(res)-1
-            right_rem = []
-            # traverse expression with two pointers and simplify it, removing redundant brackets
-            for i in range(n):
-                j = n-i-1
-                if res[j] == ')' and res[j-1] == ')':
-                    right_rem.append(j)
-                if res[i] == '(' and res[i+1]=='(':
-                    res[right_rem[-1]] = ''
-                    res[i] = ''
-                    right_rem.pop()
             return ' '.join(res)
         
         
         expr = _expression_normalizer(expr)
-        res = ""
+        print(expr)
+        res = []
         ''' Generate postfix notation'''
         operator_s = ArrayStack()
-        parent_s = ArrayStack()
         for ch in expr:
             if ch ==' ': continue
             if ch == ')':
-                if operator_s.is_empty():
-                    continue
-                res+=operator_s.pop()
-                parent_s.pop()
-                if len(parent_s)==1 and len(operator_s)==1:
-                    res+=operator_s.pop()
+                if operator_s.top() == '(':
+                    operator_s.pop()
+                else:
+                    while not operator_s.is_empty() and operator_s.top() != '(':
+                        res.append(operator_s.pop())
+                    if not operator_s.is_empty():
+                        operator_s.pop()
             elif ch in '+-*/':
+                while not operator_s.is_empty() and operator_s.top() != '(':
+                    res.append(operator_s.pop())
                 operator_s.push(ch)
             elif ch != '(':
-                res+=ch
+                res.append(ch)
             else:
-                parent_s.push(ch)
-        return res
+                operator_s.push(ch)
+        return ' '.join(res)
     
 if __name__ == '__main__':
-    print(StackUsage.postfix('(a + b / c * d + (r + c / d))'))
+    print(StackUsage.postfix('a + b + c - a + b / c * r + 2 - 3'))
     
     print(StackUsage.parentheses_test('( ( a - b ) + ( ( ( c / d ) ) * r ) + ( ( ( (  1 / 2  ) ) * 3 ) / 4 ) - 5 )'))
     StackUsage.reverse_file('/home/matija/Desktop/test_reverse', True)
