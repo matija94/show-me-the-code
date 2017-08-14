@@ -1,4 +1,5 @@
 from stack_queue_dequeue.queue import ArrayQueue
+import re
 class Empty(Exception):
     pass
 
@@ -110,8 +111,6 @@ class StackUsage:
             '{([' and their right sides are supported.
             This functionality is implemented using stack 
         '''
-        if len(expression) % 2 != 0:
-            return False
         left = '([{'
         right = ')]}'
         stack = ArrayStack()
@@ -199,29 +198,85 @@ class StackUsage:
     #C-6.22 exercise        
     @staticmethod
     def postfix(expr):
-        expr.split('\\([0-9')
+        if not StackUsage.parentheses_test(expr):
+            raise ValueError('Mismatched parenthesis')
+        def _expression_normalizer(expr):
+            '''
+            Normalizes expression so that each bracket can be simplfied to (a+b)
+            Adds brackets if missing. For instance a + b / c would equal to ( a + (b / c))
+            '''
+            tokens = expr.split(' ')
+            n = len(tokens)
+            signs = '*/'
+            while len(signs)>0:
+                for index,token in enumerate(tokens):
+                    if token in signs:
+                        left=-1
+                        right=-1
+                        if '(' not in tokens[index+1] and ')' not in tokens[index+1]:right=index+1
+                        else:
+                            for i in range(index+1,n):
+                                if ')' in tokens[i]:
+                                    right=i
+                                    break
+                        if '(' not in tokens[index-1] and ')' not in tokens[index-1]:left=index-1
+                        else:
+                            for i in range(index-1,-1,-1):
+                                if '(' in tokens[i]:
+                                    left=i
+                                    break
+                        if left!=-1 and right!=-1:
+                            tokens[left] ='('+tokens[left]
+                            tokens[right] = tokens[right]+')'
+                            
+                if signs == '-+':
+                    signs = ''
+                else:
+                    signs='-+'
+            print(' '.join(tokens))
+            res = list(''.join(tokens))
+            right = 0
+            n = len(res)-1
+            right_rem = []
+            # traverse expression with two pointers and simplify it, removing redundant brackets
+            for i in range(n):
+                j = n-i-1
+                if res[j] == ')' and res[j-1] == ')':
+                    right_rem.append(j)
+                if res[i] == '(' and res[i+1]=='(':
+                    res[right_rem[-1]] = ''
+                    res[i] = ''
+                    right_rem.pop()
+            return ' '.join(res)
         
-        expr = '('+expr+')'
+        
+        expr = _expression_normalizer(expr)
         res = ""
+        ''' Generate postfix notation'''
         operator_s = ArrayStack()
+        parent_s = ArrayStack()
         for ch in expr:
             if ch ==' ': continue
             if ch == ')':
                 if operator_s.is_empty():
-                    return res
+                    continue
                 res+=operator_s.pop()
+                parent_s.pop()
+                if len(parent_s)==1 and len(operator_s)==1:
+                    res+=operator_s.pop()
             elif ch in '+-*/':
                 operator_s.push(ch)
             elif ch != '(':
                 res+=ch
+            else:
+                parent_s.push(ch)
         return res
     
 if __name__ == '__main__':
-    print(StackUsage.postfix('(3 - (1 + 2)) + 2'))
+    print(StackUsage.postfix('(a + b / c * d + (r + c / d))'))
     
+    print(StackUsage.parentheses_test('( ( a - b ) + ( ( ( c / d ) ) * r ) + ( ( ( (  1 / 2  ) ) * 3 ) / 4 ) - 5 )'))
     StackUsage.reverse_file('/home/matija/Desktop/test_reverse', True)
-    
-    print(StackUsage.parentheses_test('(((({}[]))))'))
     
     print(StackUsage.valid_html("<html><head>This is head</head><body><h1 class='first_heading'>This is heading</h1><p style='color:red'>This is paragraph</p></body></html>"))                
     
