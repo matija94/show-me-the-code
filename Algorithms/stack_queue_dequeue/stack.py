@@ -200,54 +200,14 @@ class StackUsage:
     def postfix(expr):
         if not StackUsage.parentheses_test(expr):
             raise ValueError('Mismatched parenthesis')
-        def _expression_normalizer(expr):
-            '''
-            Normalizes expression so that each bracket can be simplfied to (a+b)
-            Adds brackets if missing. For instance a + b / c would equal to ( a + (b / c))
-            '''
-            tokens = expr.split(' ')
-            n = len(tokens)
-            signs = '*/'
-            while len(signs)>0:
-                for index,token in enumerate(tokens):
-                    if token in signs:
-                        if '(' not in tokens[index+1] and ')' not in tokens[index+1]:
-                            if ')' in tokens[index-1]:
-                                tokens[index+1]+=')'
-                                for i in range(index-1,-1,-1):
-                                    if '(' in tokens[i]:
-                                        tokens[i] = '(' + tokens[i]
-                                        break
-                            elif '(' not in tokens[index-1]:
-                                tokens[index-1] = '('+ tokens[index-1]
-                                tokens[index+1]+=')'
-                                
-                        if '(' not in tokens[index-1] and ')' not in tokens[index-1]:
-                            if '(' in tokens[index+1]:
-                                tokens[index-1]='('+tokens[index-1]
-                                for i in range(index+1,n,1):
-                                    if ')' in tokens[i]:
-                                        tokens[i]+=')'
-                                        break
-                            elif ')' not in tokens[index+1]:
-                                tokens[index+1]+=')'
-                                tokens[index-1]='('+tokens[index-1]
-                                
-                if signs == '-+':
-                    signs = ''
-                else:
-                    signs='-+'
-            res = list(''.join(tokens))
-            return ' '.join(res)
-        
-        
-        expr = _expression_normalizer(expr)
-        print(expr)
         res = []
         ''' Generate postfix notation'''
         operator_s = ArrayStack()
-        for ch in expr:
-            if ch ==' ': continue
+        items = expr.split(' ')
+        '''
+        TODO normalize expression such that each token (i.e operand, operator, parentheses is split by space)
+        '''
+        for ch in items:
             if ch == ')':
                 if operator_s.top() == '(':
                     operator_s.pop()
@@ -258,17 +218,47 @@ class StackUsage:
                         operator_s.pop()
             elif ch in '+-*/':
                 while not operator_s.is_empty() and operator_s.top() != '(':
+                    if operator_s.top() in '+-' and ch in '*/':
+                        break
                     res.append(operator_s.pop())
                 operator_s.push(ch)
             elif ch != '(':
                 res.append(ch)
             else:
                 operator_s.push(ch)
+        while not operator_s.is_empty():
+            res.append(operator_s.pop())
         return ' '.join(res)
     
-if __name__ == '__main__':
-    print(StackUsage.postfix('a + b + c - a + b / c * r + 2 - 3'))
+    #P-6.34 exercise
+    @staticmethod
+    def postfix_eval(postfix_notation):
+        items = postfix_notation.split(' ')
+        s = ArrayStack()
+        for item in items:
+            if item in '+-*/':
+                op2 = s.pop()
+                op1 = s.pop()
+                if item == '+':
+                    s.push(op1+op2)
+                if item == '-':
+                    s.push(op1-op2)
+                if item == '*':
+                    s.push(op1*op2)
+                if item == '/':
+                    s.push(op1/op2)
+            else:
+                s.push(float(item))
+        return s.pop()
     
+    @staticmethod
+    def calculator(expr):
+        postfix = StackUsage.postfix(expr)
+        print('Going to evaluate postfix notation: {}'.format(postfix))
+        return StackUsage.postfix_eval(postfix)
+    
+if __name__ == '__main__':
+    print(StackUsage.calculator('1 + 3 / 3 * 2 - 1 * 14 / 7 + 2'))
     print(StackUsage.parentheses_test('( ( a - b ) + ( ( ( c / d ) ) * r ) + ( ( ( (  1 / 2  ) ) * 3 ) / 4 ) - 5 )'))
     StackUsage.reverse_file('/home/matija/Desktop/test_reverse', True)
     
