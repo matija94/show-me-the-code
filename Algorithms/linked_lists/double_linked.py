@@ -41,7 +41,7 @@ class _DoublyLinkedBase:
         successor._prev = predecessor
         self._size-=1
         element = node._element
-        node. prev = node. next = node. element = None # help gc
+        node._prev = node._next = node._element = None # help gc and mark as deprecated
         return element
     
 class LinkedDeque(_DoublyLinkedBase):
@@ -77,19 +77,132 @@ class PositionalList(_DoublyLinkedBase):
     class Position:
         ''' an abstraction representing the location of single element ''' 
         def __init__(self, container, node):
-            self._container = container
+            self._container = container # container is reference to the structure which node belongs to 
             self._node = node
 
         def element(self):
+            ''' returns element under this position ''' 
             return self._node._element
         
         def __eq__(self, other):
+            ''' equals method '''
             return type(other) is type(self) and other._node is self._node
 
         def __ne__(self, other):
+            ''' not equals '''
             return not (self == other)
         
     
     def _validate(self,p):
-        return NotImplemented    
+        ''' private function to unwrap position and determine if argument is position which references valid node from the positional list object''' 
+        if not isinstance(p, self.Position):
+            raise TypeError('p must be proper Position type')
+        if p._container is not self:
+            raise ValueError('p does not belong to this container')
+        if p._node._next is None and p._node._prev is None: # convetion for deprecated nodes
+            raise ValueError('p is no longer valid')
+        return p._node
     
+    def _make_position(self, node):
+        ''' private function to wrap node into position if the node is not sentinel node ( header or trailer )'''
+        if node is self._header or node is self._trailer:
+            return None
+        return self.Position(self, node)
+    
+    def first(self):
+        ''' inspects first element
+            returns position 
+        '''
+        return self._make_position(self._header._next)
+    
+    def last(self):
+        ''' inspects last element
+            returns position
+        '''
+        return self._make_position(self._trailer._prev)
+    
+    def before(self, p):
+        ''' returns position before argument position
+            If argument position is first then returns None
+        '''
+        node = self._validate(p)
+        return self._make_position(node._prev)
+    
+    def after(self,p):
+        ''' returns position after argument position
+            If arg pos is last then returns None
+        '''
+        node = self._validate(p)
+        return self._make_position(node._next)
+    
+    def __iter__(self):
+        ''' iterator ''' 
+        cursor = self.first()
+        while cursor is not None:
+            yield cursor.element()
+            cursor = self.after(cursor)
+
+    def _insert_between(self, e, predecessor, successor):
+        ''' overriden function. Instead of node returns position ''' 
+        node = super()._insert_between(e, predecessor, successor)
+        return self._make_position(node)
+    
+    def add_first(self, e):
+        ''' insert element at the front of the list and return position '''
+        return self._insert_between(e, self._header, self._header._next)
+    
+    def add_last(self, e):
+        ''' insert element at the end of the list and return position '''
+        return self._insert_between(e, self._trailer._prev, self._trailer)
+    
+    def add_before(self, e, p):
+        ''' inserts element before arg position and returns position of the element'''
+        node = self._validate(p)
+        return self._insert_between(e, node._prev, node)
+    
+    def add_after(self, e, p):
+        ''' inserts element after arg position and returns position of the element '''
+        node = self._validate(p)
+        return self._insert_between(e, node, node._next)
+    
+    def delete(self, p):
+        ''' deletes element at the given position in the list '''
+        node = self._validate(p)
+        return self._delete_node(node)
+    
+    def replace(self, p, e):
+        ''' Replace element at position p with element e 
+        
+            Returns the element formerly at position p
+        '''
+        node = self._validate(p)
+        old_value = node._element
+        node._element = e
+        return old_value
+
+class PositionalListUtils:
+    
+    @staticmethod
+    def insertion_sort(L):
+        if len(L) > 1:
+            marker = L.first()
+            while marker != L.last():
+                pivot = L.after(marker)
+                value = pivot.element()
+                if value > marker.element():
+                    marker = pivot
+                else:
+                    walk = marker
+                    while walk != L.first() and L.before(walk).element() > value:
+                        walk = L.before(walk)
+                    L.delete(pivot)
+                    L.add_before(walk, value)
+                
+if __name__ == '__main__':
+    l = PositionalList()
+    cursor = l.add_first('matija')
+
+    ''' test deprecated nodes '''    
+    c = cursor
+    l.delete(cursor)
+    print(c._node._element)
