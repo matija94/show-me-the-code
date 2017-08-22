@@ -107,7 +107,42 @@ class CircularQueue:
         if self._size > 1:
             self._tail = self._tail._next
     
+    
+class LinkedListUtils:
+    
+    @staticmethod
+    def concat_two_lists(start_node1, start_node2):
+        ''' Concatenates two nodes such that stores start_node1 and all successors of itself then does same for start_node2 ''' 
+        ans = LinkedQueue()
+        current = start_node1
+        while current is not None:
+            ans.enqueue(current)
+            current = current._next
+        current = start_node2
+        while current is not None:
+            ans.enqueue(current)
+            current = current._next
+        return ans
+    
+    @staticmethod
+    def recursive_size(linked_list):
+        first = linked_list._head
+        def _recursive_size(node):
+            if node is None:
+                return 0
+            return _recursive_size(node._next)+1
+        return _recursive_size(first)
+        
 if __name__ == '__main__':
+
+    l = LinkedQueue()
+    l.enqueue(1)
+    l.enqueue(2)
+    print(LinkedListUtils.recursive_size(l))
+    
+    
+    
+    
     q = LinkedQueue()
     q.enqueue('Matija')
     q.enqueue('Lukovic')
