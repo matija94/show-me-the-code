@@ -215,7 +215,9 @@ class FavoritesList:
                 while (walk != self._data.first() and 
                        cnt > self._data.before(walk).element()._count):
                     walk = self._data.before(walk)
-                self._data.add_before(walk, self._data.delete(p))
+                item = self._data.delete(p)
+                self._data.add_before(item, walk)
+                #self._data.add_before(walk, self._data.delete(p))
 
     def access(self, e):
         p = self._find_position(e)
@@ -237,7 +239,32 @@ class FavoritesList:
             item = walk.element()
             yield item._value
             walk = self._data.after(walk)
-
+            
+class FavoritestListMTF(FavoritesList):
+    ''' list of elements ordered with move-to-front heuristic '''
+    
+    def _move_up(self, p): #override move up to implement move to front instead of shifting to proper index based on cnt
+        if p != self._data.first():
+            self._data.add_first(self._data.delete(p))
+    
+    def top(self, k): # override top because list is no more sorted
+        if not 1 <= k and k <= len(self):
+            raise ValueError('illegal value for k')
+        
+        temp = PositionalList()
+        for item in self._data:
+            temp.add_last(item)
+        
+        for j in range(k): 
+            highPos = temp.first()
+            walk = temp.after(highPos)
+            while walk is not None:
+                if walk.element()._count > highPos.element()._count:
+                    highPos = walk
+                walk = temp.after(walk)
+            item = temp.delete(highPos)
+            yield item._value
+            
 class PositionalListUtils:
     
     @staticmethod
@@ -257,10 +284,15 @@ class PositionalListUtils:
                     L.add_before(walk, value)
                 
 if __name__ == '__main__':
-    l = PositionalList()
-    cursor = l.add_first('matija')
-
-    ''' test deprecated nodes '''    
-    c = cursor
-    l.delete(cursor)
-    print(c._node._element)
+    fl = FavoritesList()
+    fl.access('matija')
+    fl.access('igor')
+    fl.access('mix')
+    
+    fl.access('matija')
+    fl.access('mix')
+    
+    for e in fl.top(2):
+        print(e)
+    
+    
