@@ -141,7 +141,15 @@ class PositionalList(_DoublyLinkedBase):
         while cursor is not None:
             yield cursor.element()
             cursor = self.after(cursor)
-
+    
+    #R-7.15
+    def __reversed__(self):
+        ''' reversed iterator '''
+        cursor = self.last()
+        while cursor is not None:
+            yield cursor.element()
+            cursor = self.before(cursor)
+    
     def _insert_between(self, e, predecessor, successor):
         ''' overriden function. Instead of node returns position ''' 
         node = super()._insert_between(e, predecessor, successor)
@@ -282,7 +290,27 @@ class PositionalListUtils:
                         walk = L.before(walk)
                     L.delete(pivot)
                     L.add_before(walk, value)
-                
+    
+    #R-7.11, R-7.14
+    @staticmethod
+    def max(L, recursive=False):
+        def _max_recursive(current_ans, walk):
+            if walk is None:
+                return current_ans
+            if walk.element() > current_ans:
+                current_ans = walk.element()
+            walk = L.after(walk)
+            return _max_recursive(current_ans, walk)
+        
+        if recursive:
+            return _max_recursive(L.first().element(), L.after(L.first()))
+        else:
+            ans = L.first().element()
+            for e in L:
+                if e > ans:
+                    ans = e
+            return ans
+    
 if __name__ == '__main__':
     fl = FavoritesList()
     fl.access('matija')
@@ -294,5 +322,15 @@ if __name__ == '__main__':
     
     for e in fl.top(2):
         print(e)
+    
+    
+    pl = PositionalList()
+    pl.add_first(2)
+    pl.add_last(3)
+    pl.add_last(4)
+    
+    
+    print(PositionalListUtils.max(pl, recursive=True))
+    
     
     

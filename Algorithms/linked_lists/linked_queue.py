@@ -43,7 +43,25 @@ class LinkedQueue:
         if self.is_empty():
             raise ValueError('empty')
         return self._head._e
-
+    
+    #R-7.7
+    def rotate(self):
+        if len(self) > 1:
+            oldhead = self._head
+            self._head = oldhead._next
+            self._tail._next = oldhead
+            oldhead._next = None
+            self._tail = oldhead
+            
+    def __iter__(self):
+        walk = self._head
+        while walk is not None:
+            yield walk._e
+            walk = walk._next
+            
+    def __str__(self):
+        return str([e for e in self])
+    
 class CircularQueue:
     ''' Circular queue, maintains pointers to the next elements, such that tail points to the front instead of having pointer to null address
         This structure is useful in scenarios where every item from collection of items needs to be processed regularly.
@@ -107,9 +125,9 @@ class CircularQueue:
         if self._size > 1:
             self._tail = self._tail._next
     
-    
 class LinkedListUtils:
     
+    #R-7.2
     @staticmethod
     def concat_two_lists(start_node1, start_node2):
         ''' Concatenates two nodes such that stores start_node1 and all successors of itself then does same for start_node2 ''' 
@@ -124,6 +142,7 @@ class LinkedListUtils:
             current = current._next
         return ans
     
+    #R-7.3
     @staticmethod
     def recursive_size(linked_list):
         first = linked_list._head
@@ -132,14 +151,60 @@ class LinkedListUtils:
                 return 0
             return _recursive_size(node._next)+1
         return _recursive_size(first)
+
+    #R-7.5
+    @staticmethod
+    def circular_list_size(cl):
+        walk = cl._tail._next
+        ans = 1
+        while walk is not cl._tail:
+            ans+=1
+            walk = walk._next
+        return ans
+    
+    @staticmethod
+    def reverse_bugged(L):
+        curr = L._head
+        prev = None
+        n = None
+        while curr is not None:
+            n = curr._next
+            curr._next = prev
+            n._next = prev
+            curr = n
+    
+    #C-7.29
+    @staticmethod
+    def reverse(L):
+        ''' reverses single linked list in linear time using constant space ''' 
+        curr = L._head
+        prev = None
+        nxt = None
+        while curr is not None:
+            nxt = curr._next
+            curr._next = prev
+            prev = curr
+            curr = nxt
+        L._head = prev
         
 if __name__ == '__main__':
-
+    b = None
+    c = None
+    c = b
     l = LinkedQueue()
     l.enqueue(1)
     l.enqueue(2)
+    l.enqueue(3)
     print(LinkedListUtils.recursive_size(l))
+    print(l)
+
+    LinkedListUtils.reverse(l)
+    print(l)
     
+    cl = CircularQueue()
+    for i in range(10):
+        cl.enqueue(10)
+    print(LinkedListUtils.circular_list_size(cl))
     
     
     
