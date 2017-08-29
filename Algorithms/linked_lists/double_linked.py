@@ -224,6 +224,9 @@ class PositionalList(_DoublyLinkedBase):
         n2 = self._validate(q)
         self._swap(n1, n2)
 
+    def __str__(self):
+        return ''.join(self)
+
 class FavoritesList:
     ''' List of elements ordered from most frequently accessed to least '''
     

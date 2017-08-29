@@ -42,6 +42,12 @@ class LinkedQueue:
             raise ValueError('empty')
         return self._head._e
     
+    def last(self):
+        ''' inspects tail of the queue '''
+        if self.is_empty():
+            raise ValueError('empty')
+        return self._tail._e
+    
     #R-7.7
     def rotate(self):
         if len(self) > 1:
@@ -182,6 +188,47 @@ class CircularPositionalList(CircularQueue):
             cursor = self.after(cursor)
             k-=1
     
+    
+#C-7.42
+class Scoreboard:
+    ''' maintains comparable elements in decreasing order with limited capacity '''
+    
+    def __init__(self, capacity=10):
+        self._data = LinkedQueue()
+        self._cap = capacity
+        
+    def add(self, score):
+        
+        good = len(self._data) < self._cap or score > self._data.last()   
+        if good:
+            if len(self._data) == 0:
+                self._data.enqueue(score)
+            elif len(self._data) < self._cap:
+                self._data._size+=1
+                walk = self._data._head
+                prev = None
+                while walk is not None and walk._e > score:
+                    prev = walk
+                    walk = walk._next
+                new_node = self._data._Node(score,walk)
+                if prev is None:
+                    self._data._head = new_node
+                else:
+                    prev._next = new_node
+            else:
+                walk = self._data._head
+                while walk is not None and walk._e > score:
+                    walk = walk._next
+                prev = None
+                while True:
+                    if walk._next is None:
+                        walk._e = score
+                        break
+                    prev = walk._e
+                    walk._e = score
+                    score = prev
+                    walk = walk._next
+                    
 class LinkedListUtils:
     
     #R-7.2
@@ -286,3 +333,14 @@ if __name__ == '__main__':
     
     for e in pos.elements(20):
         print(e)
+        
+    
+    s = Scoreboard(4)
+    s.add(1)
+    s.add(3)
+    s.add(5)
+    s.add(7)
+    
+    s.add(4)
+    
+    print(s)    
