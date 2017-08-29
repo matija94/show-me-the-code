@@ -44,6 +44,32 @@ class _DoublyLinkedBase:
         node._prev = node._next = node._element = None # help gc and mark as deprecated
         return element
     
+    #C-7.33
+    def _reverse(self):
+        walk = self._trailer._prev
+        while walk != self._header:
+            nxt = walk._next
+            prev = walk._prev
+            walk._next = prev
+            walk._prev = nxt
+            walk = prev
+        self._trailer._next = self._trailer._prev
+        self._trailer._prev = None
+        self._header._prev = self._header._next
+        self._header._next = None
+        old_head = self._header
+        self._header = self._trailer
+        self._trailer = old_head
+        
+        
+    def _swap(self,n1,n2):
+        n1._next = n2._next
+        n2._next._prev = n2._prev
+        n2._prev = n1._prev
+        n1._prev._next = n2
+        n1._prev = n2
+        n2._next = n1
+          
 class LinkedDeque(_DoublyLinkedBase):
     
     def first(self):
@@ -71,6 +97,9 @@ class LinkedDeque(_DoublyLinkedBase):
         if self.is_empty():
             raise ValueError('empty')
         return self._delete_node(self._trailer._prev)
+
+    def reverse(self):
+        self._reverse()
 
 class PositionalList(_DoublyLinkedBase):
     
@@ -187,6 +216,13 @@ class PositionalList(_DoublyLinkedBase):
         old_value = node._element
         node._element = e
         return old_value
+
+    #C-7.34
+    def swap(self,p,q):
+        ''' swaps underlying nodes on position p and position q '''
+        n1 = self._validate(p)
+        n2 = self._validate(q)
+        self._swap(n1, n2)
 
 class FavoritesList:
     ''' List of elements ordered from most frequently accessed to least '''
@@ -325,12 +361,29 @@ if __name__ == '__main__':
     
     
     pl = PositionalList()
-    pl.add_first(2)
+    pl.add_first(12)
     pl.add_last(3)
     pl.add_last(4)
+    pl.add_last(10)
+    
+    first = pl.first()
+    second = pl.after(first)
+    print(first.element())
+    print(second.element())
+    pl.swap(first, second)
+    
+    first = pl.first()
+    second = pl.after(first)
+    print(first.element())
+    print(second.element())
+    #print(PositionalListUtils.max(pl, recursive=True))
     
     
-    print(PositionalListUtils.max(pl, recursive=True))
+    deque = LinkedDeque()
+    for i in range(4):
+        deque.insert_last(i+1)
     
+    deque.reverse()
+    print(deque)
     
     

@@ -1,5 +1,3 @@
-   
-            
 class LinkedQueue:
     class _Node:
         __slots_ = '_e', '_next' #streamline memory usage
@@ -62,6 +60,7 @@ class LinkedQueue:
     def __str__(self):
         return str([e for e in self])
     
+    
 class CircularQueue:
     ''' Circular queue, maintains pointers to the next elements, such that tail points to the front instead of having pointer to null address
         This structure is useful in scenarios where every item from collection of items needs to be processed regularly.
@@ -92,6 +91,12 @@ class CircularQueue:
             raise ValueError('empty')
         head = self._tail._next
         return head._element
+    
+    def last(self):
+        ''' inspects element at the tail of the queue '''
+        if self.is_empty():
+            raise ValueError('empty')
+        return self._tail._element
     
     def enqueue(self, e):
         ''' adds element to the back of the queue ''' 
@@ -124,6 +129,58 @@ class CircularQueue:
         ''' 
         if self._size > 1:
             self._tail = self._tail._next
+
+class CircularPositionalList(CircularQueue):
+    
+    class _Cursor:
+        __slots_ = '_e', '_container'
+        
+        def __init__(self, element, container):
+            self._container = container
+            self._e = element
+        
+        def __eq__(self, other):
+            if not isinstance(other, CircularPositionalList._Cursor): return False
+            if not self._e is other._e: return False
+            return True
+        
+        def __ne__(self,other):
+            return not (self == other)
+
+        def element(self):
+            return self._e._element
+
+    def _validate(self, cursor):
+        if not cursor._container is self:
+            raise ValueError('cursor not from the same container')
+        return cursor._e
+
+    def _make_cursor(self, e):
+        c = self._Cursor(e, self)
+        return c
+
+    def first(self):
+        ''' get first node from list and wrap it in cursor '''
+        if super().is_empty():
+            raise ValueError('empty')
+        return self._make_cursor(self._tail._next)
+    
+    def last(self):
+        if super().is_empty():
+            raise ValueError('empty')
+        return self._make_cursor(self._tail)
+    
+    def after(self, cursor):
+        node = self._validate(cursor)
+        return self._make_cursor(node._next)
+    
+    def elements(self,k,cursor=None):
+        if cursor is None:
+            cursor = self.first()
+        while k>0:
+            yield cursor.element()
+            cursor = self.after(cursor)
+            k-=1
     
 class LinkedListUtils:
     
@@ -222,3 +279,10 @@ if __name__ == '__main__':
     for i in range(3):
         print(' hi i am ' + cq.first())
         cq.rotate()
+        
+    pos = CircularPositionalList()
+    for i in range(10):
+        pos.enqueue(i+1)
+    
+    for e in pos.elements(20):
+        print(e)
