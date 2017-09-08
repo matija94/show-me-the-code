@@ -52,7 +52,10 @@ class PreorderPrintLabeledIndentedTour(EulerTour):
         
     def _hook_previsit(self, pos, depth, path):
         label = '.'.join(str(j+1) for j in path)
-        print(2*depth*' ' + label + ' ' + str(pos.element()))    
+        sep = ' '
+        if not label:
+            sep = ''
+        print(2*depth*' ' + label + sep + str(pos.element()))    
 
 
 class ParenthesizeTour(EulerTour):
