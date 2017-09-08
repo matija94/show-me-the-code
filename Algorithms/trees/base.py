@@ -1,4 +1,5 @@
 from linked_lists.linked_queue import LinkedQueue
+
 class Tree:
     ''' base abstract class for all implementations of trees '''
     class Position:
@@ -103,12 +104,12 @@ class Tree:
                 yield other
         yield p
     
-    def positions(self, impl=Tree.preorder):
+    def positions(self,impl=None):
         ''' Yields all positions from the tree
             Implementation can be passed as reference to one of the tree traversal algorithms in order to generate elements in such manner
             Default implementation is preorder tree traversal
         '''
-        return self.impl()
+        return self.preorder()
         
 class BinaryTree(Tree):
     ''' base abstract class representing binary tree structure '''
@@ -166,8 +167,8 @@ class BinaryTree(Tree):
             for other in self._subtree_inorder(self.right(p)):
                 yield other
             
-    def positions(self, impl=BinaryTree.inorder):
+    def positions(self, impl=None):
         ''' Uses inorder traversal algorithm
             Check inorder function documentation for more information about algorithm
         '''
-        return self.impl()
+        return self.inorder()
