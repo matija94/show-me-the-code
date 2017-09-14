@@ -1,5 +1,5 @@
 from trees.concrete import LinkedBinaryTree
-
+from math import log2
 class EulerTour:
     
     ''' abstract base class for performing euler tour
@@ -34,6 +34,52 @@ class EulerTour:
     def _hook_postvist(self,pos,depth,path,results):
         pass
     
+    
+class BinaryEulerTour(EulerTour):
+    
+    def _tour(self, pos, depth, path):
+        results = [None,None]
+        self._hook_previsit(pos, depth, path)
+        if self._tree.left(pos) is not None:
+            path.append(0)
+            results[0] = self._tour(self._tree.left(pos), depth+1, path)
+            path.pop()
+        self._hook_invisit(pos,depth,path)
+        if self._tree.right(pos) is not None:
+            path.append(1)
+            results[1] = self._tour(self._tree.right(pos), depth+1, path)
+            path.pop()
+        answer = self._hook_postvist(pos, depth, path, results)
+        return answer
+    
+    def _hook_invisit(self,pos,depth,path):
+        pass
+
+class BinaryLayout(BinaryEulerTour):
+    '''
+    example usage of binary euler tour
+    
+    represents coordinate pane for binary tree marking each node with (x,y)
+    X axis represents number of invisits before given position
+    Y axis represents depth of given position
+    '''
+    def __init__(self, tree):
+        super().__init__(tree)
+        self._count = 0 # represents x coordinate
+        self._pane = dict()
+
+    def _hook_invisit(self, pos, depth, path):
+        key = str(self._count) + str(depth)
+        self._pane[key] = pos
+        self._count+=1
+        
+    def get(self, X, Y):
+        if X > self._count or Y > int(log2(len(self._tree))):
+            raise ValueError('Invalid coordinates')
+        key = str(X) + str(Y)
+        return self._pane[key]
+        
+        
 class PreorderPrintIndentedTour(EulerTour):
     ''' indents each element in the tree by its depth
     
@@ -77,6 +123,7 @@ class ParenthesizeTour(EulerTour):
             
 if __name__ == '__main__':
     t = LinkedBinaryTree()
+    print(len(t))
     cars = t.add_root("Cars")
     mercedes = t.add_left(cars, 'Mercedes')
     bmw = t.add_right(cars, 'BMW')
@@ -91,8 +138,9 @@ if __name__ == '__main__':
     t.add_left(bmw_series, 'BMW 5 Series')
     t.add_right(bmw_series, 'BMW 3 Series')
     t.add_left(bmw_z, "BMW Z4")
-    t.add_right(bmw_z, 'BMW Z5')
-    
+    bmwz5 = t.add_right(bmw_z, 'BMW Z5')
+    t.add_left(bmwz5, "BMW Z5 Coupe")
+    t.delete(bmwz5)
     tour = PreorderPrintIndentedTour(t)
     tour.execute()
 
@@ -101,5 +149,4 @@ if __name__ == '__main__':
 
     tour = ParenthesizeTour(t)
     tour.execute()
-    
      

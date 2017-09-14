@@ -113,7 +113,7 @@ class LinkedBinaryTree(BinaryTree):
         self._size+=1
         return self._make_position(new_node)
     
-    def _replace(self,p,e):
+    def replace(self,p,e):
         ''' Replaces the element at position p
         
             Returns replaced element
@@ -124,7 +124,7 @@ class LinkedBinaryTree(BinaryTree):
         node._element = e
         return old
     
-    def _delete(self, p):
+    def delete(self, p):
         ''' Delete the node at Position p, and replace it with its child, if any.
         
             Return the element that had been stored at Position p.
@@ -135,22 +135,22 @@ class LinkedBinaryTree(BinaryTree):
             if node._left is not None:
                 raise ValueError('Node referred by Position p has two children')
             else:
-                old = node._e
-                node._e = node._right._e
+                old = node._element
+                node._element = node._right._element
                 node._right._parent = node._right = None
                 self._size-=1
                 return old
         else:
             if node._left is not None:
-                old = node._e
-                node._e = node._left._e
+                old = node._element
+                node._element = node._left._element
                 node._left._parent = node._left = None
                 self._size-=1
                 return old
             else:
                 raise ValueError('Node referred by Position p does not have children')
             
-    def _attach(self,p,t1,t2):
+    def attach(self,p,t1,t2):
         ''' Attach trees t1 and t2 as left and right subtrees of external p 
             
             Raises ValueError if node referred by Position p is not external(leaf) or if any of the argument trees is empty
@@ -173,3 +173,77 @@ class LinkedBinaryTree(BinaryTree):
             t2._size = 0
         else:
             raise ValueError('Both t1 and t2 must be non empty Trees')
+        
+class ExpressionTree(LinkedBinaryTree):
+    ''' arithmetic expression tree '''
+    
+    def __init__(self, token, left=None, right=None):
+        
+        super().__init__()
+        if not isinstance(token, str):
+            raise TypeError('token must be string')
+        self.add_root(token)
+        if left is not None:
+            if token not in '*/+-':
+                raise ValueError('token must be valid operator')
+            self.attach(self.root(), left, right)
+            
+    def __str__(self):
+        pieces = []
+        self._parenthesize_recur(self.root(), pieces)
+        return ''.join(pieces)
+    
+    def _parenthesize_recur(self, pos, result):
+        if self.is_leaf(pos):
+            result.append(pos.element()) # operand
+        else:
+            result.append('(')
+            self._parenthesize_recur(self.left(pos), result)
+            result.append(pos.element()) # operator
+            self._parenthesize_recur(self.right(pos), result)
+            result.append(')')
+    
+    def evaluate(self):
+        ''' return numeric result of the expression '''
+        return self._evaluate_recur(self.root())
+    
+    def _evaluate_recur(self, pos):
+        if self.is_leaf(pos):
+            return pos.element()
+        else:
+            operand = pos.element()
+            left_val = self._evaluate_recur(self.left(pos))
+            right_val = self._evaluate_recur(self.right(pos))
+            if operand == '*': return int(left_val)*int(right_val)
+            elif operand == '/': return int(left_val)/int(right_val)
+            elif operand == '+': return int(left_val)+int(right_val)
+            elif operand == '-': return int(left_val)-int(right_val)
+            else: return None # will never happen
+    
+    @staticmethod
+    def build_expression_tree(expr):
+        S = []
+        multidigit = []
+        for i,e in enumerate(expr):
+            if e == ')':
+                expr2 = S.pop()
+                op = S.pop()
+                expr1 = S.pop()
+                t = ExpressionTree(op, expr1, expr2)
+                S.append(t)
+            elif e in '+-*/':
+                S.append(e)
+            elif e in '0123456789':
+                multidigit.append(e)
+                if i<len(expr)-1 and expr[i+1] in '0123456789':
+                    continue # it is multidigit
+                number = ''.join(multidigit)
+                t = ExpressionTree(number)
+                S.append(t)
+                multidigit.clear()
+                    
+        return S.pop()
+if __name__ == '__main__':
+    t = ExpressionTree.build_expression_tree('(((3+2)+(44+1))/10)')
+    print(t.evaluate())
+    
