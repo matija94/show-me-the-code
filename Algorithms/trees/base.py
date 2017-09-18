@@ -1,5 +1,5 @@
 from linked_lists.linked_queue import LinkedQueue
-
+from _collections import deque
 class Tree:
     ''' base abstract class for all implementations of trees '''
     class Position:
@@ -97,7 +97,7 @@ class Tree:
                 yield p
                 for c in self.children(p):
                     que.enqueue(c)
-    
+
     def _subtree_postorder(self,p):
         for c in self.children(p):
             for other in self._subtree_postorder(c):
@@ -139,6 +139,15 @@ class BinaryTree(Tree):
         if self.right(p) is not None:
             yield self.right(p)
     
+    def num_children(self, p):
+        '''
+        Returns children number of node at position p
+        '''
+        ans = 0
+        for child in self.children(p):
+            ans+=1
+        return ans
+    
     def inorder(self):
         ''' Rather than visiting nodes this function just yields positions in the tree and lets the caller do the 'visiting'.
             This traversal goes into depth. It is one of three types of depth-first-search traversal algorithm
@@ -155,7 +164,7 @@ class BinaryTree(Tree):
            Good example of inorder algorithm usage is computing arithmetic expression(where operands are saved as external nodes and operations are saved as internal nodes)
         '''
         if not self.is_empty():
-            for p in self._subtree_inorder(p):
+            for p in self._subtree_inorder(self.root()):
                 yield p
             
     def _subtree_inorder(self,p):

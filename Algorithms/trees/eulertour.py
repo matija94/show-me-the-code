@@ -1,5 +1,6 @@
 from trees.concrete import LinkedBinaryTree
 from math import log2
+
 class EulerTour:
     
     ''' abstract base class for performing euler tour
@@ -78,7 +79,14 @@ class BinaryLayout(BinaryEulerTour):
             raise ValueError('Invalid coordinates')
         key = str(X) + str(Y)
         return self._pane[key]
-        
+
+class LevelNumberFunction(EulerTour):
+    '''
+        computes level of each position in the tree
+    '''
+    def _hook_previsit(self, pos, depth, path):
+        s = 'Element: %s. Level: %s' %(pos.element(), depth)
+        print(s)
         
 class PreorderPrintIndentedTour(EulerTour):
     ''' indents each element in the tree by its depth
@@ -146,7 +154,17 @@ if __name__ == '__main__':
 
     tour = PreorderPrintLabeledIndentedTour(t)
     tour.execute()
+    print('\nCurrent size is {0}'.format(len(t)))
+    t._delete_subtree(mercedes_amg)
+    print('\nCurrent size is {0}'.format(len(t)))
+    tour.execute()
 
     tour = ParenthesizeTour(t)
     tour.execute()
+     
+    tour = LevelNumberFunction(t)
+    tour.execute()
+    
+    for p in t.breadthfirst():
+        print(p.element()) 
      

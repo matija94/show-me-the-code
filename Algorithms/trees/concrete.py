@@ -1,4 +1,5 @@
 from trees.base import BinaryTree
+from linked_lists.linked_queue import LinkedQueue
 
 class LinkedBinaryTree(BinaryTree):
     ''' Linked representation of a binary tree '''
@@ -149,6 +150,23 @@ class LinkedBinaryTree(BinaryTree):
                 return old
             else:
                 raise ValueError('Node referred by Position p does not have children')
+    
+    def _delete_subtree(self, p):
+        '''
+        Deletes whole subtree with element at position p considered as root of the subtree
+        '''
+        del_cnt = 0
+        for e in self._subtree_preorder(p):
+            del_cnt+=1
+        self._size-=del_cnt
+        node = self._validate(p)    
+        if node._parent._left == node:
+            node._parent._left = node._parent = None
+        else:
+            node._parent._right = node._parent = None
+        node._left = None
+        node._right = None
+        node = None
             
     def attach(self,p,t1,t2):
         ''' Attach trees t1 and t2 as left and right subtrees of external p 
@@ -173,7 +191,55 @@ class LinkedBinaryTree(BinaryTree):
             t2._size = 0
         else:
             raise ValueError('Both t1 and t2 must be non empty Trees')
+
+class TreeUtils:
+
+    @staticmethod
+    def isomorphic(T1,T2):
+        '''
+        Returns True if T1 and T2 are isomorphic
+        False otherwise
+        '''
+        if not (type(T1) is type(T2)):
+            return False
+        if T1.is_empty() and T2.is_empty():
+            return True
+        t1_root = T1.root()
+        t2_root = T2.root()
+        q1 = LinkedQueue()
+        q2 = LinkedQueue()
+        q1.enqueue(t1_root)
+        q2.enqueue(t2_root)
+        while not q1.is_empty():
+            t1 = q1.dequeue()
+            t2 = q2.dequeue()
+            if T1.num_children(t1) != T2.num_children(t2):
+                return False
+            for child in T1.children(t1):
+                q1.enqueue(child)
+            for child in T2.children(t2):
+                q2.enqueue(child)
+        return True
         
+    @staticmethod
+    def clone_binary_tree(T1):
+        return TreeUtils._clone_binary_tree(T1, T1.root())
+    
+    @staticmethod
+    def _clone_binary_tree(T1, pos):
+        if T1.is_leaf(pos):
+            t = LinkedBinaryTree()
+            t.add_root(pos.element())
+            return t
+        else:
+            left = TreeUtils._clone_binary_tree(T1, T1.left(pos))
+            right = TreeUtils._clone_binary_tree(T1, T1.right(pos))
+            root = LinkedBinaryTree()
+            root.add_root(pos.element())
+            #print('Adding left {0} and right {1} with root {2}'.format(str(left.root().element()), str(right.root().element()), str(root.root().element())))
+            root.attach(root.root(), left, right)
+            return root
+    
 class ExpressionTree(LinkedBinaryTree):
     ''' arithmetic expression tree '''
     
@@ -209,15 +275,15 @@ class ExpressionTree(LinkedBinaryTree):
     
     def _evaluate_recur(self, pos):
         if self.is_leaf(pos):
-            return pos.element()
+            return float(pos.element())
         else:
             operand = pos.element()
             left_val = self._evaluate_recur(self.left(pos))
             right_val = self._evaluate_recur(self.right(pos))
-            if operand == '*': return int(left_val)*int(right_val)
-            elif operand == '/': return int(left_val)/int(right_val)
-            elif operand == '+': return int(left_val)+int(right_val)
-            elif operand == '-': return int(left_val)-int(right_val)
+            if operand == '*': return left_val*right_val
+            elif operand == '/': return left_val/right_val
+            elif operand == '+': return left_val+right_val
+            elif operand == '-': return left_val-right_val
             else: return None # will never happen
     
     @staticmethod
@@ -244,6 +310,11 @@ class ExpressionTree(LinkedBinaryTree):
                     
         return S.pop()
 if __name__ == '__main__':
-    t = ExpressionTree.build_expression_tree('(((3+2)+(44+1))/10)')
+    t = ExpressionTree.build_expression_tree('(6/(1-(5/7)))')
+    t1 = ExpressionTree.build_expression_tree('(3*(5+(10-7)))')
     print(t.evaluate())
+    print(t1.evaluate())
+    print(TreeUtils.isomorphic(t, t1))
+    
+    t2 = TreeUtils.clone_binary_tree(t)
     
