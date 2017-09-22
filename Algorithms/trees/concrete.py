@@ -181,6 +181,7 @@ class LinkedBinaryTree(BinaryTree):
             raise TypeError('Tree t1 and Tree t2 must be of same type as this Tree')
         
         if not t1.is_empty() and not t2.is_empty():
+            self._size += len(t1) + len(t2)
             t1._root._parent = node
             node._left = t1._root
             t1._root = None
@@ -192,6 +193,238 @@ class LinkedBinaryTree(BinaryTree):
         else:
             raise ValueError('Both t1 and t2 must be non empty Trees')
 
+class ArrayBinaryTree(BinaryTree):
+    ''' binary tree with array representation '''
+    class Position(BinaryTree.Position):
+        
+        def __init__(self,index,container):
+            self._index = index
+            self._container = container
+            
+        def element(self):
+            return self._container._nodes[self._index]
+        
+        def __eq__(self, o):
+            return type(self) is type(o) and self._index == o._index
+    
+        def __ne__(self, o):
+            return not (self == o)
+        
+    
+    def __init__(self):
+        self._nodes = [None] * 10
+        self._size = 0
+    
+    def __len__(self):
+        return self._size
+        
+    def _validate(self,p):
+        if not isinstance(p, ArrayBinaryTree.Position):
+            raise TypeError('not a position')
+        if not self is p._container:
+            raise ValueError('not same container')
+        if p._index == -1 or p._index > len(p._container._nodes):
+            raise ValueError('p is not valid Position')
+        return p._index
+    
+    def _make_position(self,index):
+        if self._nodes[index] is None:
+            return None
+        return self.Position(index,self)
+    
+    def _extend_array(self,n):
+        new = [None] * n
+        for i in range(len(self._nodes)):
+            new[i] = self._nodes[i]
+        self._nodes = new
+
+    def _add_element(self,index,e):
+        self._nodes[index] = e
+        self._size+=1
+
+    def _left_index(self,index):
+        return 2*index+1
+
+    def _right_index(self,index):
+        return 2*index+2
+    
+    def _parent_index(self,index):
+        if index%2==0:
+            return index//2
+        else:
+            return index//2-1
+
+    def left(self,p):
+        ''' returns left child position of position p '''
+        index = self._validate(p)
+        left = self._left_index(index)
+        if left >= len(self._nodes):
+            return None
+        else:
+            return self._make_position(left)
+        
+    def right(self, p):
+        ''' returns right child position of position p '''
+        index = self._validate(p)
+        right = self._right_index(index)
+        if right >= len(self._nodes):
+            return None
+        else:
+            return self._make_position(right)
+    
+    def root(self):
+        ''' returns root poosition of the tree '''
+        return self._make_position(0)
+    
+    def parent(self,p):
+        ''' returns parent Position of Position p '''
+        index = self._validate(p)
+        return self._make_position(index, self._parent_index(index))
+    
+    def add_root(self,e):
+        ''' Returns Position for newly created root holding e (Raises ValueError if root already exists) '''
+        if self._nodes[0] is not None:
+            raise ValueError('root already exists')
+        self._add_element(0, e)
+        return self._make_position(0)
+    
+    def add_left(self,p,e):
+        ''' Adds new node holding e as left child of node referred by Position p
+            
+            Returns new Position
+            Raises ValueError if node referred by Position p already has left child or if Position p is invalid
+        '''
+        index = self._validate(p)
+        left = self._left_index(index)
+        if left >= len(self._nodes):
+            self._extend_array(2*left+2)
+        elif self._nodes[left] is not None:
+            raise ValueError('Node referred by Position already has left child')
+        self._add_element(left, e)
+        return self._make_position(left)
+    
+    def add_right(self,p,e):
+        ''' Adds new node holding e as right child of node referred by Position p
+            
+            Returns new Position
+            Raises ValueError if node referred by Position p already has right child or if Position p is invalid
+        '''
+        index = self._validate(p)
+        right = self._right_index(index)
+        if right >= len(self._nodes):
+            self._extend_array(2*right+2)
+        elif self._nodes[right] is not None:
+            raise ValueError('Node referred by Position already has right child')
+        self._add_element(right, e)
+        return self._make_position(right)
+        
+    def replace(self,p,e):
+        ''' Replaces the element at position p
+        
+            Returns replaced element
+            Raises ValueError if p is invalid
+        '''
+        index = self._validate(p)
+        old = self._nodes[index]
+        self._nodes[index] = e
+        return old
+        
+    def _delete(self,current_parent,new_parent,redundant_leaves):
+        left = self._left_index(current_parent)
+        if left >= len(self._nodes) or self._nodes[left] is None:
+            redundant_leaves.append(current_parent)
+            return
+        new_left = self._left_index(new_parent)
+        self._nodes[new_left] = self._nodes[left]
+        self._delete(left, new_left,redundant_leaves)
+
+        right = self._right_index(current_parent)
+        if right >= len(self._nodes) or self._nodes[right] is None:
+            redundant_leaves.append(current_parent)
+            return
+        new_right = self._right_index(new_parent)
+        self._nodes[new_right] = self._nodes[right]
+        self._delete(right, new_right,redundant_leaves)
+        
+    def delete(self, p):
+        ''' Delete the node at Position p, and replace it with its child, if any.
+        
+            Return the element that had been stored at Position p.
+            Raise ValueError if Position p is invalid or p has two children.
+        '''
+        index = self._validate(p)
+        left_index = self._left_index(index)
+        right_index = self._right_index(index)
+        old = self._nodes[index]
+        n = len(self._nodes)
+        redundant_leaves = []
+        if left_index < n and self._nodes[left_index] is not None:
+            if right_index < n and self._nodes[right_index] is not None:
+                raise ValueError('Element at Position p has two children')
+            self._nodes[index] = self._nodes[left_index]
+            self._nodes[left_index] = None
+            self._delete(left_index, index,redundant_leaves)
+            for i in redundant_leaves:
+                self._nodes[i] = None
+            self._size-=1
+            return old
+        if right_index < n and self._nodes[right_index] is not None:
+            self._nodes[index] = self._nodes[right_index]
+            self._nodes[right_index] = None
+            self._delete(right_index, index,redundant_leaves)
+            for i in redundant_leaves:
+                self._nodes[i] = None
+            self._size-=1
+            return old
+        else:
+            raise ValueError('Element under Position p has no children!')
+    
+    
+    
+    def __delete_subtree(self,index):
+        if index >= len(self._nodes) or self._nodes[index] is None:
+            return False
+        else:
+            if not self.__delete_subtree(self._left_index(index)):
+                self._nodes[index] = None
+            if not self.__delete_subtree(self._right_index(index)):
+                self._nodes[index] = None
+            self._size-=1
+            
+        
+    def _delete_subtree(self, p):
+        '''
+        Deletes whole subtree with element at position p considered as root of the subtree
+        '''
+        self.__delete_subtree(self._validate(p))
+        
+    
+    def _attach(self,index,t,pos):
+        if pos is None:
+            return
+        if index >= len(self._nodes):
+            self._extend_array(2*index+2)
+        self._add_element(index, pos.element())
+        self._attach(self._left_index(index), t, t.left(pos))
+        self._attach(self._right_index(index), t, t.right(pos))
+        
+    def attach(self,p,t1,t2):
+        ''' Attach trees t1 and t2 as left and right subtrees of external p 
+            
+            Raises ValueError if node referred by Position p is not external(leaf) or if any of the argument trees is empty
+            Raises TypeError if t1 and t2 are not of same type as this tree 
+        '''
+        index = self._validate(p)
+        if not self.is_leaf(p):
+            raise ValueError('Node referred by Position p is internal node')
+        if not (type(self) is type(t1) is type(t2)):
+            raise TypeError('Tree t1 and Tree t2 must be of same type as this Tree')
+        if not t1.is_empty() and not t2.is_empty():
+            self._attach(self._left_index(index), t1, t1.root())
+            self._attach(self._right_index(index), t2, t2.root())
+        else:
+            raise ValueError('Both t1 and t2 must be non empty Trees')
+        
 class TreeUtils:
 
     @staticmethod

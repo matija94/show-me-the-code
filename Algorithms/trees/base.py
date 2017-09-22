@@ -132,6 +132,7 @@ class BinaryTree(Tree):
                 return self.right(parent)
             else:
                 return self.left(parent)
+            
     def children(self, p):
         ''' generate iteration of Positions representing p's children '''
         if self.left(p) is not None:

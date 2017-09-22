@@ -1,4 +1,4 @@
-from trees.concrete import LinkedBinaryTree
+from trees.concrete import LinkedBinaryTree, ArrayBinaryTree
 from math import log2
 
 class EulerTour:
@@ -130,8 +130,7 @@ class ParenthesizeTour(EulerTour):
             print(')', end='')
             
 if __name__ == '__main__':
-    t = LinkedBinaryTree()
-    print(len(t))
+    t = ArrayBinaryTree()
     cars = t.add_root("Cars")
     mercedes = t.add_left(cars, 'Mercedes')
     bmw = t.add_right(cars, 'BMW')
@@ -144,27 +143,56 @@ if __name__ == '__main__':
     t.add_left(mercedes_normal, "C Class")
     t.add_right(mercedes_normal, 'S Class')
     t.add_left(bmw_series, 'BMW 5 Series')
-    t.add_right(bmw_series, 'BMW 3 Series')
+    bmw3=t.add_right(bmw_series, 'BMW 3 Series')
     t.add_left(bmw_z, "BMW Z4")
     bmwz5 = t.add_right(bmw_z, 'BMW Z5')
-    t.add_left(bmwz5, "BMW Z5 Coupe")
-    t.delete(bmwz5)
-    tour = PreorderPrintIndentedTour(t)
-    tour.execute()
-
+    bmwz5coupe = t.add_left(bmwz5, "BMW Z5 Coupe")
+    
+    print('\nCurrent size is {0}'.format(len(t)))
     tour = PreorderPrintLabeledIndentedTour(t)
     tour.execute()
+    
+    t1 = ArrayBinaryTree()
+    r = t1.add_root('BMW Z5 Coupe 630')
+    t1.add_left(r, 'BMW Z5 Coupe 630 Black')
+    t1.add_right(r, 'BMW Z5 Coupe 630 Red')
+    
+    t2=ArrayBinaryTree()
+    r=t2.add_root('BMW Z5 Coupe 640')
+    t2.add_left(r, 'BMW Z5 Coupe 640 Yellow')
+    t2.add_right(r, 'BMW Z5 Coupe 640 White')
+    
+    t.attach(bmwz5coupe, t1, t2)
     print('\nCurrent size is {0}'.format(len(t)))
-    t._delete_subtree(mercedes_amg)
-    print('\nCurrent size is {0}'.format(len(t)))
-    tour.execute()
-
-    tour = ParenthesizeTour(t)
-    tour.execute()
-     
-    tour = LevelNumberFunction(t)
     tour.execute()
     
-    for p in t.breadthfirst():
-        print(p.element()) 
+    bmw350 = t.add_left(bmw3, 'BMW 350 Series')
+    bmw352 = t.add_right(bmw350, 'BMW 352')
+    t.add_left(bmw352, 'BMW 352 Black')
+    t.add_right(bmw352, 'BMW 352 Red')
+    
+    print('\nCurrent size is {0}'.format(len(t)))
+    tour.execute()
+    
+    t.delete(bmw350)
+    
+    print('\nCurrent size is {0}'.format(len(t)))
+    tour.execute()
+    #t.delete(bmwz5)
+    
+    #print('\nCurrent size is {0}'.format(len(t)))
+    #tour.execute()
+    
+    #t._delete_subtree(mercedes_amg)
+    #print('\nCurrent size is {0}'.format(len(t)))
+    #tour.execute()
+
+    #tour = ParenthesizeTour(t)
+    #tour.execute()
+     
+    #tour = LevelNumberFunction(t)
+    #tour.execute()
+    
+    #for p in t.breadthfirst():
+        #print(p.element()) 
      
