@@ -10,20 +10,25 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from base.exceptions.not_found import ElementNotFound
 
-class FireFoxWebAgent:
+class WebAgent:
     
     CSS=1
     CLASS=2
     ID=3
     XPATH=4
     
-    def __init__(self,exe_path="geckodriver", profile_path='/home/matija/.config/chromium/bot'):
-        #self._driver = webdriver.Firefox(executable_path=exe_path)
-        config = webdriver.ChromeOptions()
-        config.add_argument('start-maximized')
-        config.add_argument('user-data-dir={0}'.format(profile_path))
-        config.add_argument('--incognito')
-        self._driver = webdriver.Chrome(chrome_options=config)
+    FIREFOX_DRIVER = 10
+    CHROME_DRIVER = 11
+    
+    def __init__(self,impl=WebAgent.CHROME_DRIVER,exe_path="chromedriver", profile_path='/home/matija/.config/chromium/bot'):
+        if impl == WebAgent.CHROME_DRIVER:
+            config = webdriver.ChromeOptions()
+            config.add_argument('start-maximized')
+            config.add_argument('user-data-dir={0}'.format(profile_path))
+            config.add_argument('--incognito')
+            self._driver = webdriver.Chrome(executable_path=exe_path,chrome_options=config)
+        elif impl == WebAgent.FIREFOX_DRIVER:
+            self._driver = webdriver.Firefox(executable_path=exe_path)
         #self._driver.set_window_size(window_height, window_width)
         
     def connect(self, url, timeout=60):
@@ -164,7 +169,7 @@ class FireFoxWebAgent:
             if not isinstance(e, Tag):
                 raise TypeError('not fire fox web element neither Tag')
             else:
-                e = self.find_element(FireFoxWebAgent.XPATH, self._build_xpath(e))
+                e = self.find_element(WebAgent.XPATH, self._build_xpath(e))
         self.__action(timeout, ElementNotInteractableException, e.click)
         
     def close_popup(self):
@@ -196,25 +201,25 @@ class FireFoxWebAgent:
                 continue
             
     def _find_element(self,id_type,value,e):
-        if id_type==FireFoxWebAgent.CLASS:
+        if id_type==WebAgent.CLASS:
             return e.find_element_by_class_name(value)
-        elif id_type==FireFoxWebAgent.ID:
+        elif id_type==WebAgent.ID:
             return e.find_element_by_id(value)
-        elif id_type==FireFoxWebAgent.CSS:
+        elif id_type==WebAgent.CSS:
             return e.find_element_by_css_selector(value)
-        elif id_type==FireFoxWebAgent.XPATH:
+        elif id_type==WebAgent.XPATH:
             return e.find_element_by_xpath(value)
         else:
             raise ValueError('id_type is invalid')
     
     def _find_elements(self,id_type,value,e):
-        if id_type==FireFoxWebAgent.CLASS:
+        if id_type==WebAgent.CLASS:
             return e.find_elements_by_class_name(value)
-        elif id_type==FireFoxWebAgent.ID:
+        elif id_type==WebAgent.ID:
             return e.find_elements_by_id(value)
-        elif id_type==FireFoxWebAgent.CSS:
+        elif id_type==WebAgent.CSS:
             return e.find_elements_by_css_selector(value)
-        elif id_type==FireFoxWebAgent.XPATH:
+        elif id_type==WebAgent.XPATH:
             return e.find_elements_by_xpath(value)
         else:
             raise ValueError('id_type is invalid')

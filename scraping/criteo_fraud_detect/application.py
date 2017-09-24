@@ -1,5 +1,5 @@
 from structures.queue import CircularQueue
-from base.FireFoxWebAgent import FireFoxWebAgent
+from base.WebAgent import WebAgent
 from criteo_fraud_detect.components import Actions
 from base.exceptions.not_found import ElementNotFound
 
@@ -33,7 +33,7 @@ class CriteoFraudDetect:
             raise ValueError('repeat must be positive')
         repeat = repeat * len(self._circular)
         r = repeat
-        agent = FireFoxWebAgent()
+        agent = WebAgent()
         actions = Actions(agent)
         for client in self._clients:
             agent.delete_cookies()
