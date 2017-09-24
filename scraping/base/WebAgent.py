@@ -20,7 +20,7 @@ class WebAgent:
     FIREFOX_DRIVER = 10
     CHROME_DRIVER = 11
     
-    def __init__(self,impl=WebAgent.CHROME_DRIVER,exe_path="chromedriver", profile_path='/home/matija/.config/chromium/bot'):
+    def __init__(self,impl=11,exe_path="chromedriver", profile_path='/home/matija/.config/chromium/bot'):
         if impl == WebAgent.CHROME_DRIVER:
             config = webdriver.ChromeOptions()
             config.add_argument('start-maximized')
@@ -120,19 +120,17 @@ class WebAgent:
         '''
         Returns list of dictionaries as cookies for current session
         If specificDomains is specified then all cookies for this/these domain/s will be returned
+        
+        When specificDomains is specified dictionary with key for cookie domain and it's list of cookies will be returned i.e {'.example.com=[cookies from the same domain], ...}
         '''
         cookies = self._driver.get_cookies()
-        ans = ()
         specific_cookies = defaultdict(list)
         if specificDomains:
             for cookie in cookies:
                 for specificDomain in specificDomains:
                     if UrlUtils.get_domain(cookie['domain']) == specificDomain:
                         specific_cookies[specificDomain].append(cookie)
-
-            for specificDomain in specificDomains:
-                ans = ans + (specific_cookies[specificDomain],)
-            return ans
+            return dict(defaultdict)
         return cookies
     
     def delete_cookies(self,*specificDomains):
@@ -140,6 +138,26 @@ class WebAgent:
         Deletes all cookies
         '''
         self._driver.delete_all_cookies()
+    
+    def add_cookies(self,cookies):
+        '''
+        Add cookies to current browsing session
+        
+        cookies must be either dictionary(with proper keys) or list of dictionaries
+        Raises TypeError if argument is not of valid type
+        ''' 
+        def _add_cookie_dict(c):
+            if type(c) is dict:
+                self._driver.add_cookie(c)
+            else:
+                raise TypeError('not dictionary')
+        if type(cookies) is list or type(cookies) is tuple:
+            for cookie in cookies:
+                print(cookie)
+                _add_cookie_dict(cookie)
+        else:
+            _add_cookie_dict(cookies)
+            
     
     def back(self):
         '''

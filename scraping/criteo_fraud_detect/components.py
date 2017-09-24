@@ -30,7 +30,13 @@ class Actions:
         self._agent.sleep(1.5)
         return self
     
-    def reload_and_ss(self,url,repeat,dir):
+    def reload_and_ss(self,url,repeat,dir,**kwargs):
+        '''
+        Reloads url for 'repeat' times and takes screnshoot each time
+        Screenshots will be placed under 'dir' path
+        
+        For inserting cookies on each reload pass 'cookie' with its mapping to kwargs. Value can be dictionary or list/tuple of dictionaries
+        '''
         if not repeat >= 1:
             raise ValueError('repeat must be positive')
         self._validate_agent(url)
@@ -40,6 +46,8 @@ class Actions:
         dir += domain + '/'
         makedirs(dir,exist_ok=True)
         while repeat>0:
+            if 'cookie' in kwargs:
+                self._agent.add_cookies(kwargs['cookie'])
             self._agent.screenshot('{0}{1}_{2}.png'.format(dir,'SS',str(time.time())))
             self._agent.connect(url)
             repeat-=1

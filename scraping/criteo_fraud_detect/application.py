@@ -49,7 +49,8 @@ class CriteoFraudDetect:
             repeat = r
         
 if __name__ == '__main__':
-    cfd = CriteoFraudDetect(['http://www.sears.com/kenmore-18-cu-ft-top-freezer-refrigerator-white/p-04660412000P?plpSellerId=Sears&prdNo=1&blockNo=1&blockType=G1','https://www.toysrus.com/product?productId=97150726&rrec=true'],
+    cfd = CriteoFraudDetect(['https://www.toysrus.com/product?productId=97150726&rrec=true'],
                             'https://100percentfedup.com/')
     cfd.run(10, '/home/matija/Desktop/criteo_fraud_detect/')
     
+    #http://www.sears.com/kenmore-18-cu-ft-top-freezer-refrigerator-white/p-04660412000P?plpSellerId=Sears&prdNo=1&blockNo=1&blockType=G1
