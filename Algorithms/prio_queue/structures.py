@@ -163,8 +163,18 @@ class MinPriorityQueue(PriorityQueueBase):
     def __len__(self):
         return len(self._data)
     
-    def __init__(self):
-        self._data = []
+    def __init__(self, contents=()):
+        self._data = [self._Item(k,v) for k,v in contents]
+        if len(self._data) > 1:
+            self._heapify()
+    
+    def _heapify(self):
+        '''
+        private function. Finds first non-leaf element and performs down heap for each element from first non-leaf to root
+        '''
+        non_leaf = self._parent(len(self._data)-1)
+        while non_leaf >= 0:
+            self._downheap(non_leaf)
         
     def add(self, key, value):
         ''' adds key-value pair'''
@@ -190,6 +200,59 @@ class MinPriorityQueue(PriorityQueueBase):
         self._downheap(0)
         return e
         
+
+class AdaptableMinPriorityQueue(MinPriorityQueue):
+    
+    class Locator(MinPriorityQueue._Item):
+        __slots_ = '_index'
+        
+        def __init__(self,k,v,j):
+            super().__init__(k, v)
+            self._index = j
+            
+    def _swap(self, i, j):
+        super()._swap(i, j)
+        self._data[i]._index = i #reset locator index, post-swap
+        self._data[j]._index = j #reset locator index, post-swap
+        
+    def _validate_loc(self,loc):
+        if not type(loc) is self.Locator:
+            raise TypeError('not locator')
+        j = loc._index
+        if not (0 <= j < len(self._data) and self._data[j] is loc):
+            raise ValueError('invalid locator')
+        return j
+        
+    def _bubble(self,j):
+        if j > 0 and self._data[j] < self._data[self._parent(j)]:
+            self._upheap(j)
+        else:
+            self._downheap(j)
+    
+    def add(self,key,value):
+        ''' Add a key,value pair and returns Locator for new entry '''
+        token = self.Locator(key, value, len(self._data))
+        self._data.append(token)
+        self._upheap(len(self._data)-1)
+        return token
+    
+    def update(self,loc,newkey,newvalue):
+        ''' Updates key and value for the entry identified by Locator loc '''
+        j = self._validate_loc(loc)
+        loc._key = newkey
+        loc._value = newvalue
+        self._bubble(j)
+        
+    def remove(self,loc):
+        ''' Remove and return (k,v) pair identified by Locator loc '''
+        j = self._validate_loc(loc)
+        if j == len(self._data)-1:
+            self._data.pop()
+        else:
+            self._swap(j, len(self._data)-1)
+            self._data.pop()
+            self._bubble(j)
+        return (loc._key, loc._value)
         
 if __name__ == '__main__':
     mh = MinPriorityQueue()
