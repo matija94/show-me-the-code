@@ -13,3 +13,4 @@ Since this repository contains different projects written in different languages
 * [android-studio](https://developer.android.com/studio/install.html) - environment for developing android applications
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [Eclipse](https://www.eclipse.org/downloads/?) - You will need eclipse if you want to import non-android projects
+* [Scala](http://scala-ide.org/download/current.html) - Scala IDE plugin for eclipse
