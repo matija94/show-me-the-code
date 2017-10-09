@@ -1,4 +1,6 @@
 import scala.collection.mutable.ArrayBuffer
+import java.util.ArrayList
+
 object arrays {
 
 
@@ -119,4 +121,13 @@ object arrays {
 	
 	val matrix = Array.ofDim[Double](3, 4)    //> matrix  : Array[Array[Double]] = Array(Array(0.0, 0.0, 0.0, 0.0), Array(0.0
                                                   //| , 0.0, 0.0, 0.0), Array(0.0, 0.0, 0.0, 0.0))
+
+
+	import scala.collection.JavaConversions.bufferAsJavaList
+	val test = ArrayBuffer("matija", "lukovic")
+                                                  //> test  : scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer(matija, 
+                                                  //| lukovic)
+	val java = new ArrayList(test)            //> java  : java.util.ArrayList[String] = [matija, lukovic]
+	println(java)                             //> [matija, lukovic]
+
 }
