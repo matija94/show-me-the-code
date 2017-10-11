@@ -96,7 +96,7 @@ object arrays {
 	// get elements less than 6 from array a and multiply them by two
 	a.filter(_ < 6).map(2*_)                  //> res3: Array[Int] = Array(4, 8)
 
-
+	a filter {_ < 6} map {2*_}
 	// scala has sum function as python does
 
 	a.sum                                     //> res4: Int = 20
