@@ -30,6 +30,15 @@ class UnsortedTableMap(MapBase):
     def __iter__(self):
         for item in self._table:
             yield item._key
+
+    def setdefault(self, key, default=None):
+        '''
+        IF key already exists in the map returns it's mapping, otherwise inserts new mapping in the map with k=default
+        '''
+        for item in self._table:
+            if item._key == key:
+                return item._value
+        self._table.append(self._Item(key,default))
         
 class ChainHashMap(HashMapBase):
     ''' hash map implementation with separate chaining for collision resolution '''
