@@ -110,4 +110,25 @@ object maps {
                                                   //> 1=One
                                                   //| 5=Five
 
+
+	// tuples
+	
+	val t = (1,3.14,"Matija")                 //> t  : (Int, Double, String) = (1,3.14,Matija)
+	
+	// tuple indexes are 1 based not zero as arrays
+	mutable_scores(t._3)                      //> res12: Int = 3
+	
+	
+	
+	//zipping, bundle together two tuples vertically
+	val numbers = Array("Scala ","r","o","cks", "!")
+                                                  //> numbers  : Array[String] = Array("Scala ", r, o, cks, !)
+	val scalars = Array(1,1,6,1,1)            //> scalars  : Array[Int] = Array(1, 1, 6, 1, 1)
+	
+	val zipped = numbers.zip(scalars)         //> zipped  : Array[(String, Int)] = Array(("Scala ",1), (r,1), (o,6), (cks,1),
+                                                  //|  (!,1))
+	var str = ""                              //> str  : String = ""
+	for((a,b) <- zipped) str+=a*b
+	println(str)                              //> Scala roooooocks!
+
 }
