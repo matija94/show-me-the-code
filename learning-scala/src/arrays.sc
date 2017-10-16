@@ -96,13 +96,13 @@ object arrays {
 	// get elements less than 6 from array a and multiply them by two
 	a.filter(_ < 6).map(2*_)                  //> res3: Array[Int] = Array(4, 8)
 
-	a filter {_ < 6} map {2*_}
+	a filter {_ < 6} map {2*_}                //> res4: Array[Int] = Array(4, 8)
 	// scala has sum function as python does
 
-	a.sum                                     //> res4: Int = 20
+	a.sum                                     //> res5: Int = 20
 
-	a.min                                     //> res5: Int = 2
-	a.max                                     //> res6: Int = 8
+	a.min                                     //> res6: Int = 2
+	a.max                                     //> res7: Int = 8
 	val reversed_a = a.reverse                //> reversed_a  : Array[Int] = Array(8, 6, 4, 2)
 	// sorted yields new collections instead modifying original
 	val sorted = reversed_a.sorted            //> sorted  : Array[Int] = Array(2, 4, 6, 8)
@@ -113,7 +113,7 @@ object arrays {
 
 
 	// string joiner
-	reversed.mkString("[", ", ", "]")         //> res7: String = [3, 2, 1]
+	reversed.mkString("[", ", ", "]")         //> res8: String = [3, 2, 1]
 
 
 
@@ -130,4 +130,8 @@ object arrays {
 	val java = new ArrayList(test)            //> java  : java.util.ArrayList[String] = [matija, lukovic]
 	println(java)                             //> [matija, lukovic]
 
+
+
+	val ar = Array(1,2,3,4,5)                 //> ar  : Array[Int] = Array(1, 2, 3, 4, 5)
+	ar.foldLeft(0) {(a,z) => a + z}           //> res9: Int = 15
 }

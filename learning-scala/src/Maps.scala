@@ -6,6 +6,8 @@ import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.SortedMap
 import scala.collection.mutable.LinkedHashMap
 import java.util.Calendar
+import classes.Car
+import classes.BankAccount
 
 
 object Maps {
@@ -98,6 +100,5 @@ object Maps {
     println(lteqgt(Array(3,4,1,2,5,7,9), 4))
     
     println("HloWrl".zip("el old"))
-  
   }
 }
