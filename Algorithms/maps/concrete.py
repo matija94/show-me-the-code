@@ -1,4 +1,5 @@
 from maps.base import MapBase, HashMapBase
+from trees.concrete import LinkedBinaryTree
 class UnsortedTableMap(MapBase):
     
     def __init__(self):
@@ -251,3 +252,110 @@ class SortedTableMap(MapBase):
         while j < len(self._table) and (stop is None or self._table[j]._key < stop):
             yield (self._table[j]._key, self._table[j]._value)
             j+=1
+
+class TreeMap(LinkedBinaryTree, MapBase):
+    ''' sorted map implementation using binary tree '''
+    
+    class Position(LinkedBinaryTree.Position):
+        def key(self):
+            return self.element()._key
+        def value(self):
+            return self.element()._value
+        
+    def _subtree_search(self, p, k):
+        ''' returns position of p's subtree having key k, or last node searched '''
+        if k == p.key():
+            return p
+        elif p.key() < k:
+            if self.left(p) is not None:
+                return self._subtree_search(self.left(p), k) # search left subtree
+        else:
+            if self.right(p) is not None:
+                return self._subtree_search(self.right(p), k) # search right subtree 
+        return p # unsuccessful search
+    
+    def _subtree_first_position(self,p):
+        ''' returns first positon of the binary tree. This is node that would be traversed first by in-order dfs ''' 
+        walk = p
+        while self.left(walk) is not None:
+            walk = self.left(walk)
+        return walk
+    
+    def _subtree_last_position(self,p):
+        ''' returns last position of the binary tree. This is node that would be traversed last by in-order dfs'''
+        walk = p
+        while self.right(walk) is not None:
+            walk = self.right(walk)
+        return walk
+    
+    def first(self):
+        ''' returns the first position in the tree or none if tree is empty'''
+        return self._subtree_first_position(self.root()) if len(self) > 0 else None
+    
+    def last(self):
+        ''' returns last position in the tree or none if tree is empty '''
+        return self._subtree_last_position(self.root()) if len(self)>0 else None
+    
+    def before(self,p):
+        ''' return the position just before p in the natural order.
+        
+        return none if p is the first position 
+        '''
+        
+        self._validate(p)
+        if self.left(p):
+            return self._subtree_last_position(self.left(p)) # has left subtree, so find biggest element in this subtree
+        else: # go upward, look for first parent that is visited by its right child
+            walk = p
+            above = self.parent(walk)
+            while above is not None and walk == self.left(above):
+                walk = above
+                above = self.parent(above)
+            return above
+    
+    def after(self,p):
+        '''
+        return the position just after p in the natural order
+        
+        return none if p is last position
+        '''
+        self._validate(p)
+        if self.right(p):
+            return self._subtree_first_position(self.right(p))
+        else: # go upward, look for first parent that is visited by its left child
+            walk = p
+            above = self.parent(walk)
+            while above is not None and walk == self.right(above):
+                walk = above
+                above = self.parent(above)
+            return above
+        
+    def find_position(self,k):
+        ''' return position with key k or else neighbour '''
+        
+        if self.is_empty(): return None
+        else :
+            p = self._subtree_search(self.root(), k)
+            self._rebalance_access(p)
+            return p
+        
+    def find_min(self):
+        ''' return minimum (key,value) pair or None if tree is empty '''
+        if self.is_empty():return None
+        else:
+            p = self.first()
+            return (p.key(), p.value())
+        
+    
+    def find_ge(self, k):
+        '''
+        return (key,value) with least key greater than or equal to k
+        '''
+        if self.is_empty(): return None
+        else:
+            p = self.find_position(k)
+            if p.key() < k:
+		p=self.after(p)
+	    return (p.key(),p.value()) if p is not None else None        
+    
+
