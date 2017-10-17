@@ -1,5 +1,6 @@
 from maps.base import MapBase, HashMapBase
 from trees.concrete import LinkedBinaryTree
+from abc import abstractmethod
 class UnsortedTableMap(MapBase):
     
     def __init__(self):
@@ -261,7 +262,55 @@ class TreeMap(LinkedBinaryTree, MapBase):
             return self.element()._key
         def value(self):
             return self.element()._value
-        
+    
+    ''' private functions used by subclasses of tree map which rebalance the tree making it's height to be function of log N'''
+    def _relink(self,parent,child,make_left_child):
+        if make_left_child:
+            parent._left = child
+        else:
+            parent._right = child
+        if child is not None:
+            child._parent = parent
+
+    def _rotate(self,p):
+        ''' rotate position p above it's parent 
+        5            11
+         \          /  \
+         11   =>   5   21
+          \
+          21
+        '''
+        x = p._node
+        y = self.parent(x)
+        z = self.parent(y)
+        if z is None:
+            self._root = x
+            x._parent = None
+        else:
+            self._relink(z, x, y == z._left)
+        if x == y._left:
+            self._relink(y, x._right, True)
+            self._relink(x, y, False)
+        else:
+            self._relink(y, x._left, False)
+            self._relink(x, y, True)
+    
+    
+    def _restructure(self,x):
+        ''' perform trinode restructure of Position x with parent/grandparent 
+            This method decides whether to call single rotate or double
+        '''
+        y = self.parent(x)
+        z = self.parent(y)
+        if(x==self.right(y)) == (y==self.right(z)):
+            self._rotate(y)
+            return y
+        else:
+            self._rotate(x)
+            self._rotate(x)
+            return x
+    
+    ''' private functions used by tree map concrete impl '''    
     def _subtree_search(self, p, k):
         ''' returns position of p's subtree having key k, or last node searched '''
         if k == p.key():
@@ -336,7 +385,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
         if self.is_empty(): return None
         else :
             p = self._subtree_search(self.root(), k)
-            #self._rebalance_access(p)
+            self._rebalance_access(p)
             return p
         
     def find_min(self):
@@ -391,7 +440,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
             raise KeyError('Key Error: ' + repr(key))
         else:
             p = self._subtree_search(self.root(), key)
-            #self._rebalance_access(p)
+            self._rebalance_access(p)
             if key != p.key():
                 raise KeyError('Key Error: ' + repr(key))
             return p.value()
@@ -403,7 +452,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
             p = self._subtree_search(self.root(), key)
             if p.key() == key:
                 p.element()._value = value
-                #self._rebalance_access(p)
+                self._rebalance_access(p)
                 return
             else:
                 item = self._Item(key,value)
@@ -411,7 +460,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
                     leaf = self.add_right(p,item)
                 else:
                     leaf = self.add_left(p,item)
-                #self._rebalance_insert(leaf)
+                self._rebalance_insert(leaf)
 
     def __iter__(self):
         p = self.first()
@@ -428,7 +477,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
         #now p has most one child
         parent = self.parent(p)
         super().delete(p)
-        #self._rebalance_delete(parent)
+        self._rebalance_delete(parent)
         
     def __delitem__(self, key):
         if not self.is_empty():
@@ -436,8 +485,27 @@ class TreeMap(LinkedBinaryTree, MapBase):
             if p.key() == key:
                 self.delete(p)
                 return
-            #self._rebalance_access(p)
+            self._rebalance_access(p)
         raise KeyError('Key Error: ' + repr(key))
+
+    ''' abstract methods for rebalancing strategy '''
+    def _rebalance_access(self,p):
+        ''' called after searching the key in the map
+            this method should bring frequently searched keys closer to the root
+        '''
+        pass
+    
+    def _rebalance_insert(self,p):
+        '''
+        called when new key is inserted in the map
+        '''
+        pass
+    
+    def _rebalance_delete(self,p):
+        '''
+        called on the parent of the deleted key in the map
+        '''
+        pass
 
 
 if __name__ == '__main__':
