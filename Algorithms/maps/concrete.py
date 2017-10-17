@@ -358,6 +358,17 @@ class TreeMap(LinkedBinaryTree, MapBase):
                 p = self.after(p)
             return (p.key(),p.value()) if p is not None else None        
     
+    def find_le(self,k):
+        ''' 
+        return (key,value) pair with least key lower than or equal to k
+        '''
+        if self.is_empty(): return None
+        else:
+            p = self.find_position(k)
+            if p.key() > k:
+                p = self.before(p)
+            return (p.key(),p.value())if p is not None else None
+        
     def find_range(self,start,stop):
         '''
         iterate all (key,value)pairs such that start<=key<=stop
@@ -432,6 +443,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
 if __name__ == '__main__':
     t = TreeMap()
     t[10] = 'Matija'
+    t.first()
     t[4] = 'Mirko'
     t[3] = 'Miks'
     t[5] = 'Batenga'
