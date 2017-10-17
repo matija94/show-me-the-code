@@ -336,7 +336,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
         if self.is_empty(): return None
         else :
             p = self._subtree_search(self.root(), k)
-            self._rebalance_access(p)
+            #self._rebalance_access(p)
             return p
         
     def find_min(self):
@@ -380,7 +380,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
             raise KeyError('Key Error: ' + repr(key))
         else:
             p = self._subtree_search(self.root(), key)
-            self._rebalance_access(p)
+            #self._rebalance_access(p)
             if key != p.key():
                 raise KeyError('Key Error: ' + repr(key))
             return p.value()
@@ -390,17 +390,17 @@ class TreeMap(LinkedBinaryTree, MapBase):
             self.add_root(self._Item(key,value))
         else:
             p = self._subtree_search(self.root(), key)
-        if p.key() == key:
-            p.element()._value = value
-            self._rebalance_access(p)
-            return
-        else:
-            item = self._Item(key,value)
-            if p.key() < key:
-                leaf = self.add_right(p,item)
+            if p.key() == key:
+                p.element()._value = value
+                #self._rebalance_access(p)
+                return
             else:
-                leaf = self.add_left(p,item)
-        self._rebalance_insert(leaf)
+                item = self._Item(key,value)
+                if p.key() < key:
+                    leaf = self.add_right(p,item)
+                else:
+                    leaf = self.add_left(p,item)
+                #self._rebalance_insert(leaf)
 
     def __iter__(self):
         p = self.first()
@@ -417,7 +417,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
         #now p has most one child
         parent = self.parent(p)
         super().delete(p)
-        self._rebalance_delete(parent)
+        #self._rebalance_delete(parent)
         
     def __delitem__(self, key):
         if not self.is_empty():
@@ -425,5 +425,19 @@ class TreeMap(LinkedBinaryTree, MapBase):
             if p.key() == key:
                 self.delete(p)
                 return
-            self._rebalance_access(p)
+            #self._rebalance_access(p)
         raise KeyError('Key Error: ' + repr(key))
+
+
+if __name__ == '__main__':
+    t = TreeMap()
+    t[10] = 'Matija'
+    t[4] = 'Mirko'
+    t[3] = 'Miks'
+    t[5] = 'Batenga'
+    t[15] = 'Jo'
+    t[16] = 'foo'
+    del t[15]
+    t[16] ='foorepl'
+    for e,v in t.items():
+        print(e,v)

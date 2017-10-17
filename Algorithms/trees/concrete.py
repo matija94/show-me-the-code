@@ -149,7 +149,13 @@ class LinkedBinaryTree(BinaryTree):
                 self._size-=1
                 return old
             else:
-                raise ValueError('Node referred by Position p does not have children')
+                old = node._element
+                if node._parent._left is node:
+                    node._parent._left = node = None
+                else:
+                    node._parent._right = node = None
+                self._size-=1
+                return old
     
     def _delete_subtree(self, p):
         '''
