@@ -266,7 +266,7 @@ class TreeMap(LinkedBinaryTree, MapBase):
         ''' returns position of p's subtree having key k, or last node searched '''
         if k == p.key():
             return p
-        elif p.key() < k:
+        elif k < p.key():
             if self.left(p) is not None:
                 return self._subtree_search(self.left(p), k) # search left subtree
         else:
@@ -355,7 +355,75 @@ class TreeMap(LinkedBinaryTree, MapBase):
         else:
             p = self.find_position(k)
             if p.key() < k:
-		p=self.after(p)
-	    return (p.key(),p.value()) if p is not None else None        
+                p = self.after(p)
+            return (p.key(),p.value()) if p is not None else None        
     
+    def find_range(self,start,stop):
+        '''
+        iterate all (key,value)pairs such that start<=key<=stop
+        
+        if start is none, iteration begins with min key of the map
+        if stop is none, iteration continues to the max key of the map
+        '''
+        if not self.is_empty():
+            if start is None:
+                p = self.first()
+            else:
+                p = self.find_position(start)
+                if p.key() < start: p = self.after(p)
+            while p is not None and (stop is None or p.key() < stop):
+                yield (p.key(), p.value())
+                p = self.after(p)
 
+    def __getitem__(self, key):
+        if self.is_empty():
+            raise KeyError('Key Error: ' + repr(key))
+        else:
+            p = self._subtree_search(self.root(), key)
+            self._rebalance_access(p)
+            if key != p.key():
+                raise KeyError('Key Error: ' + repr(key))
+            return p.value()
+    
+    def __setitem__(self, key, value):
+        if self.is_empty():
+            self.add_root(self._Item(key,value))
+        else:
+            p = self._subtree_search(self.root(), key)
+        if p.key() == key:
+            p.element()._value = value
+            self._rebalance_access(p)
+            return
+        else:
+            item = self._Item(key,value)
+            if p.key() < key:
+                leaf = self.add_right(p,item)
+            else:
+                leaf = self.add_left(p,item)
+        self._rebalance_insert(leaf)
+
+    def __iter__(self):
+        p = self.first()
+        while p is not None:
+            yield p.key()
+            p = self.after(p)
+            
+    def delete(self, p):
+        self._validate(p)
+        if self.left(p) and self.right(p):
+            replacement = self._subtree_last_position(self.left(p))
+            self.replace(p, replacement.element())
+            p = replacement
+        #now p has most one child
+        parent = self.parent(p)
+        super().delete(p)
+        self._rebalance_delete(parent)
+        
+    def __delitem__(self, key):
+        if not self.is_empty():
+            p = self._subtree_search(self.root(), key)
+            if p.key() == key:
+                self.delete(p)
+                return
+            self._rebalance_access(p)
+        raise KeyError('Key Error: ' + repr(key))
