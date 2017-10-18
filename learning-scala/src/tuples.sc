@@ -16,6 +16,7 @@ import scala.math._
 Console println { pow(tupl._4,2) }                //> 2.25
 
 
+val new_tup = 1 -> "One"                          //> new_tup  : (Int, String) = (1,One)
 
 
 
