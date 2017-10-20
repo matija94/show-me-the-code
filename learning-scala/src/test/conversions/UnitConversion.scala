@@ -1,4 +1,4 @@
-package conversions
+package test.conversions
 
 trait UnitConversion {
   

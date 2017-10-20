@@ -6,8 +6,8 @@ import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.SortedMap
 import scala.collection.mutable.LinkedHashMap
 import java.util.Calendar
-import classes.Car
-import classes.BankAccount
+import test.classes.Car
+import test.classes.BankAccount
 
 
 object Maps {

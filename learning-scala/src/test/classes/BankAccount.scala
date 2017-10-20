@@ -1,4 +1,4 @@
-package classes
+package test.classes
 
 class BankAccount(initialBalance: Double) {
   private var balance = initialBalance

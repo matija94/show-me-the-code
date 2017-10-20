@@ -1,4 +1,4 @@
-package classes
+package test.classes
 
 class Car(private val _manufacturer: String, private val _modelName: String) {
 

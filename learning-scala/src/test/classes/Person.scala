@@ -1,4 +1,4 @@
-package classes
+package test.classes
 
 class Person(name: String, var age: Int=22) {
   //                        ^

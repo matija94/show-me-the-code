@@ -1,4 +1,4 @@
-package conversions
+package test.conversions
 
 object Units extends Enumeration{
   val INCHES = Value("inch")

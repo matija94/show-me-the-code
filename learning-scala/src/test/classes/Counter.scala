@@ -1,4 +1,4 @@
-package classes
+package test.classes
 
 import scala.beans.BeanProperty
 

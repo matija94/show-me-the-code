@@ -1,4 +1,4 @@
-package conversions
+package test.conversions
 
 object MilesToKilometers extends UnitConversion {
   def apply(miles: Double): Double = {
