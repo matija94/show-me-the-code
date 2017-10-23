@@ -572,13 +572,16 @@ class AVLTreeMap(TreeMap):
 if __name__ == '__main__':
     t = AVLTreeMap()
     t[10] = 'Matija'
-    t.first()
-    t[4] = 'Mirko'
-    t[3] = 'Miks'
-    t[5] = 'Batenga'
-    t[15] = 'Jo'
-    t[16] = 'foo'
-    del t[15]
-    t[16] ='foorepl'
+    t[7] = 'seven'
+    # triggers single rotation on insertion
+    t[5] = 'five'
+    t[8] = 'eight'
+    # triggers double rotation on insertion
+    t[9] = 'nine'
+    t[6] = 'six'
+    t[11] = 'eleven'
+    #triggers single rotation on deletion
+    del t[6]
+    
     for e,v in t.items():
         print(e,v)
