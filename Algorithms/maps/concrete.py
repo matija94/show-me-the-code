@@ -564,11 +564,30 @@ class AVLTreeMap(TreeMap):
         self._rebalance(p)
 
 
+class SplayTreeMap(TreeMap):
 
+    def _splay(self,p):
+        y = self.parent(p)
+        z = self.parent(y)
+        if (y == self.left(z)) == (p == self.left(y)): #all nodes are on same side
+            self._rotate(y)
+            self._rotate(p)
+        elif z is None:
+            self._rotate(p)
+        else:#zig zag
+            self._rotate(p)
+            self._rotate(p)
 
-
-
-
+    def _rebalance_insert(self, p):
+        self._splay(p)
+        
+    def _rebalance_access(self, p):
+        self._splay(p)
+    
+    def _rebalance_delete(self, p):
+        if p is not None:
+            self._splay(p)
+            
 if __name__ == '__main__':
     t = AVLTreeMap()
     t[10] = 'Matija'
