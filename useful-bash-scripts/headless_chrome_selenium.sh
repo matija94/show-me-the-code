@@ -19,6 +19,7 @@ rm ~/chromedriver_linux64.zip
 #install pip3
 
 sudo echo "export LC_ALL=C" >> ~/.bashrc
+export LC_ALL=C #in case it doesnt load from source
 source ~/.bashrc
 sudo apt-get install -y python3-pip
 sudo apt-get install build-essential libssl-dev libffi-dev python3-dev
