@@ -1,4 +1,3 @@
-import test.conversions._
 import algorithms.maps.MultiMap
 import scala.collection.mutable.ArrayBuffer
 import test.classes.Bundle
@@ -7,16 +6,6 @@ import numbers.immutable.Rational
 
 
 object App extends App{
-  
-  println(InchesToCentimeters(54.5))
-  
-  println(MilesToKilometers(100))
-  
-  println(GalonsToLitres(10))
-  
-  for(unit<-Units.values) println(unit, unit.id)
-  
-  
   
   val multiMap: MultiMap[Int, String] = new MultiMap[Int, String]
   
