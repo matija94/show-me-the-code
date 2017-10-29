@@ -52,6 +52,17 @@ object Arrays {
     a.distinct
   }
   
+  def findMaxRecur(arr: Array[Int]): Int = {
+    def helper(index: Int, max: Int): Int = {
+      if (index==arr.length) max
+      else {
+        val new_max = if (arr(index)>max) arr(index) else max
+        helper(index+1,new_max)
+      }
+    }
+    helper(0, Integer.MIN_VALUE)
+  }
+  
   def main(args: Array[String]): Unit = {
     val a = makeArray(10)
     println(a.mkString("[", ", ", "]"))
@@ -80,12 +91,12 @@ object Arrays {
     println(americaTimeZones.mkString(", "))
   
   
+    println(findMaxRecur(pos_neg))      
   
-    import java.awt.datatransfer._
     
-    /*val flavors = SystemFlavorMap.getDefaultFlavorMap().asInstanceOf[SystemFlavorMap]
-    val nativeFlavors: Buffer[DataFlavor] = flavors.getFlavorsForNative(DataFlavor.imageFlavor.toString)*/
-  
+    val s = "Matija"
+    val as = Array(s)
+    println(as(0))  
   }
   
 }
