@@ -587,6 +587,96 @@ class SplayTreeMap(TreeMap):
     def _rebalance_delete(self, p):
         if p is not None:
             self._splay(p)
+
+class RedBlackTreeMap(TreeMap):
+    ''' sorted map implementation using red-black tree '''
+    
+    class _Node(TreeMap._Node):
+        __slots__ = '_red'
+        
+        def __init__(self, element,parent=None,left=None,right=None):
+            super().__init__(element, parent, left, right)
+            self._red = True # since new node is always red except when tree is empty we set default value to True
+    
+    def _set_red(self, p): p._node._red = True
+    def _set_black(self, p): p._node._red = False
+    def _set_color(self, p, make_red): p._node._red = make_red
+    def _is_red(self,p): return p is not None and p._node._red # we consider nonexistent child to be trivially black
+    def _is_read_leaf(self,p): return self._is_red(p) and self.is_leaf(p)
+    
+    def _get_red_child(self,p):
+        '''
+            return red child of p ( or None if no such child)
+        '''
+        for child in self.children(p):
+            if self._is_red(child):
+                return child
+        return None
+    
+    ''' ### support for insertions ### '''
+    def _rebalance_insert(self, p):
+        self._resolve_red(p) # new node is always red
+        
+    def _resolve_red(self, p):
+        if self.is_root(p):
+            self._set_black(p) #if root make it black, problem solved
+        else:
+            parent = self.parent(p)
+            if self._is_red(parent): # check if parent is existent and red
+                uncle = self.sibling(parent)
+                if not self._is_red(uncle): # case 1 double red and sibling of p's parent is either None or black - restruct
+                    middle = self._restructure(p)
+                    self._set_black(p) # fix colors
+                    self._set_red(self.left(middle))
+                    self._set_red(self.right(middle))
+                else:
+                    grand = self.parent(parent) # must exist because parent is red and red cannot be root
+                    self._set_red(grand)
+                    self._set_black(uncle) # uncle and parent are children of grand
+                    self._set_black(parent)
+                    self._resolve_red(grand) # since we made this node red it could make new double red violations in the tree
+
+
+    ''' ### support for deletions ### '''
+    def _rebalance_delete(self, p):
+        if len(self) == 1:
+            self._set_black(self.root()) # ensure root is black
+        elif p is not None:
+            n = self.num_children(p)
+            if n == 1: # deleted black leaf
+                c = next(self.children(p))
+                if not self._is_read_leaf(c):
+                    self._fix_deficit(p, c)
+            elif n == 2: # removed black node with red child, make promoted child black and black depth will be satisfied
+                if self._is_read_leaf(self.left(p)):
+                    self._set_black(self.left(p))
+                else:
+                    self._set_black(self.right(p))
+    
+    def _fix_deficit(self, z, y):
+        ''' remove black deficit at z, where y is the root of z's heavier subtree '''
+        if not self._is_red(y): # y is black, apply case 1 or case 2
+            x = self._get_red_child(y)
+            if x is not None: # case 1 y is black and has red child x
+                old_color = self._is_red(z)
+                middle = self._restructure(x) # restructure (uni or double rotate)
+                self._set_color(middle, old_color) # set color of z to new root of subtree
+                self._set_black(self.left(middle)) # children black
+                self._set_black(self.right(middle)) # children black
+            else: # case 2 , y is black and has black childs or None childs
+                self._set_red(y)
+                if self._is_red(z):
+                    self._set_black(z) # problem solved, black depth is maintained
+                elif not self.is_root(z):
+                    self._fix_deficit(self.parent(z), self.sibling(z))
+        else: # case 3: y is red; rotate misaligned 3 node and repeat
+            self._rotate(y)
+            self._set_black(y)
+            self._set_red(z)
+            if z == self.right(y):# fix deficit , terminal cases 1 or 2 will be applied now
+                self._fix_deficit(z, self.left(z)) 
+            else:
+                self._fix_deficit(z, self.right(z))
             
 if __name__ == '__main__':
     t = AVLTreeMap()
