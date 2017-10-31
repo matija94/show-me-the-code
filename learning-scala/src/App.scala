@@ -37,6 +37,9 @@ object App extends App{
   
   println((r+5).toDouble)
   
+  val third = new Rational(1,3)
   
+  println(r<third)
+  println(r>third)
   
 }

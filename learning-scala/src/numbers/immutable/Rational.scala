@@ -1,17 +1,13 @@
 package numbers.immutable
 
-class Rational(num: Int,denom: Int) {
+class Rational(num: Int, denom: Int) extends Ordered[Rational] {
 	require(denom != 0)
 	private val g: Int = gcd(num.abs,denom.abs)
   val n: Int = num/g
   val d: Int = denom/g
-  
+
   def this(n: Int) = this(n,1)
 
-  def <(r: Rational): Boolean = n*r.d < r.n*d
-  
-  def >(r: Rational): Boolean = !(this < r) && r.d != d && r.n != n
-  
   def max(r: Rational): Rational = if(this < r) r else this
   
   def +(r: Rational): Rational = new Rational(n * r.d + r.n * d, d*r.d)
@@ -38,5 +34,10 @@ class Rational(num: Int,denom: Int) {
   
   def toDouble: Double = n.toDouble/d.toDouble
   
+  def compare(that: Rational): Int = {
+	  (this.n * that.d)-(that.n * this.d)
+	}
+  
   private def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a%b)
+
 }
