@@ -447,7 +447,8 @@ class TreeMap(LinkedBinaryTree, MapBase):
     
     def __setitem__(self, key, value):
         if self.is_empty():
-            self.add_root(self._Item(key,value))
+            root = self.add_root(self._Item(key,value))
+            self._rebalance_insert(root)
         else:
             p = self._subtree_search(self.root(), key)
             if p.key() == key:
@@ -694,3 +695,15 @@ if __name__ == '__main__':
     
     for e,v in t.items():
         print(e,v)
+
+
+    l = [10,9,8,7,6,5,4,3,2,1]
+    rb = RedBlackTreeMap()
+    for e in l:
+        rb[e]=0
+    i=0
+    for e in rb.keys():
+        l[i]=e
+        i+=1 
+
+    print(l)
