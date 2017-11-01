@@ -1,4 +1,4 @@
-from _collections_abc import MutableMapping
+from collections import MutableMapping
 from random import randrange
 class MapBase(MutableMapping):
     

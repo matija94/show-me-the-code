@@ -25,7 +25,7 @@ def heap_sort(L):
         if parent >= 0 and l[i] > l[parent]:
             l[i],l[parent] = l[parent],l[i]
             _upheap(parent, l)
-    for i in range(len(L)):
+    for i in range(len(L)): # make the whole array to 'hold max-heap property'
         _upheap(i, L)
     def _downheap(i,l,n):
         big = (2*i)+1
@@ -36,10 +36,10 @@ def heap_sort(L):
             if l[big] > l[i]:
                 l[i],l[big] = l[big],l[i]
             _downheap(big, l, n)
-    for i in range(len(L)):
-        n = len(L)-(i+1)
-        L[0],L[len(L)-(i+1)]=L[len(L)-(i+1)],L[0]
-        _downheap(0, L, n)
+    for i in range(len(L)): # in each iteration add head of the max-heap to the end of the array
+        n = len(L)-(i+1) # last index in the heap
+        L[0],L[len(L)-(i+1)]=L[len(L)-(i+1)],L[0] # swap head of the max-heap with the last element from the array
+        _downheap(0, L, n) # downheap swapped element in the remaining heap space to maintain max-heap property
 
 
 
