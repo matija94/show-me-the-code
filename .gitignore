@@ -1,5 +1,6 @@
 .ipynb_checkpoints
 *.log
-*.pyc
+**.pyc
 __pycache__/
 .worksheet/
+**/Debug

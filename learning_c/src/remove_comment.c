@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int getLine(char s[]);
+//int getLine(char s[]);
 int isComment(char s[]);
 
 /*int main(void) {
@@ -28,7 +28,7 @@ int isComment(char s[]);
 }*/
 
 
-int getLine(char s[]) {
+/*int getLine(char s[]) {
 	int i;
 	char c;
 
@@ -39,7 +39,7 @@ int getLine(char s[]) {
 	}
 	s[i] = '\0';
 	return i;
-}
+}*/
 
 int isComment(char s[]) {
 	int n = strlen(s);
