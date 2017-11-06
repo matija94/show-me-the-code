@@ -3,6 +3,11 @@ import scala.collection.mutable.ArrayBuffer
 import test.classes.Bundle
 import test.classes.SimpleItem
 import numbers.immutable.Rational
+import traits.stackable.modif.BasicIntQueue
+import traits.stackable.modif.Doubling
+import traits.stackable.modif.Filtering
+import traits.stackable.modif.Incrementing
+import linearization.Cat
 
 
 object App extends App{
@@ -42,4 +47,10 @@ object App extends App{
   println(r<third)
   println(r>third)
   
+  
+  val queue = new BasicIntQueue with Doubling with Incrementing
+  queue put 15
+
+  val cat = new Cat
+  cat.test
 }
