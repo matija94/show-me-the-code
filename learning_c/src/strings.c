@@ -100,14 +100,31 @@ int trimEnd(char s[]) {
 	return tail;
 }
 
+// returns leftmost occurrence of s1 in s2
+int strlindex(char s1[], char s2[]) {
+	int i,j;
+	i=j=0;
+	while(s2[j] != s1[i]) j++;
+	int k = j;
+	for(;i<strlength(s1) && j<strlength(s2) && s1[i]==s2[j];j++,i++) ;
+	if (s1[i] == '\0') return k;
+	else return -1;
+}
+
+
 int main(void) {
-	char s1[] = "a-r0-9";
+	double d, parseDouble(char []); // if no prototype for parseDouble is declared here then parseDouble when called would be considered as returning int and therefore produce meaningless results
+	/*char s1[] = "a-r0-9";
 	char s2[30];
 	expand(s1,s2);
 	printf("%s\n", s2);
 	char s[5];
 	parseString(1541,s);
-	printf("%s\n",s);
+	printf("%s\n",s);*/
+	char s1[] = "ti";
+	char s2[] = "2.43";
+	d = parseDouble(s2);
+	printf("%.2f", d);
 }
 
 
