@@ -6,11 +6,13 @@ class LinkedQueue:
             self._e = e
             self._next = next 
     
-    def __init__(self):
+    def __init__(self, *args):
         self._head = None
         self._tail = None
         self._size = 0
-    
+        for arg in args:
+            self.enqueue(arg)
+
     def __len__(self):
         return self._size
     
@@ -47,6 +49,12 @@ class LinkedQueue:
         if self.is_empty():
             raise ValueError('empty')
         return self._tail._e
+    
+    
+    def clean(self):
+        self._head = None
+        self._tail = None
+        self._size = 0
     
     #R-7.7
     def rotate(self):

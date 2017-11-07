@@ -1,5 +1,6 @@
 import prio_queue
 from linked_lists.linked_queue import LinkedQueue
+import math
 
 def heapsort(L):
     '''
@@ -45,44 +46,77 @@ def mergesort(L):
     _merge(S1, S2, L)
     
 
+''' recursive merge sort linked list '''
 def _mergesort_linkedlist(L):
+    if L.is_empty(): return L
+    tail = [L._head._e] # should be max
+    def _helper(head):
+        if head is None or head._next is None: 
+            tail[0] = head._e if head is not None and head._e > tail[0] else tail[0]
+            return head
+        middle = _getMiddle(head)
+        second_half = middle._next
+        middle._next = None
+        return _merge_ll(_helper(head), _helper(second_half))
     
-    def _merge(LL1,LL2,LL):
-        
-        while not LL1.is_empty() and not LL2.is_empty():
-            if LL1.top() < LL2.top():
-                LL.enqueue(LL1.dequeue())
-            else:
-                LL.enqueue(LL2.dequeue())
-        while not LL1.is_empty():
-            LL.enqueue(LL1.dequeue())
-        while not LL2.is_empty():
-            LL.enqueue(LL2.dequeue())
-                
-    n = len(L)
-    if n < 2:
-        return
-    mid = n//2
-    LL1 = LinkedQueue()
-    LL2 = LinkedQueue()
-    while len(L) > mid:
-        LL1.enqueue(L.dequeue())
-    while not L.is_empty():
-        LL2.enqueue(L.dequeue())
+    s = L._size
+    head = _helper(L._head)
+    L.clean()
+    L._size = s; L._head = head; L._tail = tail
 
-    _mergesort_linkedlist(LL1)
-    _mergesort_linkedlist(LL2)
-    _merge(LL1, LL2, L)
+def _getMiddle(head):
+    if head is None: return head
+    slow = fast = head
+    while (fast._next is not None and fast._next._next is not None):
+        slow = slow._next
+        fast = fast._next._next
+    return slow    
+
+
+def _merge_ll(a,b):
+    dummyHead = LinkedQueue._Node(None,None)
+    curr = dummyHead
+    while a is not None and b is not None:
+        if a._e < b._e:
+            curr._next = a; a = a._next
+        else:
+            curr._next = b; b = b._next 
+        curr = curr._next
+    curr._next = a if a is not None else b
+    return dummyHead._next
+
+
+''' iterative merge sort for arrays '''
+def _mergesort_iter(S):
+    ''' Sort the elements of list using merge sort bottom-up iteration '''
+    n = len(S)
+    logn = math.ceil(math.log(n,2))
+    src, dest = S, [None] * n
+    for i in (2**k for k in range(logn)):
+        for j in range(0,n,2*i):
+            _merge_iter(src,dest,j,i)
+        src, dest = dest, src
+    if S is not src:
+        S[0:n] = src[0:n]
+
+def _merge_iter(src,result,start,inc):
+    end1 = start + inc
+    end2 = min(start+2*inc, len(src))
+    x,y,z = start, start+inc, start
+    while x < end1 and y < end2:
+        if src[x] < src[y]:
+            result[z] = src[x]; x+=1
+        else:
+            result[z] = src[y]; y+=1
+        z += 1
+    if x < end1:
+        result[z:end2] = src[x:end1]
+    elif y < end2:
+        result[z:end2] = src[y:end2]
 
 
 if __name__ == '__main__':
     
-    ll = LinkedQueue()
-    ll.enqueue(4)
-    ll.enqueue(3)
-    ll.enqueue(2)
-    ll.enqueue(1)
-
-    _mergesort_linkedlist(ll)
-
-    print(ll)
+    l = LinkedQueue(4,5,1,2,6,9,7)
+    _mergesort_linkedlist(l)
+    print(l)
