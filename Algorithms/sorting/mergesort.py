@@ -1,14 +1,5 @@
-import prio_queue
 from linked_lists.linked_queue import LinkedQueue
 import math
-
-def heapsort(L):
-    '''
-    Heap sort implementation of the algorithm
-    time complexity : O(nlogn)
-    space complexity = O(1)
-    '''
-    prio_queue.heapsort.heap_sort(L)
 
 def mergesort(L):
     '''
@@ -47,7 +38,7 @@ def mergesort(L):
     
 
 ''' recursive merge sort linked list '''
-def _mergesort_linkedlist(L):
+def mergesort_linkedlist(L):
     if L.is_empty(): return L
     tail = [L._head._e] # should be max
     def _helper(head):
@@ -87,7 +78,7 @@ def _merge_ll(a,b):
 
 
 ''' iterative merge sort for arrays '''
-def _mergesort_iter(S):
+def mergesort_iter(S):
     ''' Sort the elements of list using merge sort bottom-up iteration '''
     n = len(S)
     logn = math.ceil(math.log(n,2))
@@ -113,10 +104,3 @@ def _merge_iter(src,result,start,inc):
         result[z:end2] = src[x:end1]
     elif y < end2:
         result[z:end2] = src[y:end2]
-
-
-if __name__ == '__main__':
-    
-    l = LinkedQueue(4,5,1,2,6,9,7)
-    _mergesort_linkedlist(l)
-    print(l)
