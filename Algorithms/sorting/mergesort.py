@@ -104,3 +104,16 @@ def _merge_iter(src,result,start,inc):
         result[z:end2] = src[x:end1]
     elif y < end2:
         result[z:end2] = src[y:end2]
+
+def decorated_merge_sort(data, key=None):
+    '''
+    used to sort sequence based on passed key function
+    If key is none natural ordering for elements will be used
+    '''
+    if key is not None:
+        for i in range(len(data)):
+            data[i] = (key(data[i]), data[i])
+    mergesort(data) # this will not work with current code in merge sort
+    if key is not None:
+        for i in range(len(data)):
+            data[i] = data[i][1]
