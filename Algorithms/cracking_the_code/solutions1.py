@@ -26,7 +26,38 @@ class FindMinInSortedRotatedSeq:
             return self.__min(lo, mid-1, S,current_min)
 
 
+
+class StringPermutations:
+    
+    def perm(self,S):
+        if len(S) == 0: 
+            return
+        res = [S[0]]
+        return self.__perm(res, S,1)
+    
+    def __perm(self,res,S,i):
+        perms = []
+        if i==len(S):
+            return res
+        while len(res) > 0:
+            word = res.pop()
+            perms.extend(self.__add(word,S[i]))
+        return self.__perm(perms,S,i+1)
+        
+    def __add(self,word,ch):
+        perms = []
+        orig = word
+        for i in range(len(word)):
+            perms.append(word[0:i] + ch + word[i:])
+            word = orig
+        perms.append(word+ch)
+        return perms
+    
 if __name__ == '__main__':
     t = FindMinInSortedRotatedSeq()
     res = t.min([5,4,3,1,2])
     print(res)
+
+
+    t = StringPermutations()
+    print(t.perm('matija'))
