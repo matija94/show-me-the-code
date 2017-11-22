@@ -16,6 +16,10 @@ def find_brute(T,P):
 
 
 def find_boyer_moore(T,P):
+    '''
+    alings pattern with text by matching up letter from text to last appearance of it in pattern and aligning. If there is no match for the letter in the pattern then
+    len(pattern) letters are skipped in text. This is improved technique over brute force
+    '''
     n, m = len(T), len(P)
     if m == 0: return 0
     last = {}
@@ -74,6 +78,6 @@ def compute_kmp_fail(P):
     
     
 if __name__ == '__main__':
-    i = find_kmp('matija', 'ja')
+    i = find_kmp('matiramati...', 'matiramatilu')
     print(i)
     
