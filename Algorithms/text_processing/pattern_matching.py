@@ -42,6 +42,8 @@ def find_boyer_moore(T,P):
     
 
 def find_kmp(T,P):
+    '''
+    '''
     n ,m = len(T), len(P)
     if m == 0: return 0
     fail = compute_kmp_fail(P)
