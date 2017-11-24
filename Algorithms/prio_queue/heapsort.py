@@ -20,13 +20,6 @@ def heap_sort(L):
     sorts list inplace(without using additional space) in increasing order
     Time complexity O(nlogn)
     '''
-    def _upheap(i,l):
-        parent = (i-1)//2
-        if parent >= 0 and l[i] > l[parent]:
-            l[i],l[parent] = l[parent],l[i]
-            _upheap(parent, l)
-    for i in range(len(L)): # make the whole array to 'hold max-heap property'
-        _upheap(i, L)
     def _downheap(i,l,n):
         big = (2*i)+1
         if big < n:
@@ -36,6 +29,9 @@ def heap_sort(L):
             if l[big] > l[i]:
                 l[i],l[big] = l[big],l[i]
             _downheap(big, l, n)
+    first_non_leaf = (len(L)-2)//2
+    for i in range(first_non_leaf,-1,-1): # make the whole array to 'hold max-heap property'
+        _downheap(i, L,len(L))
     for i in range(len(L)): # in each iteration add head of the max-heap to the end of the array
         n = len(L)-(i+1) # last index in the heap
         L[0],L[len(L)-(i+1)]=L[len(L)-(i+1)],L[0] # swap head of the max-heap with the last element from the array

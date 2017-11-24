@@ -172,9 +172,9 @@ class MinPriorityQueue(PriorityQueueBase):
         '''
         private function. Finds first non-leaf element and performs down heap for each element from first non-leaf to root
         '''
-        non_leaf = self._parent(len(self._data)-1)
-        while non_leaf >= 0:
-            self._downheap(non_leaf)
+        first_non_leaf = self._parent(len(self._data)-1)
+        for i in range(first_non_leaf,-1,-1):
+            self._downheap(i)
         
     def add(self, key, value):
         ''' adds key-value pair'''
@@ -255,7 +255,7 @@ class AdaptableMinPriorityQueue(MinPriorityQueue):
         return (loc._key, loc._value)
         
 if __name__ == '__main__':
-    mh = MinPriorityQueue()
+    mh = MinPriorityQueue(((9,'f'), (7,'s'), (5,'z'), (3,'t'), (1,'m')))
     mh.add(3, 'Matija')
     mh.add(1,'Ckilim')
     mh.add(0, 'MlTech')

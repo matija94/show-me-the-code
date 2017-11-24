@@ -1,3 +1,4 @@
+from cracking_the_code import solutions1
 def matrix_chain(d):
     '''
     d is list of n+1 numbers such that size of kth  matrix is d[k]-by-d[k+1]
@@ -59,9 +60,25 @@ def lcs(X,Y):
             else:
                 L[j+1][k+1] = max(L[j][k+1], L[j+1][k])
     return L
-    
-    
 
+def lcs_str(X,Y,L):
+    ''' return the longest common substring of X and Y given LCS table L '''
+    solution = []
+    j = len(X)
+    k = len(Y)
+    while L[j][k] > 0:
+        if X[j-1] == Y[k-1]:
+            solution.append(X[j-1])
+            j-=1
+            k-=1
+        elif L[j-1][k] >= L[j][k-1]:
+            j-=1
+        else:
+            k-=1
+    return ''.join(reversed(solution))
+    
 if __name__ == '__main__':
-    l = lcs('Matija','axaxtxixjxa')
-    print(l[6][11])
+    L = lcs('mama','mana')
+    p = solutions1.PrintTable()
+    p.print_table(L)
+    print(lcs_str('mama', 'mana', L))
