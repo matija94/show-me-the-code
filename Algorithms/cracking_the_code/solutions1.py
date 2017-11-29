@@ -77,7 +77,26 @@ class StringPermutations:
             word = orig
         perms.append(word+ch)
         return perms
+
+class KaratsubaMultiplication:
     
+    def product(self,a,b):
+        if a<10 or b<10:
+            return a*b
+        a = str(a)
+        b = str(b)
+        part_a = a[:len(a)//2] #if len(a) > 1 else a
+        part_b = a[len(a)//2:] #if len(a) > 1 else 0
+        part_c = b[:len(b)//2] #if len(b) > 1 else b
+        part_d = b[len(b)//2:] #if len(b) > 1 else 0
+        ac = self.product(int(part_a), int(part_c))
+        bd = self.product(int(part_b), int(part_d))
+        ad_bc = self.product(int(part_a)+int(part_b), int(part_c)+int(part_d)) - bd - ac
+        #if len(a) != len(b):
+            #return 10**1*ac+10**(len(a)//2)*ad_bc+bd
+        #else:
+        return 10**len(a)*ac+10**(len(a)//2)*ad_bc+bd
+        
 if __name__ == '__main__':
     t = FindMinInSortedRotatedSeq()
     res = t.min([5,4,3,1,2])
@@ -91,3 +110,6 @@ if __name__ == '__main__':
     L = [[2,3],[1,4]]
     t = PrintTable()
     t.print_table(L)
+    
+    t = KaratsubaMultiplication()
+    print(t.product(12,12))
