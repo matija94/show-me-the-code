@@ -13,6 +13,12 @@ class Vertex:
     def __hash__(self):
         return hash(id(self))
     
+    def __str__(self):
+        return 'Vertex [element={0}]'.format(self._element)
+    
+    def __repr__(self):
+        return str(self)
+    
 class Edge:
     '''
     light weight structure representing connection between two nodes in the graph
@@ -45,6 +51,12 @@ class Edge:
     
     def __hash__(self):
         return hash((self._origin, self._destination))
+    
+    def __str__(self):
+        return 'Vertex [origin={0}, dest={1}, element={2}]'.format(self._origin, self._destination, self._element)
+    
+    def __repr__(self):
+        return str(self)
     
 
 class Graph:
