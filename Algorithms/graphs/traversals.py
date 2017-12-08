@@ -1,5 +1,4 @@
-from graphs.base import Graph, Vertex
-from _collections import defaultdict
+from graphs.base import Graph
 def DFS(g, u, discovered):
     '''
     perform DFS on the Graph g starting at Vertex u
@@ -74,22 +73,33 @@ def BFS_complete(g):
     return forest
 
 
-def is_dag_visit(g, s, visited):
+def is_dag(g):
     '''
-    Returns true if the subgraph G with starting point at s has any cycles in it ( false otherwise )
+    Returns true if DAG ( directed graph) has any cycles in it ( false otherwise )
+    '''
+    def _traverse(v):
+        for e in g.incident_edges(v):
+            v1 = e.opposite(v)
+            if v1 not in visited:
+                in_process[v1] = True
+                visited[v1] = v
+                return _traverse(v)
+            elif in_process[v1]:
+                return False
+        return True
     
-    visited is dictionary mapping each vertex to it's parent vertex that used to discover it
-    '''
-    for e in g.incident_edges(s):
-        v = e.opposite(s)
+    
+    visited = {}
+    in_process={}
+    for v in g.vertices():
         if v not in visited:
-            visited[v] = s
-            return is_dag_visit(g, v, visited)
-        else:
-            return False
+            in_process[v] = True
+            visited[v] = None
+            if not _traverse(v):
+                return False
+            in_process[v] = False
     return True
-    
-                
+
 if __name__ == '__main__':
     g = Graph()
     a = g.insert_vertex('A')
