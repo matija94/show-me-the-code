@@ -100,6 +100,31 @@ def is_dag(g):
             in_process[v] = False
     return True
 
+
+def topological_sort(g):
+    '''
+    Return a list of vertices of directed acyclic graph g in topological order
+    
+    If graph g has a cycle, the result will be incomplete
+    '''
+
+    topo = []
+    ready = []
+    incount = {}
+    for v in g.vertices():
+        incount[v] = g.degree(v, False) # incoming
+        if incount[v] == 0:
+            ready.append(v)
+    while len(ready) > 0:
+        s = ready.pop()
+        topo.append(s)
+        for e in g.incident_edges(s):
+            v = e.opposite(s)
+            incount[v] -= 1
+            if incount[v] == 0:
+                ready.append(v)
+    return topo
+
 if __name__ == '__main__':
     g = Graph()
     a = g.insert_vertex('A')
