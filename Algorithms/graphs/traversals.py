@@ -1,4 +1,5 @@
 from graphs.base import Graph
+from prio_queue.structures import AdaptableMinPriorityQueue
 def DFS(g, u, discovered):
     '''
     perform DFS on the Graph g starting at Vertex u
@@ -124,6 +125,35 @@ def topological_sort(g):
             if incount[v] == 0:
                 ready.append(v)
     return topo
+
+
+def dijkstra(G,s):
+    
+    d = {}
+    cloud = {}
+    pq = AdaptableMinPriorityQueue()
+    pqlocator = {}
+    
+    for v in g.vertices():
+        if v is s:
+            d[v] = 0
+        else:
+            d[v] = float('inf')
+        pqlocator[v] = pq.add(d[v], v)
+        
+    while not pq.is_empty():
+        key, u = pq.remove_min()
+        cloud[u] = key
+        del pqlocator[u]
+        
+        for e in g.incident_edges(u):
+            v = e.opposite()
+            if v not in cloud:
+                wgt = e.element()
+                if d[u] + wgt < d[v]:
+                    d[v] = d[u] + wgt
+                    pq.update(pqlocator[v], d[v], v)
+    return cloud
 
 if __name__ == '__main__':
     g = Graph()

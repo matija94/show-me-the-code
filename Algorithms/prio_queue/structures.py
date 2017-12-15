@@ -1,5 +1,5 @@
 from linked_lists.double_linked import PositionalList
-from trees.concrete import ArrayBinaryTree
+
 class PriorityQueueBase:
     
     ''' abstract base class for a priority queue '''
@@ -93,41 +93,6 @@ class SortedPriorityQueue(PriorityQueueBase):
         p = self._data.first()
         item = self._data.delete(p)
         return (item._key, item._value)
-
-class HeapPriorityQueue(PriorityQueueBase):
-    '''
-    TODO : finish impl of min heap prio queue using arraybinarytree
-    '''
-    def __init__(self):
-        self._data = ArrayBinaryTree()
-        
-    def __len__(self):
-        return len(self._data)
-    
-    def _swap(self,pos1,pos2):
-        i = pos1._index
-        j = pos2._index
-        self._data._nodes[i], self._data._nodes[j] = self._data._nodes[j], self._data._nodes[i]
-    
-    def _upheap(self,pos):
-        parent = self._data.parent(pos)
-        if parent is not None and pos.element() < parent.element():
-            self._swap(pos, parent)
-            self._upheap(parent)
-    
-    def _downheap(self,pos):
-        left = self._data.left(pos)
-        if left is not None:
-            small = left
-            right = self._data.right(pos)
-            if right is None and right.element() < small:
-                small = right
-            if small.element() < pos.element():
-                self._swap(small, pos)
-                self._downheap(small)
-    '''
-    #### MISSING PUBLIC FUNCTIONS ####
-    '''
 
 class MinPriorityQueue(PriorityQueueBase):
     
