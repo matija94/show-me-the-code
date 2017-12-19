@@ -155,6 +155,17 @@ def dijkstra(G,s):
                     pq.update(pqlocator[v], d[v], v)
     return cloud
 
+def shortest_path_tree(g,s,d):
+    tree = {}
+    for v in d:
+        if v is not s:
+            for e in g.incident_edges(v, False): # consider only incoming edges to this vertex
+                u = e.opposite(v)
+                weight = e.element()
+                if d[u] + weight == d[v]:
+                    tree[v] = e
+    return tree
+
 if __name__ == '__main__':
     g = Graph()
     a = g.insert_vertex('A')
