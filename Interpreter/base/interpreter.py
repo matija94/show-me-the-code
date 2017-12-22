@@ -1,4 +1,4 @@
-INTEGER,PLUS,EOF = 'INTEGER', 'PLUS', 'EOF'
+INTEGER,PLUS,MINUS,EOF = 'INTEGER', 'PLUS', 'MINUS', 'EOF'
 
 
 class Token:
@@ -21,9 +21,32 @@ class Interpreter:
         self.text = text
         self.pos = 0
         self.current_token = None
+        self.current_char = self.text[self.pos]
         
     def error(self):
         raise Exception('Error parsing input')
+    
+    def advance(self):
+        '''
+        Advance the 'pos' pointer and set the 'current_char' variable
+        '''
+        self.pos+=1
+        if self.pos > len(self.text) - 1:
+            self.current_char = None
+        else:
+            self.current_char = self.text[self.pos]
+            
+    
+    def skip_whitespace(self):
+        while self.current_char is not None and self.current_char.isspace():
+            self.advance()
+    
+    def integer(self):
+        result = ''
+        while self.current_char is not None and self.current_char.isdigit():
+            result += self.current_char
+            self.advance()
+        return int(result)
     
     def get_next_token(self):
         
@@ -34,22 +57,22 @@ class Interpreter:
         
         current_char = text[self.pos]
         
-        #handle spaces ( in case client requests result for expression '3 + 4' )
-        if current_char == ' ':
-            self.pos+=1
-            return self.get_next_token()
+        if current_char.isspace():
+            self.skip_whitespace()
         
-        if current_char.isdigit():
-            token = Token(INTEGER, int(current_char))
-            self.pos+=1
-            return token
+        elif current_char.isdigit():
+            return Token(INTEGER, self.integer())
         
-        if current_char == '+':
-            token = Token(PLUS, current_char)
-            self.pos+=1
-            return token
+        elif current_char == '+':
+            self.advance()
+            return Token(PLUS, current_char)
         
-        self.error()
+        elif self.current_char == '-':
+            self.advance()
+            return Token(MINUS, '-')
+        
+        else:
+            self.error()
         
     
     def eat(self, token_type):
@@ -58,28 +81,28 @@ class Interpreter:
         else:
             self.error()
     
-    
+    def term(self):
+        token = self.current_token
+        self.eat(INTEGER)
+        return token.value
+        
     def expr(self):
         self.current_token = self.get_next_token()
         
-        left = self.current_token
-        self.eat(INTEGER)
-        
-        operator = self.current_token
-        self.eat(PLUS)
-        
-        right = self.current_token
-        self.eat(INTEGER)
-        
-        
-        result = left.value + right.value
+        result = self.term()
+        while self.current_token.type in (PLUS, MINUS):
+            token = self.current_token
+            if token.type == PLUS:
+                self.eat(PLUS)
+                result += self.term()
+            elif token.type == MINUS:
+                self.eat(MINUS)
+                result -= self.term()
         return result
     
 def main():
     while True:
         try:
-            # To run under Python3 replace 'raw_input' call
-            # with 'input'
             text = input('calc> ')
         except EOFError:
             break
