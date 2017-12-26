@@ -245,7 +245,8 @@ we need to align both their shooting percentage and the number of attempted shot
 </div>
 ```{r}
 # type your code for the Exercise here, and Knit
-sim_basket <- sample(shot_outcomes, size=133, prob=c(0.45,0.55))
+sim_basket <- sample(shot_outcomes, size=133, prob=c(0.45,0.55), replace=TRUE)
+table(sim_basket)
 ```
 
    
@@ -269,7 +270,8 @@ a hot hand.
 </div>
 ```{r sim-streak-lengths}
 # type your code for the Exercise here, and Knit
-
+sim_streak = calc_streak(sim_basket)
+sim_streak
 ```
    
 <div id="exercise">
@@ -277,7 +279,8 @@ a hot hand.
 </div>
 ```{r plot-sim-streaks}
 # type your code for the Exercise here, and Knit
-
+ggplot(data = sim_streak, aes(x = length)) +
+  geom_histogram(binwidth = 1)
 ```
 
 4.  If you were to run the simulation of the independent shooter a second time, how 
