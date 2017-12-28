@@ -1,4 +1,4 @@
-package backend.compiler;
+package backend.interpreter;
 
 import backend.Backend;
 import intermediate.ICode;

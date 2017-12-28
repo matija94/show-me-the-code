@@ -1,7 +1,7 @@
 package backend;
 
 import backend.compiler.CodeGenerator;
-import backend.compiler.Executor;
+import backend.interpreter.Executor;
 
 /**
  * 
@@ -11,10 +11,10 @@ public class BackendFactory {
 
 	
 	public static Backend createBackend(String component) throws Exception {
-		if (component.equalsIgnoreCase("compiler")) {
+		if (component.equalsIgnoreCase("compile")) {
 			return new CodeGenerator();
 		}
-		else if (component.equalsIgnoreCase("interpreter")) {
+		else if (component.equalsIgnoreCase("interpret")) {
 			return new Executor();
 		}
 		else {

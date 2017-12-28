@@ -15,7 +15,7 @@ public class Token {
 
 	public Token(Source source) throws Exception {
 		this.source = source;
-		this.setLineNum(source.getLineNum());
+		this.lineNum = source.getLineNum();
 		this.position = source.getCurrentPos();
 		
 		extract();
@@ -64,5 +64,21 @@ public class Token {
 
 	public int getLineNum() {
 		return lineNum;
+	}
+	
+	public TokenType getType() {
+		return type;
+	}
+	
+	public int getPosition() {
+		return position;
+	}
+	
+	public String getText() {
+		return text;
+	}
+	
+	public Object getValue() {
+		return value;
 	}
 }

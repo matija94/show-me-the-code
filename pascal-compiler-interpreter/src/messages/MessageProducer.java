@@ -19,5 +19,5 @@ public interface MessageProducer {
 	 * Notify listeners after setting the message
 	 * @param message the message to set
 	 */
-	public void sendMessage(Message message)
+	public void sendMessage(Message message);
 }

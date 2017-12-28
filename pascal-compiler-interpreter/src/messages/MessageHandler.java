@@ -37,7 +37,7 @@ public class MessageHandler {
 	}
 	
 	private void notifyListeners() {
-		listeners.forEach(listener -> listener.messageRecieved(message));
+		listeners.forEach(listener -> listener.messageReceived(message));
 	}
 
 }
