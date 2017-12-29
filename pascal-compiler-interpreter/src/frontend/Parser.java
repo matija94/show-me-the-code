@@ -1,6 +1,8 @@
 package frontend;
 import intermediate.ICode;
 import intermediate.SymTab;
+import intermediate.SymTabFactory;
+import intermediate.SymTabStack;
 import messages.*;
 
 /**
@@ -9,11 +11,11 @@ import messages.*;
  */
 public abstract class Parser implements MessageProducer {
 
-	protected static SymTab symTab; // generated symbol table
+	protected static SymTabStack symTabStack; // symbol table stack
 	protected static MessageHandler messageHandler;
 	
 	static {
-		symTab = null;
+		symTabStack = SymTabFactory.createSymTabStack();
 		messageHandler = new MessageHandler();
 	}
 	
