@@ -16,7 +16,7 @@ public class PascalStringToken extends PascalToken {
 		StringBuilder valueBuffer = new StringBuilder();
 		
 		char currentChar = nextChar(); // consume initial quote
-		textBuffer.append('\'');
+		textBuffer.append('\"');
 		
 		// get string characters
 		do {
@@ -26,15 +26,15 @@ public class PascalStringToken extends PascalToken {
 			}
 			
 			// anything except single quote and end of file
-			if ( (currentChar != '\'') && (currentChar != Source.EOF)) {
+			if ( (currentChar != '\"') && (currentChar != Source.EOF)) {
 				textBuffer.append(currentChar);
 				valueBuffer.append(currentChar);
 				currentChar = nextChar(); // consume
 			}
 			
 			// quote ? each pair of adjacent quotes represents a single-quote.
-			if (currentChar == '\'') {
-				while ((currentChar == '\'') && (peekChar() == '\'')) {
+			if (currentChar == '\"') {
+				while ((currentChar == '\"') && (peekChar() == '\"')) {
 					textBuffer.append("'");
 					valueBuffer.append(currentChar);
 					// consume two characters
@@ -42,11 +42,11 @@ public class PascalStringToken extends PascalToken {
 					currentChar = nextChar();
 				}
 			}
-		} while ((currentChar != '\'') && (currentChar != Source.EOF));
+		} while ((currentChar != '\"') && (currentChar != Source.EOF));
 		
-		if (currentChar == '\'') {
+		if (currentChar == '\"') {
 			nextChar(); // consume final quote
-			textBuffer.append('\'');
+			textBuffer.append('\"');
 			
 			type = PascalTokenType.STRING;
 			value = valueBuffer.toString();

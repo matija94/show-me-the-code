@@ -43,7 +43,7 @@ public class SymTabStackImpl extends ArrayList<SymTab> implements SymTabStack {
 
 	@Override
 	public SymTabEntry lookup(String name) {
-		return null;
+		return lookupLocal(name);
 	}
 
 }

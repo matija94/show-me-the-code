@@ -1,5 +1,9 @@
 package intermediate;
 
+import intermediate.symtabimpl.SymTabEntryImpl;
+import intermediate.symtabimpl.SymTabImpl;
+import intermediate.symtabimpl.SymTabStackImpl;
+
 public class SymTabFactory {
 
 	/**

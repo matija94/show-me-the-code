@@ -64,19 +64,18 @@ public class PascalSpecialSymbolToken extends PascalToken {
 			done = true;
 			break;
 		default:
-			nextChar();
-			type = PascalTokenType.ERROR;
-			value = PascalErrorCode.INVALID_CHARACTER;
-			break;
-		}
-		if (!done) {
 			if (PascalTokenType.SPECIAL_SYMBOLS.containsKey(Character.toString(currentChar))) {
 				nextChar();
-				done = true;
 			}
+			else {
+				nextChar();
+				type = PascalTokenType.ERROR;
+				value = PascalErrorCode.INVALID_CHARACTER;
+			}
+			break;
 		}
 		
-		if (done && type == null) {
+		if (type == null) {
 			type = PascalTokenType.SPECIAL_SYMBOLS.get(text);
 		}
 	}

@@ -42,7 +42,7 @@ public class PascalScanner extends Scanner {
 		else if (Character.isDigit(currentChar)) {
 			token = new PascalNumberToken(source);
 		}
-		else if (currentChar == '\'') {
+		else if (currentChar == '\"') {
 			token = new PascalStringToken(source);
 		}
 		else if (PascalTokenType.SPECIAL_SYMBOLS
@@ -73,7 +73,7 @@ public class PascalScanner extends Scanner {
 				}
 			}
 			else {
-				currentChar = currentChar(); // consume whitespace 
+				currentChar = nextChar(); // consume whitespace 
 			}
 		}
 	}

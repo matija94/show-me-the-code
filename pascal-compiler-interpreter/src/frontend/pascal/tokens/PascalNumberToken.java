@@ -10,6 +10,13 @@ public class PascalNumberToken extends PascalToken {
 		super(source);
 	}
 
+	@Override
+	protected void extract() throws Exception {
+		StringBuilder textBuffer = new StringBuilder();
+		extractNumber(textBuffer);
+		text = textBuffer.toString();
+	}
+	
 	protected void extractNumber(StringBuilder textBuffer) throws Exception {
 
 		String wholeDigits = null; // digits before decimal point
@@ -134,7 +141,7 @@ public class PascalNumberToken extends PascalToken {
 			integerValue = 10 * integerValue + Character.getNumericValue(digits.charAt(index++));
 		}
 
-		if (integerValue > prevValue) {
+		if (integerValue >= prevValue) {
 			return integerValue;
 		}
 

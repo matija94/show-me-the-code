@@ -96,7 +96,7 @@ class KaratsubaMultiplication:
             #return 10**1*ac+10**(len(a)//2)*ad_bc+bd
         #else:
         return 10**len(a)*ac+10**(len(a)//2)*ad_bc+bd
-        
+
 if __name__ == '__main__':
     t = FindMinInSortedRotatedSeq()
     res = t.min([5,4,3,1,2])

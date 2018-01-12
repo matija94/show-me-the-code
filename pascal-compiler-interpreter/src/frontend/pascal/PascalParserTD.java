@@ -2,9 +2,9 @@ package frontend.pascal;
 
 import frontend.EofToken;
 import frontend.Parser;
-import frontend.Scanner;
 import frontend.Token;
 import frontend.TokenType;
+import intermediate.SymTabEntry;
 import messages.Message;
 import messages.MessageType;
 
@@ -12,12 +12,12 @@ import messages.MessageType;
  * TOP-DOWN Pascal parser
  *
  */
-public class PascalParserTD extends Parser{
+public class PascalParserTD extends Parser {
 
 	protected static PascalErrorHandler errorHandler = new PascalErrorHandler();
 	
-	public PascalParserTD(Scanner scanner) {
-		super(scanner);
+	public PascalParserTD(PascalParserTD parent) {
+		super(parent.getScanner());
 	}
 	
 	/**
@@ -33,17 +33,17 @@ public class PascalParserTD extends Parser{
 			while (!((token=nextToken()) instanceof EofToken)) {
 				TokenType type = token.getType();
 				
-				if (type != PascalTokenType.ERROR) {
+				if (type == PascalTokenType.IDENTIFIER) {
+					String name = token.getText().toLowerCase();
 					
-					// format each token
-					sendMessage(new Message(MessageType.TOKEN, 
-											new Object[] {token.getLineNum(),
-													token.getPosition(),
-													type,
-													token.getText(),
-													token.getValue()}));
+					SymTabEntry entry = symTabStack.lookup(name);
+					if (entry == null) {
+						entry = symTabStack.enterLocal(name);
+					}
+					
+					entry.appendLineNumber(token.getLineNum());
 				}
-				else {
+				else if (type == PascalTokenType.ERROR) {
 					errorHandler.flag(token, (PascalErrorCode) token.getValue(), 
 							this);
 				}

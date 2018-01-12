@@ -10,6 +10,7 @@ import frontend.TokenType;
 import frontend.pascal.PascalTokenType;
 import intermediate.ICode;
 import intermediate.SymTab;
+import intermediate.SymTabStack;
 import messages.*;
 
 public class Pascal {
@@ -18,16 +19,22 @@ public class Pascal {
 	private Source source;
 	private ICode iCode;
 	private SymTab symTab;
+	private SymTabStack symTabStack;
 	private Backend backend;
 
 	public Pascal(String operation, String filePath, String flags) {
 		try {
+			
+			boolean intermediate = flags.indexOf('i') > -1;
+			boolean xref = flags.indexOf('x') > -1;
+			
 			source = new Source(new BufferedReader(new FileReader(filePath)));
 			source.addMessageListener(new SourceMessageListener());
 
 			parser = FrontendFactory.createPraser("pascal", "top-down", source);
 			parser.addMessageListener(new ParserMessageListener());
 
+			
 			backend = BackendFactory.createBackend(operation);
 			backend.addMessageListener(new BackendMessageListener());
 
@@ -35,8 +42,18 @@ public class Pascal {
 			source.close();
 
 			iCode = parser.getICode();
-			symTab = parser.getSymTab();
+			symTabStack = parser.getSymTabStack();
 
+			if (xref) {
+				CrossReferencer crossReferencer = new CrossReferencer();
+				crossReferencer.print(symTabStack);
+			}
+			
+			if (intermediate) {
+				ParserTreePrinter ptp = new ParserTreePrinter(System.out);
+				ptp.print(iCode);
+			}
+			
 			backend.process(iCode, symTab);
 
 		} catch (Exception e) {
