@@ -21,11 +21,17 @@ public class StatementParser extends PascalParserTD {
 		ICodeNode statementNode = null;
 		
 		switch ((PascalTokenType) token.getType()) {
-		case BEGIN: {
-			CompoundStatementParser csp = new CompoundStatementParser(this);
-			statementNode = csp.parse(token);
-		}
-			
+		
+			case BEGIN: {
+				CompoundStatementParser csp = new CompoundStatementParser(this);
+				statementNode = csp.parse(token);
+				break;
+			}
+		
+			case IDENTIFIER: {
+				
+			}
+		
 			break;
 
 		default:
