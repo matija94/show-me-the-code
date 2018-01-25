@@ -97,6 +97,22 @@ class KaratsubaMultiplication:
         #else:
         return 10**len(a)*ac+10**(len(a)//2)*ad_bc+bd
 
+class BinaryToDecimal:
+    
+    base=2
+    
+    def convert(self,binary_str):
+        n = len(binary_str)
+        value = 0
+        for i in range(n-1,-1,-1):
+            digit = int(binary_str[i])
+            if digit == 1:
+                exp = n-i-1
+                value += BinaryToDecimal.base**exp
+        return value
+
+
+
 if __name__ == '__main__':
     t = FindMinInSortedRotatedSeq()
     res = t.min([5,4,3,1,2])
@@ -113,3 +129,6 @@ if __name__ == '__main__':
     
     t = KaratsubaMultiplication()
     print(t.product(12,12))
+
+    bintodec = BinaryToDecimal()
+    print(bintodec.convert('1010'))

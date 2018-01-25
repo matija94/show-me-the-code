@@ -56,7 +56,7 @@ public abstract class Parser implements MessageProducer {
 	 * @throws Exception if an error occurred.
 	 */
 	public Token nextToken() throws Exception{
-		return getScanner().nextToken();
+		return this.scanner.nextToken();
 	}
 	
 	/**
