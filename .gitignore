@@ -5,3 +5,4 @@
 __pycache__/
 .worksheet/
 **/Debug
+**/bin
