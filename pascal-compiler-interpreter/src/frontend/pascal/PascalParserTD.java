@@ -34,49 +34,6 @@ public class PascalParserTD extends Parser {
 		super(parent.getScanner());
 	}
 	
-	/**
-	* Parse a Pascal source program and generate the symbol table
-	* and the intermediate code.
-	*/
-	/*@Override
-	public void parse() throws Exception {
-		Token token;
-		long startTime = System.currentTimeMillis();
-		
-		try {
-			while (!((token=nextToken()) instanceof EofToken)) {
-				TokenType type = token.getType();
-				
-				if (type == PascalTokenType.IDENTIFIER) {
-					String name = token.getText().toLowerCase();
-					
-					SymTabEntry entry = symTabStack.lookup(name);
-					if (entry == null) {
-						entry = symTabStack.enterLocal(name);
-					}
-					
-					entry.appendLineNumber(token.getLineNum());
-				}
-				else if (type == PascalTokenType.ERROR) {
-					errorHandler.flag(token, (PascalErrorCode) token.getValue(), 
-							this);
-				}
-			}
-			
-			// send the parser summary message
-			float elapsedTime = (System.currentTimeMillis() - startTime)/1000.0f;
-			sendMessage(new Message(MessageType.PARSER_SUMMARY, 
-					new Number[] {token.getLineNum(),
-								getErrorCount(),
-								elapsedTime}));
-		}
-		catch (Exception e) {
-			errorHandler.abortTranslation(PascalErrorCode.IO_ERROR, this);
-		}
-	}
-*/
-
-	
 	@Override
 	public void parse() throws Exception {
 		long startTime = System.currentTimeMillis();

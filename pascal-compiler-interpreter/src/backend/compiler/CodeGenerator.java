@@ -3,6 +3,7 @@ package backend.compiler;
 import backend.Backend;
 import intermediate.ICode;
 import intermediate.SymTab;
+import intermediate.SymTabStack;
 import messages.Message;
 import messages.MessageType;
 
@@ -16,7 +17,7 @@ public class CodeGenerator extends Backend{
 	* @throws Exception if an error occurred.
 	*/
 	@Override
-	public void process(ICode iCode, SymTab symTab) throws Exception {
+	public void process(ICode iCode, SymTabStack symTabStack) throws Exception {
 		long startTime = System.currentTimeMillis();
 		float elapsedTime = (System.currentTimeMillis() - startTime)/1000.0f;
 		int instructionCount = 0;
