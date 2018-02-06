@@ -19,6 +19,8 @@ public class Executor extends Backend{
 		errorHandler = new RuntimeErrorHandler();
 	}
 	
+	public Executor() {}
+	
 
 	/**
 	 * Constructor for subclasses.

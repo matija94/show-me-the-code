@@ -18,7 +18,6 @@ public class Pascal {
 	private Parser parser;
 	private Source source;
 	private ICode iCode;
-	private SymTab symTab;
 	private SymTabStack symTabStack;
 	private Backend backend;
 
@@ -54,7 +53,7 @@ public class Pascal {
 				ptp.print(iCode);
 			}
 			
-			backend.process(iCode, symTab);
+			backend.process(iCode, symTabStack);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -197,7 +196,9 @@ public class Pascal {
 			+ "\n%,20.2f seconds total execution time.\n";
 	private static final String COMPILER_SUMMARY_FORMAT = "\n%,20d instructions generated."
 			+ "\n%,20.2f seconds total code generation time.\n";
-
+	private static final String ASSIGN_FORMAT =
+			" >>> LINE %03d: %s = %s\n";
+	
 	/**
 	 * Listener for back end messages.
 	 */
@@ -226,6 +227,28 @@ public class Pascal {
 				System.out.printf(COMPILER_SUMMARY_FORMAT, instructionCount, elapsedTime);
 				break;
 			}
+			case RUNTIME_ERROR: {
+				Object body[] = (Object[]) message.getBody();
+				String errorMessage = (String) body[0];
+				Integer lineNumber = (Integer) body[1];
+				
+				System.out.println("*** RUNTIME ERROR");
+				if (lineNumber != null) {
+					System.out.println(" AT LINE " + String.format("%03d", lineNumber));
+				}
+				System.out.println(": " + errorMessage);
+				break;
+			}
+			
+			case ASSIGN: {
+				Object body[] = (Object []) message.getBody();
+				int lineNumber = (Integer) body[0];
+				String variableName = (String) body[1];
+				Object value = body[2];
+				
+				System.out.printf(ASSIGN_FORMAT, lineNumber, variableName, value);
+			}
+			
 			}
 		}
 	}

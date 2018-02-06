@@ -66,7 +66,7 @@ public class PascalParserTD extends Parser {
 			}
 			
 			// send the parser summary message
-			float elapsedTime = (System.currentTimeMillis() - startTime);
+			float elapsedTime = (System.currentTimeMillis() - startTime) / 1000f;
 			sendMessage(new Message(MessageType.PARSER_SUMMARY, 
 									new Number[] {token.getLineNum(), getErrorCount(), elapsedTime}));
 		}
