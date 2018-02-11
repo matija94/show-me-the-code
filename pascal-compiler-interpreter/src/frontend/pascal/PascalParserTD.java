@@ -1,6 +1,7 @@
 package frontend.pascal;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 import frontend.EofToken;
 import frontend.Parser;
@@ -76,7 +77,23 @@ public class PascalParserTD extends Parser {
 	}
 	
 	
-	
+	public Token synchronize(EnumSet syncSet) throws Exception{
+		Token token = currentToken();
+		
+		// if the current token is not in the sync set then it is unexpected and parser must recover
+		if (!syncSet.contains(token.getType())) {
+			
+			// flag unexpected token
+			errorHandler.flag(token, PascalErrorCode.UNEXPECTED_TOKEN, this);
+			
+			// recover by skipping tokens that are not in the sync set
+			do {
+				token = nextToken();
+			} while (!(token instanceof EofToken) && syncSet.contains(token.getType()));
+		}
+		
+		return token;
+	}
 	
 	
 	/**

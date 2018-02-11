@@ -9,7 +9,7 @@ import messages.MessageType;
 public class RuntimeErrorHandler {
 
 	
-	private static final int MAX_ERRORS = 5;
+	private static final int MAX_ERRORS = 0;
 	
 	private static int errorCount = 0;
 	

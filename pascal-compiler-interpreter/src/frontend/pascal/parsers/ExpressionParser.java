@@ -1,5 +1,6 @@
 package frontend.pascal.parsers;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 
 import frontend.Token;
@@ -29,6 +30,10 @@ public class ExpressionParser extends StatementParser {
 	
 	private static final HashMap<PascalTokenType, ICodeNodeType> REL_OPS_MAP =
 			new HashMap<>();
+	
+	static final EnumSet<PascalTokenType> EXPR_START_SET = 
+			EnumSet.of(PascalTokenType.PLUS, PascalTokenType.MINUS, PascalTokenType.IDENTIFIER, PascalTokenType.INTEGER, PascalTokenType.REAL, PascalTokenType.STRING, PascalTokenType.NOT,
+					PascalTokenType.LEFT_PAREN);
 	
 	static {
 		REL_OPS_MAP.put(PascalTokenType.EQUALS, ICodeNodeTypeImpl.EQ);

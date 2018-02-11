@@ -144,7 +144,7 @@ public class ExpressionExecutor extends Executor {
 			}
 			else {
 				float value1 = operand1 instanceof Integer ? (Integer) operand1 : (Float) operand1;
-				float value2 = operand2 instanceof Integer ? (Integer) operand1 : (Float) operand2;
+				float value2 = operand2 instanceof Integer ? (Integer) operand2 : (Float) operand2;
 				
 				switch (type) {
 					case ADD: return value1 + value2;
