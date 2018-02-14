@@ -7,11 +7,9 @@ import frontend.EofToken;
 import frontend.Parser;
 import frontend.Scanner;
 import frontend.Token;
-import frontend.TokenType;
 import frontend.pascal.parsers.StatementParser;
 import intermediate.ICodeFactory;
 import intermediate.ICodeNode;
-import intermediate.SymTabEntry;
 import messages.Message;
 import messages.MessageType;
 
@@ -77,7 +75,7 @@ public class PascalParserTD extends Parser {
 	}
 	
 	
-	public Token synchronize(EnumSet syncSet) throws Exception{
+	public Token synchronize(EnumSet<PascalTokenType> syncSet) throws Exception{
 		Token token = currentToken();
 		
 		// if the current token is not in the sync set then it is unexpected and parser must recover
@@ -89,7 +87,7 @@ public class PascalParserTD extends Parser {
 			// recover by skipping tokens that are not in the sync set
 			do {
 				token = nextToken();
-			} while (!(token instanceof EofToken) && syncSet.contains(token.getType()));
+			} while (!(token instanceof EofToken) && !syncSet.contains(token.getType()));
 		}
 		
 		return token;

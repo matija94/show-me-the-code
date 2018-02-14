@@ -57,7 +57,7 @@ public class StatementParser extends PascalParserTD {
 				statementNode = rsp.parse(token);
 				break;
 			}
-			
+			/*
 			case WHILE: {
 				WhileStatementParser wsp = new WhileStatementParser(this);
 				statementNode = wsp.parse(token);
@@ -80,7 +80,7 @@ public class StatementParser extends PascalParserTD {
 				CaseStatementParser csp = new CaseStatementParser(this);
 				statementNode = csp.parse(token);
 				break;
-			}
+			}*/
 			
 			default: {
 				statementNode = ICodeFactory.createICodeNode(ICodeNodeTypeImpl.NO_OP);

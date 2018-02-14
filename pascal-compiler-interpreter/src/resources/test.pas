@@ -1,5 +1,6 @@
 BEGIN
-four := 4;
-test := 2+8/four;
-zeroDivision := test/0;
+	num := 1024;
+	REPEAT
+		num := num/two;		
+	UNTIL num > 1;
 END .
