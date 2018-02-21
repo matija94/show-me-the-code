@@ -21,7 +21,7 @@ public class StatementParser extends PascalParserTD {
 	
 	// synchronization set for starting a statement
 	protected static final EnumSet<PascalTokenType> STMT_START_SET = 
-			EnumSet.of(PascalTokenType.BEGIN, PascalTokenType.CASE, PascalTokenType.IF, PascalTokenType.REPEAT, PascalTokenType.WHILE, PascalTokenType.IDENTIFIER, PascalTokenType.SEMICOLON);
+			EnumSet.of(PascalTokenType.BEGIN, PascalTokenType.CASE, PascalTokenType.IF, PascalTokenType.REPEAT, PascalTokenType.WHILE,PascalTokenType.FOR,PascalTokenType.IDENTIFIER, PascalTokenType.SEMICOLON);
 	
 	// synchronization set for following a statement
 	protected static final EnumSet<PascalTokenType> STMT_FOLLOW_SET = 
@@ -57,6 +57,13 @@ public class StatementParser extends PascalParserTD {
 				statementNode = rsp.parse(token);
 				break;
 			}
+
+			case FOR: {
+				ForStatementParser fsp = new ForStatementParser(this);
+				statementNode = fsp.parse(token);
+				break;
+			}
+			
 			/*
 			case WHILE: {
 				WhileStatementParser wsp = new WhileStatementParser(this);
@@ -64,11 +71,6 @@ public class StatementParser extends PascalParserTD {
 				break;
 			}
 			
-			case FOR: {
-				ForStatementParser fsp = new ForStatementParser(this);
-				statementNode = fsp.parse(token);
-				break;
-			}
 			
 			case IF: {
 				IfStatementParser isp = new IfStatementParser(this);
