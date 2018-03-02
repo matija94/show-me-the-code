@@ -8,6 +8,14 @@ int strlength(const char s[]) {
 	return i;
 }
 
+int strlenp(char *s) {
+	int i =0;
+	for(;*s!='\0'; s++) {
+		i++;
+	}
+	return i;
+}
+
 
 void reverse(char s[]) {
 	int c,i,j;
@@ -111,20 +119,38 @@ int strlindex(char s1[], char s2[]) {
 	else return -1;
 }
 
-
+/*
 int main(void) {
 	double d, parseDouble(char []); // if no prototype for parseDouble is declared here then parseDouble when called would be considered as returning int and therefore produce meaningless results
-	/*char s1[] = "a-r0-9";
+	char s1[] = "a-r0-9";
 	char s2[30];
 	expand(s1,s2);
 	printf("%s\n", s2);
 	char s[5];
 	parseString(1541,s);
-	printf("%s\n",s);*/
+	printf("%s\n",s);
 	char s1[] = "ti";
 	char s2[] = "2.43";
 	d = parseDouble(s2);
-	printf("%.2f", d);
-}
+	printf("%.2f\n", d);
+
+
+
+
+	int x =1 ,y =2;
+
+	int *ip, *iq;
+
+	ip = &x;
+	printf("%d\n", *ip);
+	x = 2;
+	printf("%d\n", *ip);
+	*ip += 3;
+	printf("%d\n", *ip);
+	printf("%d\n", x);
+
+	iq = ip;
+	printf("%d\n", *iq);
+}*/
 
 

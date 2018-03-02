@@ -1,4 +1,4 @@
-#include <stdio.h>
+	#include <stdio.h>
 #define MAXLINE 1000 // maximum line input size
 
 int getLine(char s[],int lim);
