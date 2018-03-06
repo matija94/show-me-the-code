@@ -16,7 +16,7 @@ def quick_sort_queue(S):
         elif S.top() > pivot:
             G.enqueue(S.dequeue())
         else:
-            E.enqueue(S.dequeue)
+            E.enqueue(S.dequeue())
     
     quick_sort_queue(L)
     quick_sort_queue(G)

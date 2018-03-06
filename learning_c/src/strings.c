@@ -119,6 +119,19 @@ int strlindex(char s1[], char s2[]) {
 	else return -1;
 }
 
+void strcopy(char *s, char *p) {
+	while ((*s++=*p++)!='\0')
+		;
+}
+
+int strcmp(char *s, char *t) {
+	for (; *s == *t; s++, t++){
+		if (*s == '\0')
+			return 0;
+	}
+	return *s - *t;
+}
+
 /*
 int main(void) {
 	double d, parseDouble(char []); // if no prototype for parseDouble is declared here then parseDouble when called would be considered as returning int and therefore produce meaningless results
