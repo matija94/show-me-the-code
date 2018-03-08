@@ -3,7 +3,7 @@ var qs = require('querystring')
 exports.sendHtml = function(res,html) {
 	res.setHeader('Content-Type', 'text/html');
 	res.setHeader('Content-Length', Buffer.byteLength(html));
-	res.send(html);
+	res.end(html);
 };
 
 exports.parseReceivedData = function(req, cb) {
@@ -11,6 +11,7 @@ exports.parseReceivedData = function(req, cb) {
 	req.setEncoding('utf8');
 	req.on('data', chunk => body+=chunk);
 	req.on('end', () => {
+		console.log(body);
 		var data = qs.parse(body);
 		cb(data);
 	});
@@ -59,11 +60,11 @@ exports.archive = function(db,req,res) {
 
 exports.show = function(db,res,showArchived) {
 	var query = "SELECT * FROM work WHERE archived = $1 ORDER BY date DESC";
-	var achiveValue = (showArchived) ? 1 : 0;
-	db.query(query,[archiveValue], (err,rows) => {
+	var archiveValue = (showArchived) ? 1 : 0;
+	db.query(query,[archiveValue], (err,result) => {
 		if (err) throw err;
 		html = (showArchived) ? '' : '<a href="/archived">Archived Work</a><br/>';
-		html += exports.workHitListHtml(rows);
+		html += exports.workHitListHtml(result.rows);
 		html += exports.workFormHtml();
 		exports.sendHtml(res,html);
 	});
@@ -73,7 +74,7 @@ exports.showArchived = function(db,res) {
 	exports.show(db,res,true);
 };
 
-exports.workHitlistHtml = function(rows) {
+exports.workHitListHtml = function(rows) {
 	var html = '<table>';
 	for(var i in rows) {
 		html += '<tr>';

@@ -1,10 +1,10 @@
-var http = require('http')
-var work = require('.lib/timetrack')
-var postgres = require('pg')
+var http = require('http');
+var work = require('./lib/timetrack');
+var postgres = require('pg');
 
-var conString = "tcp://matija:sjm2254wow@localhost:5432/test";
-var client = new pg.Client(conString);
-var db = client.connect();
+var conString = "tcp://matija:sjm2254wow@localhost:5432/testing";
+var db = new postgres.Client(conString);
+db.connect();
 
 
 var server = http.createServer(function(req,res){
@@ -35,14 +35,16 @@ var server = http.createServer(function(req,res){
 
 db.query(
 		"CREATE TABLE IF NOT EXISTS work ("
-		+ "id INT(10) NOT NULL AUTO_INCREMENT, "
-		+ "hours DECIMAL(5,2) DEFAULT 0, "
-		+ "date DATE, "
-		+ "archived INT(1) DEFAULT 0, "
-		+ "description LONGTEXT,"
+		+ "id serial NOT NULL, "
+		+ "hours numeric(5,2) default 0, "
+		+ "date date, "
+		+ "archived smallint default 0,"
+		+ "description text,"
 		+ "PRIMARY KEY(id))",
-		function(err) {
-			if (err) throw err;
+		function(err, res) {
+			if (err) {
+				throw err;
+			}
 			console.log('Server started...');
 			server.listen(3000, '127.0.0.1');
 		}
