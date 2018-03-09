@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="remaining_money_sample">2000</string>
     <string name="category_image">Category image view</string>
+    <string name="transactions">Transaction</string>
+    <string name="categories">Categories</string>
+    <string name="savings">Savings</string>
 </resources>

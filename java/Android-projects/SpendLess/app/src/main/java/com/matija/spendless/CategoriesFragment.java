@@ -1,6 +1,9 @@
 package com.matija.spendless;
 
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.matija.spendless.model.Category;
+import com.matija.spendless.model.db.SpendLessDB;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by matija on 28.2.18..
@@ -37,7 +44,8 @@ public class CategoriesFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new CategoryAdapter(Arrays.asList("Bills", "Food", "Health", "Clothes", "Nightlife", "Sports", "Education"));
+        new CategoryFetcher().execute(); // category fetcher is supposed to instantiate adapter
+        //mAdapter = new CategoryAdapter(Arrays.asList("Bills", "Food", "Health", "Clothes", "Nightlife", "Sports", "Education"));
         mRecyclerView.setAdapter(mAdapter);
         return view;
     }
@@ -82,4 +90,25 @@ public class CategoriesFragment extends Fragment {
             return mCategories.size();
         }
     }
+
+    private class CategoryFetcher extends AsyncTask<Void, Void, List<Category>> {
+
+        @Override
+        protected List<Category> doInBackground(Void... voids) {
+            SpendLessDB db = SpendLessDB.getInstance(getActivity());
+            List<Category> allCategories = db.getCategoryDAO().getAllCategories();
+            return allCategories;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        protected void onPostExecute(List<Category> categories) {
+            List<String> categoryNames = categories
+                    .stream()
+                    .map(cat -> cat.getName())
+                    .collect(Collectors.toList());
+            mAdapter = new CategoryAdapter(categoryNames);
+        }
+    }
+
+
 }
