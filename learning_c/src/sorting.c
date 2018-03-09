@@ -6,9 +6,9 @@
  */
 
 
-void qsort(int v[], int left, int right) {
+void qsort(void *v[], int left, int right, int (*comp)(void *, void *)) {
 	int i, last;
-	void swap(int v[], int i, int j);
+	void swap(void *v[], int, int);
 
 	if (left>=right) {
 		return;
@@ -16,16 +16,17 @@ void qsort(int v[], int left, int right) {
 	swap(v, left, (left+right)/2);
 	last = left;
 	for(i=left+1;i<=right;i++) {
-		if (v[i] <= v[left])
+		if((*comp)(v[i], v[left]) < 0){
 			swap(v, ++last, i);
+		}
 	}
 	swap(v,left,last);
-	qsort(v,left,last-1);
-	qsort(v,last+1,right);
+	qsort(v,left,last-1, comp);
+	qsort(v,last+1,right, comp);
 }
 
-void swap(int v[], int i, int j){
-	int temp;
+void swap(void *v[], int i, int j){
+	void *temp;
 
 	temp = v[j];
 	v[i] = v[j];

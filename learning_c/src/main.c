@@ -12,7 +12,7 @@ int getint(int *);
 int strlenp(char *);
 char *month_name(int);
 
-main() {
+/*main() {
 	int *px;
 	int x =5, y =10;
 	px = &y;
@@ -24,7 +24,10 @@ main() {
 	char *s = "Matija";
 	printf("%s\n", s);
 
-	//char s[] = "Matija";
+
+	char *r[] = {{"Matija"}, {"Lukovic"}};
+	printf("%c\n", *++r[0]);
+
 	printf("Length of the array is %d\n", strlenp(s));
 
 	int a, b;
@@ -35,4 +38,4 @@ main() {
 
 	printf("a = %d; b = %d\n", a, b);
 
-}
+}*/
