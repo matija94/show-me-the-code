@@ -64,7 +64,6 @@ public class StatementParser extends PascalParserTD {
 				break;
 			}
 			
-			/*
 			case WHILE: {
 				WhileStatementParser wsp = new WhileStatementParser(this);
 				statementNode = wsp.parse(token);
@@ -78,6 +77,7 @@ public class StatementParser extends PascalParserTD {
 				break;
 			}
 			
+			/*
 			case CASE: {
 				CaseStatementParser csp = new CaseStatementParser(this);
 				statementNode = csp.parse(token);

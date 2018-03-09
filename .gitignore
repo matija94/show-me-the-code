@@ -6,3 +6,4 @@ __pycache__/
 .worksheet/
 **/Debug
 **/bin
+**/node_modules

@@ -1,0 +1,8 @@
+{
+  "name": "general",
+  "version": "0.0.1",
+  "description": "General - learning node",
+  "dependencies": {
+    "pg": "^7.4.1"
+  }
+}
