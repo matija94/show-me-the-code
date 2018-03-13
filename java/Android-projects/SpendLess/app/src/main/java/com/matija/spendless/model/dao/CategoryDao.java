@@ -1,5 +1,6 @@
-package com.matija.spendless.com.matija.spendless.model.dao;
+package com.matija.spendless.model.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -27,5 +28,5 @@ public interface CategoryDao {
     public void delete(Category... categories);
 
     @Query("SELECT * FROM category")
-    public List<Category> getAllCategories();
+    public LiveData<List<Category>> getAllCategories();
 }

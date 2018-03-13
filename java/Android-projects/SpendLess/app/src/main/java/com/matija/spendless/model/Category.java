@@ -1,5 +1,6 @@
 package com.matija.spendless.model;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -10,18 +11,32 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Category {
 
-    @PrimaryKey
-    private final Long id;
+    @PrimaryKey(autoGenerate = true)
+    private Long id = null;
 
     private String name;
 
-    public Category(final long id, String name) {
-        this.id = id;
+    private Integer drawableId;
+
+    public Category(String name, Integer drawableId) {
         this.name = name;
+        this.drawableId = drawableId;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getDrawableId() {
+        return drawableId;
+    }
+
+    public void setDrawableId(Integer drawableId) {
+        this.drawableId = drawableId;
     }
 
     public String getName() {
@@ -31,5 +46,4 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
-
 }

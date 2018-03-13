@@ -1,4 +1,4 @@
-package com.matija.spendless.com.matija.spendless.model.dao;
+package com.matija.spendless.model.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -26,6 +26,6 @@ public interface TransactionDao {
     @Delete
     public void delete(Transaction... transactions);
 
-    @Query("SELECT * FROM category WHERE category_id=:categoryId")
+    @Query("SELECT * FROM `transaction` WHERE category_id=:categoryId")
     List<Transaction> findAllTransactionsForCategory(final int categoryId);
 }

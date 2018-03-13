@@ -1,16 +1,22 @@
 package com.matija.spendless.model.db;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
-import com.matija.spendless.com.matija.spendless.model.dao.CategoryDao;
-import com.matija.spendless.com.matija.spendless.model.dao.TransactionDao;
+import com.matija.spendless.R;
 import com.matija.spendless.model.Category;
+import com.matija.spendless.model.Transaction;
 import com.matija.spendless.model.converters.DateConverter;
+import com.matija.spendless.model.dao.CategoryDao;
+import com.matija.spendless.model.dao.TransactionDao;
+
+
+import java.util.concurrent.Executors;
 
 /**
  * Created by matija on 9.3.18..
@@ -35,9 +41,36 @@ public abstract class SpendLessDB extends RoomDatabase {
                 context,
                 SpendLessDB.class,
                 DB_NAME
-            ).build();
+            ).addCallback(new Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+                Executors.newSingleThreadExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        getInstance(context).getCategoryDAO().insert(defaultCategories());
+                    }
+                });
+            }
+        })
+
+                .build();
     }
 
     public abstract TransactionDao getTransactionDAO();
     public abstract CategoryDao getCategoryDAO();
+
+
+    private static Category[] defaultCategories() {
+        Category[] categories = new Category[6];
+
+        //TODO add categories ,defined in strings.xml
+        categories[0] = new Category("Food", R.drawable.food);
+        categories[1] = new Category("Sports", R.drawable.sports);
+        categories[2] = new Category("Bills", R.drawable.bills);
+        categories[3] = new Category("Party", R.drawable.party);
+        categories[4] = new Category("Shopping", R.drawable.shopping);
+        categories[5] = new Category("Coffee shop", R.drawable.coffee_shop);
+        return categories;
+    }
 }

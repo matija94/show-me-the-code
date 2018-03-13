@@ -3,6 +3,7 @@ package com.matija.spendless.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
@@ -13,36 +14,56 @@ import java.util.Date;
 
 @Entity(foreignKeys = @ForeignKey(entity = Category.class,
                                   parentColumns = "id",
-                                  childColumns ="category_id" ))
+                                  childColumns ="category_id" ),
+                                indices = {@Index(value = "category_id", name = "idx")})
 public class Transaction {
 
     @PrimaryKey
-    private long id;
+    private Long id;
 
-    private final Float value;
+    private Float value;
 
-    private final Date dateTime;
+    private Date dateTime;
 
     @ColumnInfo(name = "category_id")
-    private final int categoryId;
+    private Integer categoryId;
 
-    public Transaction(final long id, float value, Date dateTime, final int categoryId) {
+    public Transaction(Long id, Float value, Date dateTime, Integer categoryId) {
         this.id = id;
         this.value = value;
         this.dateTime = dateTime;
         this.categoryId = categoryId;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Float getValue() {
         return value;
     }
 
+    public void setValue(Float value) {
+        this.value = value;
+    }
+
     public Date getDateTime() {
         return dateTime;
     }
 
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 }
