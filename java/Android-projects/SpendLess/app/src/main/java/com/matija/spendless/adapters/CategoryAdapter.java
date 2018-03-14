@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         public void bindItem(Category category) {
             mTextView.setText(category.getName());
+            if (category.getDrawableId() == R.drawable.oval) {
+
+                category.setDrawableId(R.drawable.party); // ??????????
+            }
             mImageView.setImageResource(category.getDrawableId());
         }
     }
