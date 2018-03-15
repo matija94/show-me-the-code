@@ -51,7 +51,7 @@ public class CategoriesFragment extends Fragment {
         mAdapter = new CategoryAdapter(new ArrayList<Category>(), getContext());
 
         mRecyclerView.setAdapter(mAdapter);
-
+        
         CategoryListViewModel categoryListViewModel = ViewModelProviders.of(this).get(CategoryListViewModel.class);
         categoryListViewModel.getCategoryList().observe(this, new Observer<List<Category>>() {
             @Override
