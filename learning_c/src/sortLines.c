@@ -20,9 +20,9 @@ void qsort(void *lineptr[], int left, int right, int (*comp)(void *, void*));
 
 int numcmp(char *, char *);
 
-main(int argc, char *argv[]) {
+/*main(int argc, char *argv[]) {
 	int nlines;
-	int numeric = 0; /* 1 if  numeric sort */
+	int numeric = 0;  1 if  numeric sort
 
 	if (argc > 1 && strcmp(argv[1], "-n") == 0) {
 		numeric = 1;
@@ -37,7 +37,7 @@ main(int argc, char *argv[]) {
 		printf("error: input too big to sort\n");
 		return 1;
 	}
-}
+}*/
 
 #define MAXLEN 100
 int getLine(char *, int);
