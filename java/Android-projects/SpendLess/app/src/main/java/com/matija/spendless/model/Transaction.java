@@ -18,7 +18,7 @@ import java.util.Date;
                                 indices = {@Index(value = "category_id", name = "idx")})
 public class Transaction {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private Long id;
 
     private Float value;

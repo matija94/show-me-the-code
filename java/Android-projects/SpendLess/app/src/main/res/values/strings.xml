@@ -6,4 +6,10 @@
     <string name="transactions">Transaction</string>
     <string name="categories">Categories</string>
     <string name="savings">Savings</string>
+    <string name="transaction_insert">Transaction successfully inserted</string>
+    <string name="new_transaction">New transaction</string>
+    <string name="transaction_value">Transaction value</string>
+    <string name="pick_category">Pick category</string>
+    <string name="transaction_value_from">value from</string>
+    <string name="transaction_value_to">value to</string>
 </resources>

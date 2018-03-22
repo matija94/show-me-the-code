@@ -29,4 +29,10 @@ public interface CategoryDao {
 
     @Query("SELECT * FROM category")
     public LiveData<List<Category>> getAllCategories();
+
+    @Query("SELECT * FROM category")
+    public List<Category> findAllCategories();
+
+    @Query("SELECT * FROM category WHERE name=:name")
+    public Category findCategoryByName(String name);
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.matija.spendless.views.EditTextDatePicker
+        android:id="@+id/editTextDatePicker"
+        android:layout_width="100dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="11dp"
+        android:text="com.matija.spendless.views.EditTextDatePicker"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactions_dashboard_transaction_value_from_edit_text"/>
+
+    <com.matija.spendless.views.EditTextDatePicker
+        android:id="@+id/editTextDatePicker2"
+        android:layout_width="96dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="11dp"
+        android:text="com.matija.spendless.views.EditTextDatePicker"
+        app:layout_constraintStart_toEndOf="@+id/editTextDatePicker"
+        app:layout_constraintTop_toBottomOf="@+id/transactions_dashboard_transaction_value_to_edit_text"/>
+
+    <EditText
+        android:id="@+id/transactions_dashboard_category_dialog_edit_text"
+        android:layout_width="142dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:text="com.matija.spendless.views.EditTextDatePicker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/transactions_dashboard_transaction_value_to_edit_text"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/transactions_dashboard_transaction_value_from_edit_text"
+        android:layout_width="100dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/transaction_value_from"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toStartOf="@+id/transactions_dashboard_transaction_value_to_edit_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/transactions_dashboard_transaction_value_to_edit_text"
+        android:layout_width="100dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/transaction_value_to"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintStart_toEndOf="@+id/transactions_dashboard_transaction_value_from_edit_text"
+        app:layout_constraintTop_toTopOf="parent"/>
+</android.support.constraint.ConstraintLayout>
