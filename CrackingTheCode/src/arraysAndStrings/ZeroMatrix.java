@@ -14,6 +14,7 @@ public class ZeroMatrix {
 				if (mat[i][j] == 0) {
 					zeroRows.add(i);
 					zeroCols.add(j);
+					break;
 				}
 			}
 		}
