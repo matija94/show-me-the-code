@@ -19,6 +19,7 @@ import com.matija.spendless.R;
 import com.matija.spendless.model.Category;
 import com.matija.spendless.model.Transaction;
 import com.matija.spendless.model.db.SpendLessDB;
+import com.matija.spendless.views.EditTextCategoryPicker;
 import com.matija.spendless.views.EditTextDatePicker;
 
 import java.text.ParseException;
@@ -31,40 +32,23 @@ import java.util.stream.Collectors;
  * Created by matija on 15.3.18..
  */
 
-public class NewTransactionDialogFragment extends DialogFragment implements CategoryPickerDialog.CategoryDialogPickerCallback {
+public class NewTransactionDialogFragment extends DialogFragment {
 
     private EditText value;
     private EditText description;
     private EditTextDatePicker date;
-    private EditText category;
+    private EditTextCategoryPicker category;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        final CharSequence[][] categoriesCS = new CharSequence[1][];
-
-        SpendLessDB.getInstance(getActivity()).getCategoryDAO().getAllCategories().observe(getActivity(), categories -> {
-            categoriesCS[0] = categories
-                    .stream()
-                    .map(cat -> cat.getName())
-                    .collect(Collectors.toList())
-                    .toArray(new CharSequence[categories.size()]);
-        });
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.add_transaction_dialog, null);
-        initViewComponents(view);
-        this.category.setOnClickListener(v -> {
-            CategoryPickerDialog categoryPickerDialog = new CategoryPickerDialog();
-            categoryPickerDialog.setCategories(categoriesCS[0]);
-            categoryPickerDialog.setCategoryDialogPickerCallback(this);
-            categoryPickerDialog.show(getFragmentManager(), "categoryPickerDialog");
 
-        });
+        initViewComponents(view);
 
         builder
             .setView(view)
@@ -82,18 +66,12 @@ public class NewTransactionDialogFragment extends DialogFragment implements Cate
         return builder.create();
     }
 
-    @Override
-    public void pickedCategory(CharSequence category) {
-        this.category.setText(category);
-    }
-
     private void initViewComponents(View v) {
         this.value = v.findViewById(R.id.value);
         this.description = v.findViewById(R.id.description);
         this.date = v.findViewById(R.id.dateEdit);
         this.date.setDatePattern("dd/MM/yyyy");
         this.category = v.findViewById(R.id.categoryButton);
-        this.category.setInputType(InputType.TYPE_NULL);
     }
 
     private void createTransaction() throws ParseException {

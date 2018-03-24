@@ -8,6 +8,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import com.matija.spendless.R;
+import com.matija.spendless.model.db.SpendLessDB;
+
+import java.util.stream.Collectors;
 
 /**
  * Created by matija on 18.3.18..
@@ -17,7 +20,7 @@ public class CategoryPickerDialog extends DialogFragment {
 
     private CharSequence categories[];
 
-    interface CategoryDialogPickerCallback {
+    public interface CategoryDialogPickerCallback {
 
         public void pickedCategory(CharSequence category);
     }

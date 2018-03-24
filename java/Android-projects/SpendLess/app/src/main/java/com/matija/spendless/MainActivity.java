@@ -1,5 +1,6 @@
 package com.matija.spendless;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: start categories activity
                 break;
             case R.id.action_transactions:
-                // TODO: start transactions activity
+                Intent i = new Intent(this,TransactionsActivity.class);
+                startActivity(i);
                 break;
         }
         return super.onOptionsItemSelected(item);
