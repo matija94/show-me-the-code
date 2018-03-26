@@ -1,12 +1,13 @@
 package com.matija.spendless;
 
+import android.app.Application;
 import android.content.Context;
 
 /**
  * Created by matija on 26.3.18..
  */
 
-public class Application extends android.app.Application {
+public class SpendLessApplication extends Application {
 
     private static Context context;
 

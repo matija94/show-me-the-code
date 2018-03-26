@@ -1,29 +1,26 @@
 package com.matija.spendless.ui.adapters;
 
 import android.arch.paging.PagedListAdapter;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.DiffCallback;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.matija.spendless.Application;
 import com.matija.spendless.R;
+import com.matija.spendless.SpendLessApplication;
 import com.matija.spendless.model.Transaction;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by matija on 23.3.18..
  */
 
-public class TransactionAdapter extends PagedListAdapter<Transaction, TransactionViewHolder> {
+public class TransactionAdapter extends PagedListAdapter<Transaction, TransactionAdapter.TransactionViewHolder> {
 
     public TransactionAdapter() {
         super(DIFF_CALLBACK);
@@ -31,7 +28,7 @@ public class TransactionAdapter extends PagedListAdapter<Transaction, Transactio
 
     @Override
     public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(Application.getContext()).inflate(R.layout.transaction_item, parent, false);
+        View view = LayoutInflater.from(SpendLessApplication.getContext()).inflate(R.layout.transaction_item, parent, false);
         return new TransactionViewHolder(view);
     }
 
@@ -57,7 +54,6 @@ public class TransactionAdapter extends PagedListAdapter<Transaction, Transactio
         }
     };
 
-}
     class TransactionViewHolder extends RecyclerView.ViewHolder {
 
         private TextView valueTextView;
@@ -76,7 +72,8 @@ public class TransactionAdapter extends PagedListAdapter<Transaction, Transactio
         public void bindTransaction(Transaction transaction) {
             valueTextView.setText(Float.toString(transaction.getValue()));
             dateTextView.setText(sdf.format(transaction.getDateTime()));
+            descriptionTextView.setText(transaction.getDescription());
         }
-
-
     }
+}
+

@@ -24,13 +24,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/content_recent_transactions"
-        android:layout_gravity="top"
-        />
-
-    <include
         android:id="@+id/main_fragment"
         layout="@layout/content_main"
         android:layout_width="match_parent"

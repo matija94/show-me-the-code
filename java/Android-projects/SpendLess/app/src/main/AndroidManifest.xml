@@ -3,6 +3,7 @@
           package="com.matija.spendless">
 
     <application
+        android:name="com.matija.spendless.SpendLessApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
