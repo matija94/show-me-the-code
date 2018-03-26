@@ -90,7 +90,7 @@ public class NewTransactionDialogFragment extends DialogFragment {
             String categoryStr = category.getText().toString();
             Category category = SpendLessDB.getInstance(getContext()).getCategoryDAO().findCategoryByName(categoryStr);
 
-            Transaction transaction = new Transaction(null, value, date, Integer.parseInt(Long.toString(category.getId())));
+            Transaction transaction = new Transaction(null, value, date, Integer.parseInt(Long.toString(category.getId())), description);
             SpendLessDB.getInstance(getContext()).getTransactionDAO().insert(transaction);
         });
 

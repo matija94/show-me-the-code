@@ -1,28 +1,21 @@
 package com.matija.spendless.ui;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.matija.spendless.R;
-import com.matija.spendless.model.Transaction;
-import com.matija.spendless.ui.adapters.CategoryAdapter;
 import com.matija.spendless.ui.adapters.TransactionAdapter;
-import com.matija.spendless.ui.views.*;
+import com.matija.spendless.ui.views.EditTextCategoryPicker;
+import com.matija.spendless.ui.views.EditTextDatePicker;
 import com.matija.spendless.viewmodel.TransactionListViewModel;
-
-import java.util.List;
 
 /**
  * Created by matija on 23.3.18..
@@ -56,7 +49,7 @@ public class TransactionsActivity extends AppCompatActivity {
         categoryPicker = findViewById(R.id.transactions_dashboard_category_dialog_edit_text);
 
         layoutManager = new LinearLayoutManager(this);
-        transactionAdapter = new TransactionAdapter(this);
+        transactionAdapter = new TransactionAdapter();
         recyclerView = findViewById(R.id.transactions_dashboard_transactions_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(transactionAdapter);
@@ -75,7 +68,7 @@ public class TransactionsActivity extends AppCompatActivity {
             }
             else {
                 loadingText.setVisibility(View.GONE);
-                transactionAdapter.setTransactionList(transactions);
+                transactionAdapter.setList(transactions);
             }
         });
     }

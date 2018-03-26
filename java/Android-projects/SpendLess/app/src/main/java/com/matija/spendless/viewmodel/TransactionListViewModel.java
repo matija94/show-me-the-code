@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 
 import com.matija.spendless.model.Transaction;
@@ -19,20 +20,23 @@ import java.util.List;
 public class TransactionListViewModel extends AndroidViewModel {
 
 
-    private MediatorLiveData<List<Transaction>> transactionsLiveData;
+    private MediatorLiveData<PagedList<Transaction>> transactionsLiveData;
 
     public TransactionListViewModel(@NonNull Application application) {
         super(application);
         transactionsLiveData = new MediatorLiveData<>();
         transactionsLiveData.setValue(null);
 
-        // TODO: load chunck by chunck
-        LiveData<List<Transaction>> allTransactions = SpendLessDB.getInstance(application).getTransactionDAO().getAllTransactions();
+        LiveData<PagedList<Transaction>> allTransactions = SpendLessDB.getInstance(application).getTransactionDAO().getAllTransactions()
+                .create(0, new PagedList.Config.Builder()
+                                        .setPageSize(20)
+                                        .setPrefetchDistance(5)
+                                        .setEnablePlaceholders(true).build());
 
         transactionsLiveData.addSource(allTransactions, transactionsLiveData::setValue);
     }
 
-    public LiveData<List<Transaction>> getTransactions() {
+    public LiveData<PagedList<Transaction>> getTransactions() {
         return transactionsLiveData;
     }
 }

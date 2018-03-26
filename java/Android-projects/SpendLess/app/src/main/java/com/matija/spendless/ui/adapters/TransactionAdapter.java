@@ -1,6 +1,9 @@
 package com.matija.spendless.ui.adapters;
 
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.DiffCallback;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.matija.spendless.Application;
 import com.matija.spendless.R;
 import com.matija.spendless.model.Transaction;
 
@@ -19,72 +23,46 @@ import java.util.Objects;
  * Created by matija on 23.3.18..
  */
 
-public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>{
+public class TransactionAdapter extends PagedListAdapter<Transaction, TransactionViewHolder> {
 
-    private List<Transaction> transactions;
-    private Context context;
-
-    public TransactionAdapter(Context context) {
-        this.context = context;
-    }
-
-    public void setTransactionList(final List<Transaction> transactionList) {
-        if (this.transactions == null) {
-            this.transactions = transactionList;
-            notifyItemRangeInserted(0, transactionList.size());
-        } else {
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-                @Override
-                public int getOldListSize() {
-                    return transactions.size();
-                }
-
-                @Override
-                public int getNewListSize() {
-                    return transactionList.size();
-                }
-
-                @Override
-                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return transactions.get(oldItemPosition).getId() ==
-                            transactionList.get(newItemPosition).getId();
-                }
-
-                @Override
-                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    Transaction newTransaction = transactionList.get(newItemPosition);
-                    Transaction oldTransaction = transactions.get(oldItemPosition);
-                    return newTransaction.getId() == oldTransaction.getId()
-                            && Objects.equals(newTransaction.getValue(), oldTransaction.getValue())
-                            && newTransaction.getDateTime() == oldTransaction.getDateTime();
-                }
-            });
-            transactions= transactionList;
-            result.dispatchUpdatesTo(this);
-        }
+    public TransactionAdapter() {
+        super(DIFF_CALLBACK);
     }
 
     @Override
     public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(this.context);
-        View view = inflater.inflate(R.layout.transaction_item, parent, false);
+        View view = LayoutInflater.from(Application.getContext()).inflate(R.layout.transaction_item, parent, false);
         return new TransactionViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(TransactionViewHolder holder, int position) {
-        holder.bindTransaction(this.transactions.get(position));
+        Transaction transaction = getItem(position);
+        if (transaction != null) {
+            holder.bindTransaction(transaction);
+        }
     }
 
-    @Override
-    public int getItemCount() {
-        return this.transactions == null ? 0 : this.transactions.size();
-    }
+    public static final DiffCallback<Transaction> DIFF_CALLBACK = new DiffCallback<Transaction>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Transaction oldTransaction, @NonNull Transaction newTransaction) {
+            return oldTransaction.getId() == newTransaction.getId();
+        }
 
+        @Override
+        public boolean areContentsTheSame(@NonNull Transaction oldTransaction, @NonNull Transaction newTransaction) {
+            return Objects.equals(oldTransaction.getDateTime(), newTransaction.getDateTime())
+                    && Objects.equals(oldTransaction.getValue(), newTransaction.getValue())
+                    && Objects.equals(oldTransaction.getCategoryId(), newTransaction.getCategoryId());
+        }
+    };
+
+}
     class TransactionViewHolder extends RecyclerView.ViewHolder {
 
         private TextView valueTextView;
         private TextView dateTextView;
+        private TextView descriptionTextView;
 
         private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -92,6 +70,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             super(itemView);
             valueTextView = itemView.findViewById(R.id.transaction_item_transaction_value_text_view);
             dateTextView = itemView.findViewById(R.id.transaction_item_transaction_date_text_view);
+            descriptionTextView = itemView.findViewById(R.id.transaction_item_transaction_description_text_view);
         }
 
         public void bindTransaction(Transaction transaction) {
@@ -101,4 +80,3 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
 
     }
-}

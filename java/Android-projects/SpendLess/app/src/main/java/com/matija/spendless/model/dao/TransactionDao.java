@@ -2,6 +2,7 @@ package com.matija.spendless.model.dao;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.paging.LivePagedListProvider;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -32,5 +33,5 @@ public interface TransactionDao {
     public List<Transaction> findAllTransactionsForCategory(final int categoryId);
 
     @Query("SELECT * FROM `transaction`")
-    public LiveData<List<Transaction>> getAllTransactions();
+    public LivePagedListProvider<Integer, Transaction> getAllTransactions();
 }

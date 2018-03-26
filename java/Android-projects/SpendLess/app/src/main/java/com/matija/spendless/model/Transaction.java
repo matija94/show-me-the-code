@@ -25,14 +25,17 @@ public class Transaction {
 
     private Date dateTime;
 
+    private String description;
+
     @ColumnInfo(name = "category_id")
     private Integer categoryId;
 
-    public Transaction(Long id, Float value, Date dateTime, Integer categoryId) {
+    public Transaction(Long id, Float value, Date dateTime, Integer categoryId, String description) {
         this.id = id;
         this.value = value;
         this.dateTime = dateTime;
         this.categoryId = categoryId;
+        this.description = description;
     }
 
     public Long getId() {
@@ -65,5 +68,13 @@ public class Transaction {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
