@@ -1,15 +1,13 @@
-package com.matija.spendless.dialogs;
+package com.matija.spendless.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -19,13 +17,14 @@ import com.matija.spendless.R;
 import com.matija.spendless.model.Category;
 import com.matija.spendless.model.Transaction;
 import com.matija.spendless.model.db.SpendLessDB;
-import com.matija.spendless.views.EditTextCategoryPicker;
-import com.matija.spendless.views.EditTextDatePicker;
+import com.matija.spendless.ui.views.EditTextCategoryPicker;
+import com.matija.spendless.ui.views.EditTextDatePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.stream.Collectors;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -52,7 +51,7 @@ public class NewTransactionDialogFragment extends DialogFragment {
 
         builder
             .setView(view)
-            .setPositiveButton(R.string.categories, (dialogInterface, i) -> {
+            .setPositiveButton(R.string.submit, (dialogInterface, i) -> {
                 try {
                     createTransaction();
                     Snackbar.make(view.findViewById(R.id.addTransactionCoordinatorLayout),
@@ -75,18 +74,26 @@ public class NewTransactionDialogFragment extends DialogFragment {
     }
 
     private void createTransaction() throws ParseException {
-        float value = Float.parseFloat(this.value.getText().toString());
+        Executors.newSingleThreadExecutor().execute(() -> {
+            float value = Float.parseFloat(this.value.getText().toString());
 
-        String description = this.description.getText().toString();
+            String description = this.description.getText().toString();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = sdf.parse(this.date.getText().toString());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = null;
+            try {
+                date = sdf.parse(this.date.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-        String categoryStr = category.getText().toString();
-        Category category = SpendLessDB.getInstance(getContext()).getCategoryDAO().findCategoryByName(categoryStr);
+            String categoryStr = category.getText().toString();
+            Category category = SpendLessDB.getInstance(getContext()).getCategoryDAO().findCategoryByName(categoryStr);
 
-        Transaction transaction = new Transaction(null, value, date, Integer.parseInt(Long.toString(category.getId())));
-        SpendLessDB.getInstance(getContext()).getTransactionDAO().insert(transaction);
+            Transaction transaction = new Transaction(null, value, date, Integer.parseInt(Long.toString(category.getId())));
+            SpendLessDB.getInstance(getContext()).getTransactionDAO().insert(transaction);
+        });
+
     }
 
 }

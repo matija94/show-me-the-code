@@ -1,5 +1,7 @@
 package com.matija.spendless.model.dao;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -27,5 +29,8 @@ public interface TransactionDao {
     public void delete(Transaction... transactions);
 
     @Query("SELECT * FROM `transaction` WHERE category_id=:categoryId")
-    List<Transaction> findAllTransactionsForCategory(final int categoryId);
+    public List<Transaction> findAllTransactionsForCategory(final int categoryId);
+
+    @Query("SELECT * FROM `transaction`")
+    public LiveData<List<Transaction>> getAllTransactions();
 }

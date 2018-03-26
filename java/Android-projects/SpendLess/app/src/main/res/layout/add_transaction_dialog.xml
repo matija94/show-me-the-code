@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
-    <com.matija.spendless.views.EditTextDatePicker
+    <com.matija.spendless.ui.views.EditTextDatePicker
         android:id="@+id/dateEdit"
         android:layout_width="92dp"
         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
-    <com.matija.spendless.views.EditTextCategoryPicker
+    <com.matija.spendless.ui.views.EditTextCategoryPicker
         android:id="@+id/categoryButton"
         android:layout_width="131dp"
         android:layout_height="wrap_content"

@@ -1,6 +1,5 @@
-package com.matija.spendless.views;
+package com.matija.spendless.ui.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,7 +11,7 @@ import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.matija.spendless.dialogs.CategoryPickerDialog;
+import com.matija.spendless.ui.dialogs.CategoryPickerDialog;
 import com.matija.spendless.model.Category;
 import com.matija.spendless.model.db.SpendLessDB;
 

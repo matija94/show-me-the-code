@@ -1,4 +1,4 @@
-package com.matija.spendless;
+package com.matija.spendless.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -7,16 +7,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.matija.spendless.adapters.CategoryAdapter;
+import com.matija.spendless.R;
+import com.matija.spendless.ui.adapters.CategoryAdapter;
 import com.matija.spendless.model.Category;
 
 import com.matija.spendless.viewmodel.CategoryListViewModel;

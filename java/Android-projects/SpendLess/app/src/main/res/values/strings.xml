@@ -12,4 +12,7 @@
     <string name="pick_category">Pick category</string>
     <string name="transaction_value_from">value from</string>
     <string name="transaction_value_to">value to</string>
+    <string name="transaction_date">Transaction Date</string>
+    <string name="transactions_loading">Loading Transactions...</string>
+    <string name="submit">Submit</string>
 </resources>

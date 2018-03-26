@@ -1,4 +1,4 @@
-package com.matija.spendless.views;
+package com.matija.spendless.ui.views;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
