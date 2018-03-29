@@ -18,8 +18,7 @@ public class CategoryPickerDialog extends DialogFragment {
     private CharSequence categories[];
 
     public interface CategoryDialogPickerCallback {
-
-        public void pickedCategory(CharSequence category);
+        void pickedCategory(CharSequence category);
     }
 
     private CategoryDialogPickerCallback categoryDialogPickerCallback;

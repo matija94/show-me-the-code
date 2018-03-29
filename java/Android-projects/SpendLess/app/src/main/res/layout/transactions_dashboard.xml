@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="41dp"
         android:layout_marginTop="11dp"
-        android:text="com.matija.spendless.views.EditTextDatePicker"
+        android:hint="@string/date_picker_from"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactions_dashboard_transaction_value_from_edit_text"/>
@@ -21,7 +21,7 @@
         android:layout_width="96dp"
         android:layout_height="41dp"
         android:layout_marginTop="11dp"
-        android:text="com.matija.spendless.views.EditTextDatePicker"
+        android:hint="@string/date_picker_to"
         app:layout_constraintStart_toEndOf="@+id/transactions_dashboard_transaction_date_from_edit_text_date_picker"
         app:layout_constraintTop_toBottomOf="@+id/transactions_dashboard_transaction_value_to_edit_text"/>
 
@@ -32,7 +32,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:text="com.matija.spendless.views.EditTextDatePicker"
+        android:hint="@string/pick_category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/transactions_dashboard_transaction_value_to_edit_text"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -46,8 +46,6 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/transaction_value_from"
-        android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toStartOf="@+id/transactions_dashboard_transaction_value_to_edit_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -60,7 +58,6 @@
         android:ems="10"
         android:hint="@string/transaction_value_to"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintStart_toEndOf="@+id/transactions_dashboard_transaction_value_from_edit_text"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -90,4 +87,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.498"/>
+
+    <Button
+        android:id="@+id/transactions_dashboard_query_submit_button"
+        android:layout_width="142dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/transactions_dashboard_transaction_date_to_edit_text_date_picker"
+        app:layout_constraintTop_toBottomOf="@+id/transactions_dashboard_category_dialog_edit_text"/>
 </android.support.constraint.ConstraintLayout>

@@ -15,4 +15,6 @@
     <string name="transaction_date">Transaction Date</string>
     <string name="transactions_loading">Loading Transactions...</string>
     <string name="submit">Submit</string>
+    <string name="date_picker_to">date to</string>
+    <string name="date_picker_from">date from</string>
 </resources>

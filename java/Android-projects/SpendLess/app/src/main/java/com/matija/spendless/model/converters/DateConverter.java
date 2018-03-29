@@ -2,6 +2,11 @@ package com.matija.spendless.model.converters;
 
 import android.arch.persistence.room.TypeConverter;
 
+import com.matija.spendless.utils.Constants;
+import com.matija.spendless.utils.DateParser;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,12 +16,20 @@ import java.util.Date;
 public class DateConverter {
 
     @TypeConverter
-    public static Date fromTimestamp(Long value) {
-        return value == null ? null : new Date(value);
+    public static Date fromTimestamp(String value) {
+        Date date = null;
+        try {
+            date = DateParser.backendParser().parse(value);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        finally {
+            return date;
+        }
     }
 
     @TypeConverter
-    public static Long dateToTimestamp(Date date) {
-        return date == null ? null : date.getTime();
+    public static String dateToTimestamp(Date date) {
+        return date == null ? null : DateParser.backendParser().format(date);
     }
 }

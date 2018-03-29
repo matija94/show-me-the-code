@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
 import java.util.Date;
 
@@ -23,6 +24,7 @@ public class Transaction {
 
     private Float value;
 
+    @ColumnInfo(name = "date_time")
     private Date dateTime;
 
     private String description;

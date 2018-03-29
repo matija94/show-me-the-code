@@ -69,7 +69,6 @@ public class NewTransactionDialogFragment extends DialogFragment {
         this.value = v.findViewById(R.id.value);
         this.description = v.findViewById(R.id.description);
         this.date = v.findViewById(R.id.dateEdit);
-        this.date.setDatePattern("dd/MM/yyyy");
         this.category = v.findViewById(R.id.categoryButton);
     }
 
@@ -79,13 +78,7 @@ public class NewTransactionDialogFragment extends DialogFragment {
 
             String description = this.description.getText().toString();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = null;
-            try {
-                date = sdf.parse(this.date.getText().toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date date = this.date.getDate();
 
             String categoryStr = category.getText().toString();
             Category category = SpendLessDB.getInstance(getContext()).getCategoryDAO().findCategoryByName(categoryStr);
