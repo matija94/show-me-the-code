@@ -40,6 +40,7 @@ public class CategoriesActivity extends AppCompatActivity implements CategoryAda
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_categories);
         mLayoutManager = new GridLayoutManager(this,3);
 
         mRecyclerView = findViewById(R.id.categoryRecyclerView);

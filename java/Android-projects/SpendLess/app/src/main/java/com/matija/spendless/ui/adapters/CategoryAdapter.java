@@ -1,6 +1,7 @@
 package com.matija.spendless.ui.adapters;
 
 import android.content.Context;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -16,6 +17,7 @@ import com.matija.spendless.model.Category;
 import com.matija.spendless.ui.CategoriesActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -68,9 +70,32 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     public void addCategoryItems(List<Category> categories) {
-        this.mCategories.addAll(categories);
-    }
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+            @Override
+            public int getOldListSize() {
+                return CategoryAdapter.this.mCategories.size();
+            }
 
+            @Override
+            public int getNewListSize() {
+                return categories.size();
+            }
+
+            @Override
+            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                List<Category> oldCats = CategoryAdapter.this.mCategories;
+                return oldCats.get(oldItemPosition).getName().equals(categories.get(newItemPosition).getName());
+            }
+
+            @Override
+            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                List<Category> oldCats = CategoryAdapter.this.mCategories;
+                return oldCats.get(oldItemPosition).getId() == categories.get(newItemPosition).getId();
+            }
+        });
+        mCategories = categories;
+        diffResult.dispatchUpdatesTo(this);
+    }
 
     public class CategoryHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
         private View mItemView;
