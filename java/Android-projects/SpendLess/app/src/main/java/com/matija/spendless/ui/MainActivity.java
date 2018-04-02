@@ -9,11 +9,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.matija.spendless.R;
+import com.matija.spendless.preferences.SpendLessPreferences;
 import com.matija.spendless.ui.dialogs.NewTransactionDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    private EditText remainingMoney;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("MainActivity", "FaB clicked!");
-                NewTransactionDialogFragment transactionDialogFragment = new NewTransactionDialogFragment();
-                transactionDialogFragment.show(getSupportFragmentManager(), "transactionDialogFragment");
-            }
+        fab.setOnClickListener(v -> {
+            Log.d("MainActivity", "FaB clicked!");
+            NewTransactionDialogFragment transactionDialogFragment = new NewTransactionDialogFragment();
+            transactionDialogFragment.show(getSupportFragmentManager(), "transactionDialogFragment");
         });
+
+        remainingMoney = (EditText) findViewById(R.id.remainingMoney);
+        remainingMoney.setText(Integer.toString(SpendLessPreferences.getRemainingDailySpendings(this)));
     }
 
     @Override

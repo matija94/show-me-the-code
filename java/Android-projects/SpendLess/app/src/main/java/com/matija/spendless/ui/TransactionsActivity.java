@@ -6,7 +6,6 @@ import android.arch.paging.DataSource;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.arch.persistence.db.SimpleSQLiteQuery;
-import android.arch.persistence.db.SupportSQLiteQuery;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,8 +30,6 @@ import com.matija.spendless.utils.ApplicationExecutors;
 import com.matija.spendless.utils.DateParser;
 import com.matija.spendless.viewmodel.TransactionListViewModel;
 
-import java.text.SimpleDateFormat;
-
 /**
  * Created by matija on 23.3.18..
  */
@@ -56,7 +53,7 @@ public class TransactionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.transactions_dashboard);
+        setContentView(R.layout.activity_transactions);
 
         loadingText = (TextView) findViewById(R.id.transactions_dashboard_loading_transactions_text_view);
         fromDate = (EditTextDatePicker) findViewById(R.id.transactions_dashboard_transaction_date_from_edit_text_date_picker);
