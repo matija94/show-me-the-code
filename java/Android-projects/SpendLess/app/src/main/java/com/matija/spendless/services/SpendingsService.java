@@ -27,11 +27,11 @@ public class SpendingsService extends IntentService {
 
     public static void setServiceAlarm(Context context) {
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, newIntent(context), 0);
-        AlarmManager alaramManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        alaramManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,System.currentTimeMillis(), SAVINGS_UPDATE_CHECK_INTERVAL, pendingIntent);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,System.currentTimeMillis(), SAVINGS_UPDATE_CHECK_INTERVAL, pendingIntent);
     }
 
-    public static boolean isAlaramOn(Context context) {
+    public static boolean isAlarmOn(Context context) {
         PendingIntent pendingIntent = PendingIntent.getService(context,0,newIntent(context), PendingIntent.FLAG_NO_CREATE);
         return pendingIntent != null;
     }

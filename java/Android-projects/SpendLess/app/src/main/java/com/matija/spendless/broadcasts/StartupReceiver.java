@@ -15,7 +15,7 @@ public class StartupReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (SpendingsService.isAlaramOn(context)) {
+        if (SpendingsService.isAlarmOn(context)) {
             SpendingsService.setServiceAlarm(context);
         }
     }
