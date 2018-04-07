@@ -15,9 +15,9 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_savings"
+        android:id="@+id/action_spendings"
         android:orderInCategory="10"
-        android:title="@string/savings"
+        android:title="@string/spendings"
         android:icon="@drawable/ic_savings"
         app:showAsAction="always" />
 

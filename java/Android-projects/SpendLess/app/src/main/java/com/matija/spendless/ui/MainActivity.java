@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -52,18 +51,17 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         Intent i = null;
         switch (id) {
-            case R.id.action_savings:
-                // TODO: start savings activity
+            case R.id.action_spendings:
+                i = new Intent(this, SpendingsActivity.class);
                 break;
             case R.id.action_categories:
                 i = new Intent(this, CategoriesActivity.class);
-                startActivity(i);
                 break;
             case R.id.action_transactions:
                 i = new Intent(this,TransactionsActivity.class);
-                startActivity(i);
                 break;
         }
+        startActivity(i);
         return super.onOptionsItemSelected(item);
     }
 }

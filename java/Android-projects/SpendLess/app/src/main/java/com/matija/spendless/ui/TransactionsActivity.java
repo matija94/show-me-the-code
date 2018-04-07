@@ -97,7 +97,7 @@ public class TransactionsActivity extends AppCompatActivity {
     private void sendQuery() {
         loadingText.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
-        new ApplicationExecutors().getIoThread().execute(() -> {
+        ApplicationExecutors.getInstance().getIoThread().execute(() -> {
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append("SELECT * FROM `transaction` where ");
 

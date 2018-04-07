@@ -3,10 +3,12 @@ package com.matija.spendless.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.matija.spendless.model.Category;
 import com.matija.spendless.model.db.SpendLessDB;
+import com.matija.spendless.utils.ApplicationExecutors;
 
 import java.util.List;
 
@@ -18,17 +20,22 @@ public class CategoryListViewModel extends AndroidViewModel {
 
     private SpendLessDB db;
 
-    private final LiveData<List<Category>> categoryList;
+    private final MutableLiveData<List<Category>> categoryList;
 
     public CategoryListViewModel(Application application) {
         super(application);
 
         db = SpendLessDB.getInstance(application);
 
-        categoryList = db.getCategoryDAO().getAllCategories();
+        categoryList = new MutableLiveData<>();
+        ApplicationExecutors.getInstance().getIoThread().execute(() -> {
+            categoryList.postValue(db.getCategoryDAO().findAllCategories());
+        });
     }
 
-    public LiveData<List<Category>> getCategoryList() {
+    public MutableLiveData<List<Category>> getCategoryList() {
         return categoryList;
     }
+
+
 }

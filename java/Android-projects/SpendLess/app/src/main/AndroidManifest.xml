@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".ui.TransactionsActivity" />
         <activity android:name=".ui.CategoriesActivity" />
+        <activity android:name=".ui.SpendingsActivity" />
         <receiver android:name=".broadcasts.StartupReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

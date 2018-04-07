@@ -19,4 +19,13 @@
     <string name="date_picker_from">date from</string>
     <string name="update">Update</string>
     <string name="remove">Remove</string>
+    <string name="spendings_daily">Daily</string>
+    <string name="spendings">Spendings</string>
+    <string name="spendings_monday">Monday</string>
+    <string name="spendings_tuesday">Tuesday</string>
+    <string name="spendings_wednesday">Wednesday</string>
+    <string name="spendings_thursday">Thursday</string>
+    <string name="spendings_friday">Friday</string>
+    <string name="spendings_saturday">Saturday</string>
+    <string name="spendings_sunday">Sunday</string>
 </resources>

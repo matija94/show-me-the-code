@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -97,6 +98,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         diffResult.dispatchUpdatesTo(this);
     }
 
+    public List<Category> getCategories() {
+        return mCategories;
+    }
+
     public class CategoryHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
         private View mItemView;
         private TextView mTextView;
@@ -108,16 +113,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             mItemView = viewItem;
             mTextView = mItemView.findViewById(R.id.categoryItemTextView);
             mImageView = mItemView.findViewById(R.id.imageView);
+            mItemView.setOnCreateContextMenuListener(this);
             this.categoryClickListener = categoryClickListener;
         }
 
         public void bindItem(Category category) {
+            if (category.getName() == CategoriesActivity.NEW_CATEGORY) {
+                mItemView.setOnCreateContextMenuListener(null);
+            }
             mTextView.setText(category.getName());
-            if (category.getDrawableId() == R.drawable.oval) {
+            /*if (category.getDrawableId() == R.drawable.oval) {
 
                 category.setDrawableId(R.drawable.party); // ??????????
             }
-            mImageView.setImageResource(category.getDrawableId());
+            mImageView.setImageResource(category.getDrawableId());*/
             mItemView.setOnClickListener(v -> categoryClickListener.onClick(category));
         }
 
@@ -127,6 +136,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             popup.getMenuInflater().inflate(R.menu.menu_categories, popup.getMenu());
             popup.setOnMenuItemClickListener(this);
             popup.show();
+            Log.d("CategoryAdapter", "PopupMenu shown");
         }
 
         @Override

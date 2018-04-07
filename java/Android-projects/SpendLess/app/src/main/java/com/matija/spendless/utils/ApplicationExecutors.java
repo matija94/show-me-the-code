@@ -11,7 +11,16 @@ public class ApplicationExecutors {
 
     private Executor ioThread;
 
-    public ApplicationExecutors() {
+    private static ApplicationExecutors executors=null;
+
+    public static ApplicationExecutors getInstance() {
+        if (executors == null) {
+            executors = new ApplicationExecutors();
+        }
+        return executors;
+    }
+
+    private ApplicationExecutors() {
         ioThread = Executors.newSingleThreadExecutor();
     }
 

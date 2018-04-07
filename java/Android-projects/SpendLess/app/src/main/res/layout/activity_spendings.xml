@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/spendings_spendings_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/spendings"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/spendings_spendings_daily_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="96dp"
+        android:text="@string/spendings_daily"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_title_text_view" />
+
+    <EditText
+        android:id="@+id/spendings_spendings_daily_value_edit_text"
+        android:layout_width="193dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="84dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_title_text_view" />
+
+    <TextView
+        android:id="@+id/spendings_spendings_monday_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/spendings_monday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_daily_text_view" />
+
+    <TextView
+        android:id="@+id/spendings_spendings_tuesday_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/spendings_tuesday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_monday_text_view" />
+
+    <TextView
+        android:id="@+id/spendings_spendings_wednesday_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/spendings_wednesday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_tuesday_text_view" />
+
+    <TextView
+        android:id="@+id/spendings_spendings_thursday_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/spendings_thursday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_wednesday_text_view" />
+
+    <TextView
+        android:id="@+id/spendings_spendings_friday_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/spendings_friday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_thursday_text_view" />
+
+    <TextView
+        android:id="@+id/spendings_spendings_saturday_text_view"
+        android:layout_width="58dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/spendings_saturday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_friday_text_view" />
+
+    <TextView
+        android:id="@+id/spendings_spendings_sunday_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/spendings_sunday"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_saturday_text_view" />
+
+    <EditText
+        android:id="@+id/spendings_spendings_monday_value_edit_text"
+        android:layout_width="193dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_daily_value_edit_text" />
+
+    <EditText
+        android:id="@+id/spendings_spendings_tuesday_value_edit_text"
+        android:layout_width="193dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="7dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_monday_value_edit_text" />
+
+    <EditText
+        android:id="@+id/spendings_spendings_wednesday_value_edit_text"
+        android:layout_width="193dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="6dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_tuesday_value_edit_text" />
+
+    <EditText
+        android:id="@+id/spendings_spendings_thursday_value_edit_text"
+        android:layout_width="193dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="6dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_wednesday_value_edit_text" />
+
+    <EditText
+        android:id="@+id/spendings_spendings_friday_value_edit_text"
+        android:layout_width="193dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="7dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_thursday_value_edit_text" />
+
+    <EditText
+        android:id="@+id/spendings_spendings_saturday_value_edit_text"
+        android:layout_width="193dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="7dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_friday_value_edit_text" />
+
+    <EditText
+        android:id="@+id/spendings_spendings_sunday_value_edit_text"
+        android:layout_width="193dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spendings_spendings_saturday_value_edit_text" />
+
+</android.support.constraint.ConstraintLayout>
