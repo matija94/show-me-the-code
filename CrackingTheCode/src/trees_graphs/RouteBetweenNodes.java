@@ -54,22 +54,22 @@ public class RouteBetweenNodes {
 	
 	
 	public static void main(String[] args) {
-		Node<Integer> one = new Node<Integer>(1, null);
-		Node<Integer> two = new Node<Integer>(2, null);
-		Node<Integer> three = new Node<Integer>(3, null);
-		Node<Integer> four = new Node<Integer>(4, null);
-		Node<Integer> five = new Node<Integer>(5, null);
-		Node<Integer> seven = new Node<Integer>(7, null);
-		Node<Integer> ten = new Node<Integer>(10, null);
+		Node<Integer> one = new Node<Integer>(1, null,null);
+		Node<Integer> two = new Node<Integer>(2, null,null);
+		Node<Integer> three = new Node<Integer>(3, null,null);
+		Node<Integer> four = new Node<Integer>(4, null,null);
+		Node<Integer> five = new Node<Integer>(5, null,null);
+		Node<Integer> seven = new Node<Integer>(7, null,null);
+		Node<Integer> ten = new Node<Integer>(10, null,null);
 				
 	
-		one.adjacent = Arrays.asList(two,three,four);
-		two.adjacent = Arrays.asList(four);
-		three.adjacent = Arrays.asList(five);
-		four.adjacent = Arrays.asList(seven);
-		five.adjacent = Arrays.asList(three,seven);
-		seven.adjacent = Arrays.asList(ten);
-		ten.adjacent = Arrays.asList(two,four,seven);
+		one.outgoing = Arrays.asList(two,three,four);
+		two.outgoing = Arrays.asList(four);
+		three.outgoing = Arrays.asList(five);
+		four.outgoing = Arrays.asList(seven);
+		five.outgoing = Arrays.asList(three,seven);
+		seven.outgoing = Arrays.asList(ten);
+		ten.outgoing = Arrays.asList(two,four,seven);
 		
 		
 		List<Node<Integer>> path = getRoute(one, ten);
