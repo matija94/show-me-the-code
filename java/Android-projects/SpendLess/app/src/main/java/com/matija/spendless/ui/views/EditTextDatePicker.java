@@ -32,7 +32,7 @@ public class EditTextDatePicker extends AppCompatEditText implements View.OnClic
         sdf = DateParser.frontendParser();
         initDatePicker(context);
         setOnClickListener(this);
-        setInputType(InputType.TYPE_NULL);
+        setFocusable(false);
     }
 
     public void setDatePattern(String pattern) {

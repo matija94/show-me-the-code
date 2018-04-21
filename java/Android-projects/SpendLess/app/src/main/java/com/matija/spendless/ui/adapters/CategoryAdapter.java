@@ -91,7 +91,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             @Override
             public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
                 List<Category> oldCats = CategoryAdapter.this.mCategories;
-                return oldCats.get(oldItemPosition).getId() == categories.get(newItemPosition).getId();
+                return oldCats.get(oldItemPosition).getName().equals(categories.get(newItemPosition).getName());
             }
         });
         mCategories = categories;
@@ -100,6 +100,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public List<Category> getCategories() {
         return mCategories;
+    }
+
+    public void clearCategories() {
+        this.mCategories.clear();
     }
 
     public class CategoryHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, PopupMenu.OnMenuItemClickListener {
@@ -122,11 +126,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 mItemView.setOnCreateContextMenuListener(null);
             }
             mTextView.setText(category.getName());
-            /*if (category.getDrawableId() == R.drawable.oval) {
-
-                category.setDrawableId(R.drawable.party); // ??????????
+            if (category.getDrawableId() != null) {
+                mImageView.setImageResource(category.getDrawableId());
             }
-            mImageView.setImageResource(category.getDrawableId());*/
             mItemView.setOnClickListener(v -> categoryClickListener.onClick(category));
         }
 

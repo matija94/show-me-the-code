@@ -1,5 +1,8 @@
 package arraysAndStrings;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class URLify {
 
@@ -25,7 +28,13 @@ public class URLify {
 	}
 	
 	public static void main(String[] args) {
-		String test = "m ti ja lu      ";
-		urlify(test.toCharArray(),10);
+		//String test = "m ti ja lu      ";
+		//urlify(test.toCharArray(),10);
+	
+	
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());		
+		
+		System.out.println(calendar.get(Calendar.DAY_OF_WEEK)-1);
 	}
 }

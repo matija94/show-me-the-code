@@ -30,7 +30,7 @@ public class EditTextCategoryPicker extends AppCompatEditText implements View.On
         super(context, attributeSet);
         categoryPickerDialog = new CategoryPickerDialog();
         categoryPickerDialog.setCategoryDialogPickerCallback(this);
-        setInputType(InputType.TYPE_NULL);
+        setFocusable(false);
         setOnClickListener(this);
         new CategoryFetcher().execute(context);
     }

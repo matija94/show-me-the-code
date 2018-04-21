@@ -55,7 +55,7 @@ public class NewTransactionDialogFragment extends DialogFragment {
                 try {
                     createTransaction();
                     Snackbar.make(view.findViewById(R.id.addTransactionCoordinatorLayout),
-                            R.string.transaction_insert, Snackbar.LENGTH_LONG)
+                            R.string.transaction_insert, Snackbar.LENGTH_SHORT)
                             .show();
                 }
                 catch (ParseException e) {

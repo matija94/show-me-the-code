@@ -28,4 +28,9 @@
     <string name="spendings_friday">Friday</string>
     <string name="spendings_saturday">Saturday</string>
     <string name="spendings_sunday">Sunday</string>
+    <string name="spendings_weekly">Weekly</string>
+    <string name="spendings_monthly">Monthly</string>
+    <string name="transaction_description">Description</string>
+    <string name="transaction_category">Category</string>
+    <string name="category_created">Category created</string>
 </resources>
