@@ -21,7 +21,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView remainingMoney;
+    private EditText remainingMoney;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
             transactionDialogFragment.show(getSupportFragmentManager(), "transactionDialogFragment");
         });
 
-        remainingMoney = (TextView) findViewById(R.id.remainingMoney);
+        remainingMoney = (EditText) findViewById(R.id.remainingMoney);
         remainingMoney.setText(Integer.toString(SpendLessPreferences.getRemainingDailySpendings(this)));
+        remainingMoney.setEnabled(false);
     }
 
     @Override

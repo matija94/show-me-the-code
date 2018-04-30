@@ -17,6 +17,7 @@ import com.matija.spendless.R;
 import com.matija.spendless.model.Category;
 import com.matija.spendless.model.Transaction;
 import com.matija.spendless.model.db.SpendLessDB;
+import com.matija.spendless.preferences.SpendLessPreferences;
 import com.matija.spendless.ui.views.EditTextCategoryPicker;
 import com.matija.spendless.ui.views.EditTextDatePicker;
 
@@ -53,7 +54,14 @@ public class NewTransactionDialogFragment extends DialogFragment {
             .setView(view)
             .setPositiveButton(R.string.submit, (dialogInterface, i) -> {
                 try {
-                    createTransaction();
+                    float value = Float.parseFloat(this.value.getText().toString());
+                    String description = this.description.getText().toString();
+                    Date date = this.date.getDate();
+                    String categoryStr = category.getText().toString();
+
+                    createTransaction(value, description, date ,categoryStr);
+                    updateRemainingSpendings(value);
+
                     Snackbar.make(view.findViewById(R.id.addTransactionCoordinatorLayout),
                             R.string.transaction_insert, Snackbar.LENGTH_SHORT)
                             .show();
@@ -72,21 +80,19 @@ public class NewTransactionDialogFragment extends DialogFragment {
         this.category = v.findViewById(R.id.categoryButton);
     }
 
-    private void createTransaction() throws ParseException {
+    private void createTransaction(float value, String description, Date date, String categoryStr) throws ParseException {
         Executors.newSingleThreadExecutor().execute(() -> {
-            float value = Float.parseFloat(this.value.getText().toString());
 
-            String description = this.description.getText().toString();
-
-            Date date = this.date.getDate();
-
-            String categoryStr = category.getText().toString();
             Category category = SpendLessDB.getInstance(getContext()).getCategoryDAO().findCategoryByName(categoryStr);
 
             Transaction transaction = new Transaction(null, value, date, Integer.parseInt(Long.toString(category.getId())), description);
             SpendLessDB.getInstance(getContext()).getTransactionDAO().insert(transaction);
         });
+    }
 
+    private void updateRemainingSpendings(float value) {
+        int remainingSpendings = SpendLessPreferences.getRemainingDailySpendings(getActivity()) - (int) value;
+        SpendLessPreferences.setRemainingDailySpending(getActivity(), remainingSpendings);
     }
 
 }

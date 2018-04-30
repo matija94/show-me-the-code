@@ -38,7 +38,7 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <TextView
+        <EditText
             android:id="@+id/remainingMoney"
             android:layout_width="wrap_content"
             android:layout_height="133dp"
@@ -49,7 +49,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/oval"
             android:ems="10"
-            android:inputType="numberSigned"
+            android:inputType="none"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
