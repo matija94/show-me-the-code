@@ -15,7 +15,7 @@ import com.matija.spendless.preferences.SpendLessPreferences;
 
 public class SpendingsService extends IntentService {
 
-    private static final long SAVINGS_UPDATE_CHECK_INTERVAL = 1000 * (60^3) * 24;
+    private static final long SAVINGS_UPDATE_CHECK_INTERVAL = 86400000; // 24 hours
 
     public SpendingsService() {
         super("SavingsService");
@@ -28,7 +28,7 @@ public class SpendingsService extends IntentService {
     public static void setServiceAlarm(Context context) {
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, newIntent(context), 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,System.currentTimeMillis(), SAVINGS_UPDATE_CHECK_INTERVAL, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, System.currentTimeMillis(), SAVINGS_UPDATE_CHECK_INTERVAL, pendingIntent);
     }
 
     public static boolean isAlarmOn(Context context) {

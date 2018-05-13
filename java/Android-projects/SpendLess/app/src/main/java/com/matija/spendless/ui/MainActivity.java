@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         createTabs();
 
         remainingMoney.setText(Integer.toString(SpendLessPreferences.getRemainingDailySpendings(this)));
+        remainingMoney.setEnabled(false);
     }
 
     @Override
