@@ -49,6 +49,8 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/oval"
             android:ems="10"
+            android:textStyle="bold"
+            android:gravity="center"
             android:inputType="numberSigned"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"

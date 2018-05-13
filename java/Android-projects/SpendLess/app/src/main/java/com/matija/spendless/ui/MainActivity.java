@@ -19,27 +19,30 @@ import com.matija.spendless.ui.dialogs.NewTransactionDialogFragment;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextView remainingMoney;
+    @BindView(R.id.remainingMoney)
+    TextView remainingMoney;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
         createTabs();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(v -> {
-            Log.d("MainActivity", "FaB clicked!");
-            NewTransactionDialogFragment transactionDialogFragment = new NewTransactionDialogFragment();
-            transactionDialogFragment.show(getSupportFragmentManager(), "transactionDialogFragment");
-        });
-
-        remainingMoney = (TextView) findViewById(R.id.remainingMoney);
         remainingMoney.setText(Integer.toString(SpendLessPreferences.getRemainingDailySpendings(this)));
     }
 
@@ -70,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
         }
         startActivity(i);
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.fab)
+    public void newTransactionDialog() {
+        Log.d("MainActivity", "FaB clicked!");
+        NewTransactionDialogFragment transactionDialogFragment = new NewTransactionDialogFragment();
+        transactionDialogFragment.show(getSupportFragmentManager(), "transactionDialogFragment");
     }
 
     private void createTabs() {
@@ -106,12 +116,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
