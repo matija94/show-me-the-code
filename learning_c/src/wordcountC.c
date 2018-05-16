@@ -36,12 +36,12 @@ struct key keytab[] = {
 int getword(char *, int);
 int binsearch(char *, struct key *, int);
 
-main() {
+/*main() {
 
 	int n;
 	char word[MAXWORD];
 
-	while(getword(word,MAXWORD) != EOF) {
+	while(getword(word,MAXWORD) != EOF)
 		if (isalpha(word[0]))
 			if ((n = binsearch(word, keytab, NKEYS)) >= 0)
 				keytab[n].count++;
@@ -50,8 +50,7 @@ main() {
 			printf("%4d %s\n", keytab[n].count, keytab[n].word);
 
 	return 0;
-	}
-}
+}*/
 
 
 int binsearch(char *word, struct key tab[], int n) {
@@ -62,7 +61,7 @@ int binsearch(char *word, struct key tab[], int n) {
 	high = n - 1;
 	while (low <= high) {
 		mid = (low + high) / 2;
-		res = strcmp(word, tab[mid]);
+		res = strcmp(word, tab[mid].word);
 		if (res > 0) {
 			return low = mid + 1;
 		}

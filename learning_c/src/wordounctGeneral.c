@@ -1,10 +1,3 @@
-/*
- * wordounctGeneral.c
- *
- *  Created on: Mar 14, 2018
- *      Author: matija
- */
-
 
 struct tnode {
 	char *word;
@@ -13,34 +6,47 @@ struct tnode {
 	struct tnode *right;
 };
 
+struct tree {
+	struct tnode *root;
+	int length;
+};
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
 
 #define MAXWORD 100
-struct tnode *addtree(struct tnode *, char *);
+
+struct tnode *addnode(struct tnode *, char *);
+void addtree(struct tree *, char *);
+struct tree * treealloc(void);
 void treeprint(struct tnode *);
 int getword(char *, int);
 
 main() {
-	struct tnode *root;
+	struct tree *t;
 	char word[MAXWORD];
 
-	root = NULL;
+	t = treealloc();
+
+	t->root = NULL;
+	t->length = 0;
+
 	while(getword(word,MAXWORD) != EOF) {
 		if (isalpha(word[0]))
-			root = addtree(root, word);
+			addtree(t, word);
 	}
-	treeprint(root);
+	treeprint(t->root);
+	printf("%d", t->length);
 	return 0;
 
 }
 
 
 struct tnode *talloc(void);
-char *strdup(char *);
+char *strdups(char *);
 
-struct tnode *addtree(struct tnode *p, char *str) {
+struct tnode *addnode(struct tnode *p, char *str) {
 	int comp;
 
 	if (p == NULL) {
@@ -53,13 +59,20 @@ struct tnode *addtree(struct tnode *p, char *str) {
 		p->count++;
 	}
 	else if (comp < 0) {
-		p->left = addtree(p->left, str);
+		p->left = addnode(p->left, str);
 	}
 	else {
-		p->right = addtree(p->right, str);
+		p->right = addnode(p->right, str);
 	}
 	return p;
 }
+
+
+void addtree(struct tree *t, char *str) {
+	t->root = addnode(t->root, str);
+	t->length++;
+}
+
 
 void treeprint(struct tnode *p){
 	if (p != NULL) {
@@ -74,7 +87,11 @@ struct tnode *talloc(void){
 	return (struct tnode *) malloc(sizeof(struct tnode));
 }
 
-char *strdup(char *s) {
+struct tree *treealloc(void) {
+	return (struct tree *) malloc(sizeof(struct tree));
+}
+
+char *strdups(char *s) {
 	char *p;
 
 	p = (char *) malloc(strlen(s)+1);
