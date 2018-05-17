@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 
 struct nlist {
@@ -13,8 +14,7 @@ static struct nlist *hashtab[HASHSIZE]; // pointer table
 
 unsigned hash(char *s) {
 	unsigned hashval;
-
-	for (; *s != '\0'; s++)
+	for (hashval=0; *s != '\0'; s++)
 		hashval = *s + 31 * hashval;
 	return hashval % HASHSIZE;
 }
@@ -39,7 +39,7 @@ struct nlist *install(char *name, char *defn) {
 		if (np == NULL || (np->name = strdups(name)) == NULL)
 			return NULL;
 		hashval = hash(name);
-		np->next = NULL;
+		np->next = hashtab[hashval];
 		hashtab[hashval] = np;
 	}
 	else
@@ -55,19 +55,22 @@ void undef(char *s) {
 		if (strcmp(s, np->name) == 0){
 			if (prev)
 				prev->next = np->next;
+			free(np->defn);
+			free(np->name);
+			free(np->next);
 			free(np);
 		}
 		prev = np;
 	}
 }
 
-main() {
+/*main() {
 	install("matija", "car");
+	printf("%s\n", lookup("matija")->defn);
 	undef("matija");
 	printf("%s\n", lookup("matija")->defn);
-	printf("%s\n", lookup("matija")->defn);
 	return 0;
-}
+}*/
 
 
 
