@@ -17,8 +17,9 @@ char *getWord() {
 	w = line;
 	return w;
 }
-
-main() {
+/*
+main(int argc, char **argv) {
+	printf("%s", argv[1]);
 	int c;
 	while((c=getch()) != EOF) {
 		if (c == '#') {
@@ -31,4 +32,4 @@ main() {
 			printf("Installed pair <%s,%s>\n", key, val);
 		}
 	}
-}
+}*/
