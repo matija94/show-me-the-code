@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     public void newTransactionDialog() {
         Log.d("MainActivity", "FaB clicked!");
         NewTransactionDialogFragment transactionDialogFragment = new NewTransactionDialogFragment();
+
         transactionDialogFragment.show(getSupportFragmentManager(), "transactionDialogFragment");
     }
 

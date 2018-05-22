@@ -2,16 +2,18 @@ package com.matija.spendless.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.matija.spendless.R;
 import com.matija.spendless.model.Category;
@@ -21,10 +23,7 @@ import com.matija.spendless.preferences.SpendLessPreferences;
 import com.matija.spendless.ui.views.EditTextCategoryPicker;
 import com.matija.spendless.ui.views.EditTextDatePicker;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 
@@ -39,6 +38,8 @@ public class NewTransactionDialogFragment extends DialogFragment {
     private EditTextDatePicker date;
     private EditTextCategoryPicker category;
 
+    private boolean valid[] = {false};
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
     @Override
@@ -52,25 +53,47 @@ public class NewTransactionDialogFragment extends DialogFragment {
 
         builder
             .setView(view)
+            .setOnDismissListener(this)
+            .setOnCancelListener(this)
             .setPositiveButton(R.string.submit, (dialogInterface, i) -> {
-                try {
-                    float value = Float.parseFloat(this.value.getText().toString());
-                    String description = this.description.getText().toString();
-                    Date date = this.date.getDate();
-                    String categoryStr = category.getText().toString();
+                Float value=null;
+                String description=null, categoryStr=null;
+                Date date=null;
 
+                try {
+                    value = Float.parseFloat(this.value.getText().toString());
+                    description = this.description.getText().toString();
+                    date = this.date.getDate();
+                    categoryStr = category.getText().toString();
+                    valid[0] = true;
+                }
+                catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.transaction_insert_fail, Toast.LENGTH_SHORT).show();
+                }
+                if (valid[0]) {
                     createTransaction(value, description, date ,categoryStr);
                     updateRemainingSpendings(value);
 
-                    Snackbar.make(view.findViewById(R.id.addTransactionCoordinatorLayout),
-                            R.string.transaction_insert, Snackbar.LENGTH_SHORT)
-                            .show();
-                }
-                catch (ParseException e) {
+                    Toast.makeText(getActivity(), R.string.transaction_insert, Toast.LENGTH_SHORT).show();
                 }
             });
 
         return builder.create();
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        valid[0] = true;
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if (!valid[0]) {
+            FragmentManager fm = getFragmentManager();
+            fm.beginTransaction().remove(this).commit();
+            show(fm, "transactionDialogFragment");
+        }
     }
 
     private void initViewComponents(View v) {
@@ -80,7 +103,7 @@ public class NewTransactionDialogFragment extends DialogFragment {
         this.category = v.findViewById(R.id.categoryButton);
     }
 
-    private void createTransaction(float value, String description, Date date, String categoryStr) throws ParseException {
+    private void createTransaction(float value, String description, Date date, String categoryStr) {
         Executors.newSingleThreadExecutor().execute(() -> {
 
             Category category = SpendLessDB.getInstance(getContext()).getCategoryDAO().findCategoryByName(categoryStr);
