@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.matija.spendless.R;
 import com.matija.spendless.preferences.SpendLessPreferences;
+import com.matija.spendless.services.SpendingsService;
 
 /**
  * Created by matija on 7.4.18..
@@ -43,12 +44,16 @@ public class SpendingsActivity extends AppCompatActivity {
             if (s.length() > 0) {
                 int spendings = Integer.parseInt(s.toString());
                 SpendLessPreferences.setDailySpendings(SpendingsActivity.this, spendings);
+                if (!SpendingsService.isAlarmOn(SpendingsActivity.this)) {
+                    SpendingsService.setServiceAlarm(SpendingsActivity.this);
+                }
             }
         }
     };
 
     private void initViews() {
         this.dailySpendings = findViewById(R.id.spendings_spendings_daily_value_edit_text);
+        this.dailySpendings.setText(Integer.toString(SpendLessPreferences.getDailySpendings(this)));
 
         int days = 7;
         this.specificDaysSpendings = new EditText[days];

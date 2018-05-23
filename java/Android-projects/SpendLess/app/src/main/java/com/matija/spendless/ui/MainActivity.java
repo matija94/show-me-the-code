@@ -1,7 +1,9 @@
 package com.matija.spendless.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.matija.spendless.R;
 import com.matija.spendless.preferences.SpendLessPreferences;
+import com.matija.spendless.services.SpendingsService;
 import com.matija.spendless.ui.dialogs.NewTransactionDialogFragment;
 
 import java.util.Calendar;
@@ -76,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @OnClick(R.id.fab)
     public void newTransactionDialog() {
         Log.d("MainActivity", "FaB clicked!");
         NewTransactionDialogFragment transactionDialogFragment = new NewTransactionDialogFragment();
-
         transactionDialogFragment.show(getSupportFragmentManager(), "transactionDialogFragment");
     }
 

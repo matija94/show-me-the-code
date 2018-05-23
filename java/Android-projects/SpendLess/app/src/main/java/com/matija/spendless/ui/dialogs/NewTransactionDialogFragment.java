@@ -72,8 +72,9 @@ public class NewTransactionDialogFragment extends DialogFragment {
                 }
                 if (valid[0]) {
                     createTransaction(value, description, date ,categoryStr);
-                    updateRemainingSpendings(value);
 
+                    updateRemainingSpendings(value);
+                    SpendLessPreferences.setLastTransactionTimestamp(getActivity(), new Date().getTime());
                     Toast.makeText(getActivity(), R.string.transaction_insert, Toast.LENGTH_SHORT).show();
                 }
             });
