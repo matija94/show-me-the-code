@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
@@ -39,6 +41,18 @@ public class NewTransactionDialogFragment extends DialogFragment {
     private EditTextCategoryPicker category;
 
     private boolean valid[] = {false};
+
+
+    public interface OnTransactionCreatedListener {
+
+        public void onTransactionCreated(Transaction t);
+    }
+    private OnTransactionCreatedListener transactionCreatedListener;
+
+    public void setOnTransactionCreatedListener(OnTransactionCreatedListener listener) {
+        this.transactionCreatedListener = listener;
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @NonNull
@@ -110,6 +124,13 @@ public class NewTransactionDialogFragment extends DialogFragment {
             Category category = SpendLessDB.getInstance(getContext()).getCategoryDAO().findCategoryByName(categoryStr);
 
             Transaction transaction = new Transaction(null, value, date, Integer.parseInt(Long.toString(category.getId())), description);
+
+            if (transactionCreatedListener != null) { // run callback on main thread after transaction is created
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(() -> transactionCreatedListener.onTransactionCreated(transaction));
+            }
+
+
             SpendLessDB.getInstance(getContext()).getTransactionDAO().insert(transaction);
         });
     }

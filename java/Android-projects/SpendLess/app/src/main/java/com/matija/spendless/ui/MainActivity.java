@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.matija.spendless.R;
+import com.matija.spendless.model.Transaction;
 import com.matija.spendless.preferences.SpendLessPreferences;
 import com.matija.spendless.services.SpendingsService;
 import com.matija.spendless.ui.dialogs.NewTransactionDialogFragment;
@@ -26,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewTransactionDialogFragment.OnTransactionCreatedListener{
 
     @BindView(R.id.remainingMoney)
     TextView remainingMoney;
@@ -84,7 +85,14 @@ public class MainActivity extends AppCompatActivity {
     public void newTransactionDialog() {
         Log.d("MainActivity", "FaB clicked!");
         NewTransactionDialogFragment transactionDialogFragment = new NewTransactionDialogFragment();
+        transactionDialogFragment.setOnTransactionCreatedListener(this);
         transactionDialogFragment.show(getSupportFragmentManager(), "transactionDialogFragment");
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("MainActivity", "onResume() called");
+        super.onResume();
     }
 
     private void createTabs() {
@@ -127,5 +135,11 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
+
+    @Override
+    public void onTransactionCreated(Transaction t) {
+        Log.d("MainActivity", "onTransactionCreated() called");
+        remainingMoney.setText(Integer.toString(SpendLessPreferences.getRemainingDailySpendings(this)));
     }
 }
