@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.matija.spendless.R;
 import com.matija.spendless.preferences.SpendLessPreferences;
-import com.matija.spendless.services.SpendingsService;
+import com.matija.spendless.jobs.services.SpendingsService;
 
 /**
  * Created by matija on 7.4.18..

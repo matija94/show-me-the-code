@@ -1,26 +1,16 @@
 package com.matija.spendless.ui;
 
-import android.app.Application;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
-
-import android.support.v4.app.Fragment;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.matija.spendless.R;
 import com.matija.spendless.model.db.SpendLessDB;
@@ -29,11 +19,10 @@ import com.matija.spendless.model.Category;
 
 import com.matija.spendless.ui.dialogs.NewCategoryDialogFragment;
 import com.matija.spendless.utils.ApplicationExecutors;
-import com.matija.spendless.viewmodel.CategoryListViewModel;
+import com.matija.spendless.ui.viewmodel.CategoryListViewModel;
 
 import java.util.ArrayList;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

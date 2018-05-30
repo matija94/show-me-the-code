@@ -1,11 +1,11 @@
-package com.matija.spendless.broadcasts;
+package com.matija.spendless.jobs.broadcasts;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.matija.spendless.services.SpendingsService;
+import com.matija.spendless.jobs.services.SpendingsService;
 
 
 /**

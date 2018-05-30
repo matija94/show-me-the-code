@@ -34,4 +34,6 @@
     <string name="transaction_category">Category</string>
     <string name="category_created">Category created</string>
     <string name="transaction_insert_fail">Failed to insert transaction. Please check your input.</string>
+    <string name="transactions_remainder">Insert recent transactions</string>
+    <string name="transactions_reminder_desc">Hey! You haven\'t entered any transactions for past day</string>
 </resources>

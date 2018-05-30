@@ -1,10 +1,8 @@
-package com.matija.spendless.viewmodel;
+package com.matija.spendless.ui.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 
 import com.matija.spendless.model.Category;
 import com.matija.spendless.model.db.SpendLessDB;

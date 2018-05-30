@@ -28,7 +28,7 @@ import com.matija.spendless.ui.views.EditTextCategoryPicker;
 import com.matija.spendless.ui.views.EditTextDatePicker;
 import com.matija.spendless.utils.ApplicationExecutors;
 import com.matija.spendless.utils.DateParser;
-import com.matija.spendless.viewmodel.TransactionListViewModel;
+import com.matija.spendless.ui.viewmodel.TransactionListViewModel;
 
 /**
  * Created by matija on 23.3.18..

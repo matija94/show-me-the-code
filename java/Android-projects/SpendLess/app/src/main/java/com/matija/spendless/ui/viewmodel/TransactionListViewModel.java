@@ -1,18 +1,15 @@
-package com.matija.spendless.viewmodel;
+package com.matija.spendless.ui.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 
 import com.matija.spendless.model.Transaction;
 import com.matija.spendless.model.db.SpendLessDB;
-
-import java.util.List;
 
 /**
  * Created by matija on 25.3.18..

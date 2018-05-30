@@ -11,13 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.matija.spendless.R;
+import com.matija.spendless.jobs.services.SpendingsService;
 import com.matija.spendless.model.Transaction;
 import com.matija.spendless.preferences.SpendLessPreferences;
-import com.matija.spendless.services.SpendingsService;
 import com.matija.spendless.ui.dialogs.NewTransactionDialogFragment;
 
 import java.util.Calendar;
@@ -38,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements NewTransactionDia
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private boolean startNewTransactionDialog = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements NewTransactionDia
 
         remainingMoney.setText(Integer.toString(SpendLessPreferences.getRemainingDailySpendings(this)));
         remainingMoney.setEnabled(false);
+
+        startNewTransactionDialog = getIntent().getBooleanExtra(SpendingsService.INSERT_NEW_TRANSACTION, false);
     }
 
     @Override
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NewTransactionDia
     @RequiresApi(api = Build.VERSION_CODES.M)
     @OnClick(R.id.fab)
     public void newTransactionDialog() {
+
         Log.d("MainActivity", "FaB clicked!");
         NewTransactionDialogFragment transactionDialogFragment = new NewTransactionDialogFragment();
         transactionDialogFragment.setOnTransactionCreatedListener(this);
@@ -90,9 +94,22 @@ public class MainActivity extends AppCompatActivity implements NewTransactionDia
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (!SpendingsService.isAlarmOn(this)) {
+            SpendingsService.setServiceAlarm(this);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
     protected void onResume() {
         Log.d("MainActivity", "onResume() called");
         super.onResume();
+
+        if (startNewTransactionDialog) {
+            newTransactionDialog();
+        }
     }
 
     private void createTabs() {

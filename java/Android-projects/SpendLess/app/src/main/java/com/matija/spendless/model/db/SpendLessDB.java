@@ -45,15 +45,10 @@ public abstract class SpendLessDB extends RoomDatabase {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
-                Executors.newSingleThreadExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        getInstance(context).getCategoryDAO().insert(defaultCategories());
-                    }
-                });
+                Executors.newSingleThreadExecutor().execute(() ->
+                        getInstance(context).getCategoryDAO().insert(defaultCategories()));
             }
         })
-
                 .build();
     }
 

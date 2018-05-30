@@ -25,13 +25,13 @@
         <activity android:name=".ui.TransactionsActivity" />
         <activity android:name=".ui.CategoriesActivity" />
         <activity android:name=".ui.SpendingsActivity" />
-        <receiver android:name=".broadcasts.StartupReceiver">
+        <receiver android:name=".jobs.broadcasts.StartupReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        <service android:name=".services.SpendingsService" />
+        <service android:name=".jobs.services.SpendingsService" />
     </application>
 
 </manifest>

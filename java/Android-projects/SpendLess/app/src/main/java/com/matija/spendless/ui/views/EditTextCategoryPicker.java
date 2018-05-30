@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
  * Created by matija on 23.3.18..
  */
 
-public class EditTextCategoryPicker extends AppCompatEditText implements View.OnClickListener, CategoryPickerDialog.CategoryDialogPickerCallback {
+public class EditTextCategoryPicker extends AppCompatEditText implements View.OnClickListener,
+        CategoryPickerDialog.CategoryDialogPickerCallback {
 
     private CategoryPickerDialog categoryPickerDialog;
 
