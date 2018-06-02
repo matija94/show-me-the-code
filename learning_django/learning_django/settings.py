@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'learning_django',
+    'gameplay',
+    'tictactoe',
+    'player',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',

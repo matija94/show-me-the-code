@@ -16,8 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from learning_django import views
+
 urlpatterns = [
+    path('', views.home, name='home'),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
-    path('tictactoe/', include('tictactoe.urls'))
+    path('tictactoe/', include('tictactoe.urls')),
+    path('player/', include('player.urls'))
 ]
