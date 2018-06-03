@@ -11,6 +11,10 @@ public class QuickSort<T> {
 	public static <T extends Comparable<T>> void sort1(T data[]) {
 		sort1(data,0,data.length-1);
 	}
+
+	public static <T extends Comparable<T>> void sort1NonInc(T data[]) {
+	    sort1NonInc(data,0, data.length-1);
+    }
 	
 	private static <T extends Comparable<T>> void sort(T[] data, int left, int right) {
 		calls++;
@@ -48,6 +52,14 @@ public class QuickSort<T> {
 		}
 	}
 
+	private static <T extends Comparable<T>> void sort1NonInc(T[] data, int left, int right){
+	    if (left < right) {
+	        int q = partition1NonInc(data,left,right);
+	        sort1NonInc(data,left,q-1);
+	        sort1NonInc(data,q+1, right);
+        }
+    }
+
 	private static <T extends Comparable<T>> int partition1(T[] data, int left, int right) {
 		T pivot = data[right];
 		int i = left-1;
@@ -61,6 +73,19 @@ public class QuickSort<T> {
 		return i+1;
 	}
 
+	private static <T extends Comparable<T>> int partition1NonInc(T[]data, int left, int right) {
+	    T pivot = data[right];
+	    int i = left-1;
+	    for (int j=left; j<right; j++) {
+	        if (data[j].compareTo(pivot) > 0) {
+	            i++;
+	            swap(data,i,j);
+            }
+        }
+        swap(data, i+1, right);
+	    return i+1;
+    }
+
 	private static <T extends Comparable<T>> void swap(T[] data, int left, int right) {
 		T temp = data[left];
 		data[left] = data[right];
@@ -69,10 +94,9 @@ public class QuickSort<T> {
 	
 	public static void main(String[] args) {
 		Integer[] ints = {10,5,3,9,1,2,4};
-		sort1(ints);
+		sort1NonInc(ints);
 		for (int i : ints) {
 			System.out.println(i);
 		}
-		//System.out.println(calls);
 	}
 }

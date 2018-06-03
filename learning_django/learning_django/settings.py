@@ -123,3 +123,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = "player:player_home"
+LOGOUT_REDIRECT_URL = "tictactoe:welcome"
+LOGIN_URL = "player:player_login"

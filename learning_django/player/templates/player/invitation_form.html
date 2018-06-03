@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+    New invitation
+{% endblock %}
+
+{% block content %}
+
+    <form role="form" action="{% url "player:player_invitation" %}" method="post">
+        {{ form }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Invite</button>
+
+    </form>
+
+{% endblock %}

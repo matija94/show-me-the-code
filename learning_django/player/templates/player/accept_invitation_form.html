@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Accept invitation
+{% endblock %}
+
+{% block content %}
+    <div class="well col-md-6">
+        <p>User {{ invitation.from_user }} invited you to play a game.
+         He/she included the following message:</p>
+        <blockquote> <p>{{ invitation.comment }}</p></blockquote>
+        <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit" name="accept" value="ok">Accept</button>
+            <button type="submit" name="deny" value="no">Deny</button>
+        </form>
+    </div>
+{% endblock %}
