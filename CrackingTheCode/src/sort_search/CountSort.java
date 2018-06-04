@@ -17,8 +17,8 @@ public class CountSort {
             eCnt[i] += eCnt[i-1];
         }
         int[] sorted = new int[ints.length];
-        for (int i = ints.length-1;i>=0; i--){
-            sorted[eCnt[ints[i]]-1] = ints[i];
+        for (int i = 0;i<ints.length; i++){
+            sorted[eCnt[ints[i]]-1] = ints[i]; // eCount stores integers(1 based) representing count of numbers which are <= than given number. We subtract the computed value by 1(to get index 0 based integer) and store the given number at the new index.
             eCnt[ints[i]]--;
         }
 
@@ -34,5 +34,8 @@ public class CountSort {
             System.out.println(i);
         }
     }
+
+    // 1 4 7 9 10 15 20
+    // 1 5 12
 
 }
