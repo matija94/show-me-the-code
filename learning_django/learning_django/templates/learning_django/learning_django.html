@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Learning Django</title>
-    <h1>Welcome to Learning Django</h1>
-</head>
-<body>
+{% extends "base.html" %}
 
-<ul>
+{% block title %}
+    Learning Django
+{% endblock %}
+
+
+{% block content %}
+    <h1>Welcome to Learning Django</h1>
+
+    <ul>
 
     {% for app_name, route in apps.items %}
     <li><a href="{{ route }}">{{ app_name }}</a></li>
     {% endfor %}
 </ul>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Game module
+{% endblock title %}
+
+{% block content %}
+
+    {% include "player/game_list_snippet.html" with games_list=object_list%}
+
+{% endblock content %}

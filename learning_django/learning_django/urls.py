@@ -23,5 +23,6 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     path('tictactoe/', include('tictactoe.urls')),
-    path('player/', include('player.urls'))
+    path('player/', include('player.urls')),
+    path('game/', include('gameplay.urls'))
 ]

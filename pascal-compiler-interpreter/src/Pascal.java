@@ -61,7 +61,7 @@ public class Pascal {
 	}
 
 	private static final String FLAGS = "[-ix]";
-	private static final String USAGE = "Usage: Pascal execute|compile " + FLAGS + " <source file path>";
+	private static final String USAGE = "Usage: Pascal interpret|compile " + FLAGS + " <source file path>";
 
 	/**
 	 * The main method.

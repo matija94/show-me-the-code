@@ -5,14 +5,12 @@
     <div class="row">
 
     <div class="col-md-6">
-        These are your active games:
-        <ul>
-        {% for g in games %}
-        <li>Game {{ g.id }}: {{ g.first_player }} vs {{ g.second_player }}</li>
+        <h3>These are your active games:</h3>
 
-        {% endfor %}
+        {% include "player/game_list_snippet.html" with games_list=active_games %}
 
-        </ul>
+        <h3>Finished games</h3>
+        {% include "player/game_list_snippet.html" with games_list=finished_games %}
 
         <p><a href="{% url "player:player_invitation" %}"> Invite new player</a></p>
     </div>
