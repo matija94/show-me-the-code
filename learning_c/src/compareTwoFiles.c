@@ -36,6 +36,7 @@
     fclose(fp2);
     return 0;
 }*/
+/*
 int main(int argc, char **argv) {
 
 	FILE *fp1, *fp2;
@@ -58,3 +59,4 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
+*/

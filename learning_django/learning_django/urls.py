@@ -24,5 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('tictactoe/', include('tictactoe.urls')),
     path('player/', include('player.urls')),
-    path('game/', include('gameplay.urls'))
+    path('game/', include('gameplay.urls')),
+    path('api/', include('snippets.urls')),
+    path('api-tasks/', include('api.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ]

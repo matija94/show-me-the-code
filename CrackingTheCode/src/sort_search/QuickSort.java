@@ -1,5 +1,7 @@
 package sort_search;
 
+import java.util.Random;
+
 public class QuickSort<T> {
 
 	private static int calls = 0;
@@ -71,6 +73,13 @@ public class QuickSort<T> {
 		}
 		swap(data, i+1, right);
 		return i+1;
+	}
+
+	public static <T extends Comparable<T>> int radonmizedPartition(T[] data, int left, int right) {
+		Random r = new Random();
+	    int randomIndex = r.nextInt(right-left+1) + left;
+	    swap(data, randomIndex, right);
+	    return partition1(data,left,right);
 	}
 
 	private static <T extends Comparable<T>> int partition1NonInc(T[]data, int left, int right) {
