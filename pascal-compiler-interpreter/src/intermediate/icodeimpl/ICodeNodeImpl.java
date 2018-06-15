@@ -9,6 +9,7 @@ import intermediate.ICodeFactory;
 import intermediate.ICodeKey;
 import intermediate.ICodeNode;
 import intermediate.ICodeNodeType;
+import intermediate.symtabimpl.SymTabEntryImpl;
 
 public class ICodeNodeImpl extends HashMap<ICodeKey, Object> implements ICodeNode{
 
@@ -71,7 +72,16 @@ public class ICodeNodeImpl extends HashMap<ICodeKey, Object> implements ICodeNod
 		return copy;
 	}
 
+	@Override
 	public String toString() {
-		return type.toString();
+		String type = getType().toString();
+		String value = "";
+		if (containsKey(ICodeKeyImpl.ID)) {
+			value = getAttribute(ICodeKeyImpl.ID).toString();
+		}
+		if (containsKey(ICodeKeyImpl.VALUE)) {
+			value = (getAttribute(ICodeKeyImpl.VALUE)).toString();
+		}
+		return String.format("Node [type=%s, value=%s]", type, value);
 	}
 }

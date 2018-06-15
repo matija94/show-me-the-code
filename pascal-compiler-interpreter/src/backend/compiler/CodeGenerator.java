@@ -1,9 +1,7 @@
 package backend.compiler;
 
 import backend.Backend;
-import intermediate.ICode;
-import intermediate.SymTab;
-import intermediate.SymTabStack;
+import intermediate.*;
 import messages.Message;
 import messages.MessageType;
 
@@ -27,5 +25,4 @@ public class CodeGenerator extends Backend{
 								new Number[] {instructionCount, elapsedTime}));
 		
 	}
-
 }

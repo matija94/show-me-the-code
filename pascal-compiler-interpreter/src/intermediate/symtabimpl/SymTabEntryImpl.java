@@ -7,6 +7,7 @@ import java.util.List;
 import intermediate.SymTab;
 import intermediate.SymTabEntry;
 import intermediate.SymTabKey;
+import intermediate.TypeSpec;
 
 public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTabEntry {
 
@@ -15,6 +16,10 @@ public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTa
 	private SymTab symTab;
 	// parent symbol table
 	private ArrayList<Integer> lineNumbers; // source line numbers
+
+	private Definition definition; // definition of the indetifier (constant, type, variable)
+
+	private TypeSpec typeSpec;
 
 	/**
 	 * Constructor.
@@ -64,6 +69,26 @@ public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTa
 	}
 
 	@Override
+	public void setDefinition(Definition definition) {
+		this.definition = definition;
+	}
+
+	@Override
+	public Definition getDefinition() {
+		return definition;
+	}
+
+	@Override
+	public void setTypeSpec(TypeSpec typeSpec) {
+		this.typeSpec = typeSpec;
+	}
+
+	@Override
+	public TypeSpec getTypeSpec() {
+		return typeSpec;
+	}
+
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -76,5 +101,11 @@ public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTa
 	@Override
 	public List<Integer> getLineNumbers() {
 		return lineNumbers;
+	}
+
+	@Override
+	public String toString() {
+		String dataVal = (String) getOrDefault(SymTabKeyImpl.DATA_VALUE, "NIL").toString();
+		return String.format("%s = %s", name, dataVal);
 	}
 }

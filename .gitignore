@@ -8,3 +8,4 @@ __pycache__/
 **/bin
 **/node_modules
 *.o
+**/.idea

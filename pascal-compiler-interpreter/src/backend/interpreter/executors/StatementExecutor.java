@@ -39,7 +39,22 @@ public class StatementExecutor extends Executor {
 				AssignmentExecutor ae = new AssignmentExecutor(this);
 				return ae.execute(node);
 			}
-			
+
+			case LOOP: {
+				LoopExecutor loopExecutor = new LoopExecutor(this);
+				return loopExecutor.execute(node);
+			}
+
+			case IF: {
+				IfExecutor ifExecutor = new IfExecutor(this);
+				return ifExecutor.execute(node);
+			}
+
+			case SELECT: {
+				SelectExecutor selectExecutor = new SelectExecutor(this);
+				return selectExecutor.execute(node);
+			}
+
 			case NO_OP: return null;
 			
 			default: {
