@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import intermediate.SymTab;
-import intermediate.SymTabEntry;
-import intermediate.SymTabKey;
-import intermediate.TypeSpec;
+import intermediate.*;
 
 public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTabEntry {
 
@@ -67,6 +64,7 @@ public class SymTabEntryImpl extends HashMap<SymTabKey, Object> implements SymTa
 	public Object getAttribute(SymTabKey key) {
 		return get(key);
 	}
+
 
 	@Override
 	public void setDefinition(Definition definition) {

@@ -4,6 +4,7 @@ import intermediate.SymTabEntry;
 import intermediate.TypeForm;
 import intermediate.TypeKey;
 import intermediate.TypeSpec;
+import intermediate.symtabimpl.Predefined;
 
 import java.util.HashMap;
 

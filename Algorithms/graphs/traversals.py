@@ -47,10 +47,10 @@ def DFS_complete(g):
 def BFS(g, s, discovered):
     '''
     Perform BFS of the undiscovered portion of Graph G starting at Vertex s
-    
+
     discovered is a dictionary mapping each vertex to the edge that was used to discover it during BFS ( s should be mapped to None prior the call )
     Newly discovered vertices will be added to the dictionary as a result.
-    ''' 
+    '''
     que = [s]
     while len(que) > 0:
         v = que.pop()
@@ -127,8 +127,8 @@ def topological_sort(g):
     return topo
 
 
-def dijkstra(G,s):
-    
+def dijkstra(g,s):
+
     d = {}
     cloud = {}
     pq = AdaptableMinPriorityQueue()
@@ -147,7 +147,7 @@ def dijkstra(G,s):
         del pqlocator[u]
         
         for e in g.incident_edges(u):
-            v = e.opposite()
+            v = e.opposite(u)
             if v not in cloud:
                 wgt = e.element()
                 if d[u] + wgt < d[v]:
@@ -165,6 +165,61 @@ def shortest_path_tree(g,s,d):
                 if d[u] + weight == d[v]:
                     tree[v] = e
     return tree
+
+
+class construct_all_paths:
+
+    def __init__(self, u ,v, graph):
+        self.start = u
+        self.end = v
+        self.graph = graph
+        self.result = [[]]
+        self.visited = set()
+        self.path = 0
+
+    def __compute_iterative(self, u):
+        stack = [u]
+        while len(stack) > 0:
+            u = stack.pop()
+            for e in self.graph.incident_edges(u):
+                if e not in self.visited:
+                    self.visited.add(e)
+                    adj = e.opposite(u)
+                    if u is not adj:
+                        if adj == self.end:
+                            self.visited = set()
+                            self.result.append([self.start])
+                            self.path += 1
+                            continue
+                        self.result[self.path].append(adj)
+                        stack.append(adj)
+
+
+
+    def __compute(self, u):
+        self.result[self.path].append(u)
+        for e in self.graph.incident_edges(u):
+            if e not in self.visited:
+                self.visited.add(e)
+                adj = e.opposite(u)
+                if u is not adj:
+                    self.__compute(adj)
+                    if self.result[self.path][-1] != self.end:
+                        self.result[self.path].pop()
+                    if u == self.start:
+                        if len(self.result[self.path]) > 1:
+                            self.result.append([self.start])
+                            self.path += 1
+                        else:
+                            self.result[self.path] = [self.start]
+                        self.visited = set()
+
+    def construct_all_paths(self):
+        self.__compute_iterative(self.start)
+        self.__compute(self.start)
+        self.result.pop()
+        return self.result
+
 
 if __name__ == '__main__':
     g = Graph()

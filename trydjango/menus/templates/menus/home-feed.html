@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for item in object_list %}
+        <div class="row">
+                <div class="col-sm-12" style="border: 1px solid #cccccc; border-radius: 5px; margin-bottom: 15px">
+                    <h4><a href="{% url 'profiles:detail' username=item.user.username %}">{{ item.user.username }}</a></h4>
+                <h5>{{ item.restaurant.name }} || {{ item.restaurant.location }} || {{ item.restaurant.category }}</h5>
+                    <p>
+                        <li style="margin-bottom: 15px;"> {{ item.name }} <br/>
+                            {% for ing in item.get_contents %}
+                                <a href="{% url 'profiles:detail' username=item.user.username%}?q={{ ing }}">
+                                    <span style="padding: 2px 4px; margin-right: 4px; background-color: #bec2cc">{{ ing }}</span>
+                                </a>
+                            {% endfor %}
+                        </li>
+                    </p>
+
+                </div>
+            </div>
+    {% endfor %}
+{% endblock %}
+

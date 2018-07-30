@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block head_title %} Profile || {{ block.super }}{% endblock head_title %}
+{% block content %}
+
+    <ul>
+        {% for profile in object_list %}
+            <li> <a href="{{ profile.get_absolute_url }}">{{ profile }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock content %}

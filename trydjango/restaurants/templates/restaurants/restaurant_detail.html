@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block head_title %} Restaurant Profile || {{ block.super }}{% endblock head_title %}
+
+{% block content %}
+
+   <h3>{{ object.title }}</h3> <br>
+    Location: {{ object.location }} <br>
+    Category: {{ object.category }}<br>
+    Created: {{ object.timestamp }} <br>
+    Updated: {{ object.updated|timesince }} ago <br>
+
+
+    <hr>
+    <h3>Make changes</h3>
+    {% include 'snippets/form-snippet.html' with form=form %}
+
+{% endblock content %}
