@@ -60,13 +60,13 @@ class Succ(n: Nat) extends Nat {
   override def -(that: Nat): Nat = if(that.isZero) this else new Succ(n - that.predecessor)
 }
 
-trait List[+T] {
+trait MyList[+T] {
   def isEmpty: Boolean
   def head: T
-  def tail: List[T]
-  def :: [U >: T](elem: U): List[U] = new Cons(elem, this)
+  def tail: MyList[T]
+  def :: [U >: T](elem: U): MyList[U] = new Cons(elem, this)
   def foreach [U >: T] (f: U => Unit) = {
-    def loop(list: List[U]): Unit = {
+    def loop(list: MyList[U]): Unit = {
       if (!list.isEmpty) {
         f(list.head)
         loop(list.tail)
@@ -76,23 +76,23 @@ trait List[+T] {
   }
 }
 
-object Nil extends List[Nothing] {
+object Nil extends MyList[Nothing] {
   override def isEmpty: Boolean = true
 
   override def head: Nothing = ???
 
-  override def tail: List[Nothing] = ???
+  override def tail: MyList[Nothing] = ???
 }
 
-class Cons[T](val head: T, val tail: List[T]) extends List[T] {
+class Cons[T](val head: T, val tail: MyList[T]) extends MyList[T] {
   override def isEmpty: Boolean = false
 }
 
 
-object List {
-  def apply[T](first: T, second: T): List[T] = new Cons(first, new Cons(second, Nil))
-  def apply[T](e: T): List[T] = new Cons(e, Nil)
-  def apply[T](): List[T] = Nil
+object MyList {
+  def apply[T](first: T, second: T): MyList[T] = new Cons(first, new Cons(second, Nil))
+  def apply[T](e: T):MyList[T] = new Cons(e, Nil)
+  def apply[T](): MyList[T] = Nil
 }
 object square extends (Int => Int) {
   def apply(x: Int): Int = x * x

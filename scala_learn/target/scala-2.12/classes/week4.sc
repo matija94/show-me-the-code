@@ -22,3 +22,5 @@ isort(l) foreach println
 val tl = scala.collection.immutable.List(1,2,3)
 
 tl.foldLeft(scala.collection.immutable.List[Int]())((l, i)=> l ::: scala.collection.immutable.List(i*3))
+
+scala.collection.immutable.List(1,2,3) ::: scala.collection.immutable.List(4,5,6)
