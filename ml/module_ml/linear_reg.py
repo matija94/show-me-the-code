@@ -74,3 +74,16 @@ if __name__ == '__main__':
     theta = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(hours_studied_ones), hours_studied_ones)), np.transpose(hours_studied_ones)), grades)
     model = LinearRegression(theta=theta, iters=1)
     model.fit(hours_studied, grades)
+
+'''
+SHORT SELLING
+ABC share 54$
+
+borrow 5 abc shares and sell them for 270$
+
+ABC share 45$
+
+buy 5 abc shares for 225$ and give them back to creditor
+
+profit = 270$ - 45$ = 25$
+'''

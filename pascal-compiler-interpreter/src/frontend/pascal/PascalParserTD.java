@@ -7,9 +7,14 @@ import frontend.EofToken;
 import frontend.Parser;
 import frontend.Scanner;
 import frontend.Token;
+import frontend.pascal.parsers.BlockParser;
 import frontend.pascal.parsers.StatementParser;
 import intermediate.ICodeFactory;
 import intermediate.ICodeNode;
+import intermediate.SymTabEntry;
+import intermediate.symtabimpl.DefinitionImpl;
+import intermediate.symtabimpl.Predefined;
+import intermediate.symtabimpl.SymTabKeyImpl;
 import messages.Message;
 import messages.MessageType;
 
@@ -20,7 +25,9 @@ import messages.MessageType;
 public class PascalParserTD extends Parser {
 
 	protected static PascalErrorHandler errorHandler = new PascalErrorHandler();
-	
+
+	private SymTabEntry routineId;
+
 	public PascalParserTD(Scanner scanner) {
 		super(scanner);
 	}
@@ -36,40 +43,41 @@ public class PascalParserTD extends Parser {
 	@Override
 	public void parse() throws Exception {
 		long startTime = System.currentTimeMillis();
+
 		iCode = ICodeFactory.createICode();
-	
+		Predefined.initialize(symTabStack);
+
+		routineId = symTabStack.enterLocal("dummyprogramname");
+		routineId.setDefinition(DefinitionImpl.PROGRAM);
+		symTabStack.setProgramId(routineId);
+
+		routineId.setAttribute(SymTabKeyImpl.ROUTINE_SYMTAB, symTabStack.push());
+		routineId.setAttribute(SymTabKeyImpl.ROUTINE_ICODE, iCode);
+
+		BlockParser bp = new BlockParser(this);
+
 		try {
 			Token token = nextToken();
-			ICodeNode rootNode = null;
-		
-			// look for the BEGIN token to parse compound statement
-			if (token.getType() == PascalTokenType.BEGIN) {
-				StatementParser statementParser = new StatementParser(this);
-				rootNode = statementParser.parse(token);
-				token = currentToken();
-			}
-			else {
-				errorHandler.flag(token, PascalErrorCode.UNEXPECTED_TOKEN, this);
-			}
-			
-			// look for the final period
+
+			ICodeNode rootNode = bp.parse(token, routineId);
+			iCode.setRoot(rootNode);
+			symTabStack.pop();
+
+			token = currentToken();
 			if (token.getType() != PascalTokenType.DOT) {
 				errorHandler.flag(token, PascalErrorCode.MISSING_PERIOD, this);
 			}
-			
 			token = currentToken();
-			
-			// set the parse tree root node
-			if (rootNode != null) {
-				iCode.setRoot(rootNode);
-			}
-			
-			// send the parser summary message
+
 			float elapsedTime = (System.currentTimeMillis() - startTime) / 1000f;
-			sendMessage(new Message(MessageType.PARSER_SUMMARY, 
-									new Number[] {token.getLineNum(), getErrorCount(), elapsedTime}));
+			sendMessage(new Message(MessageType.PARSER_SUMMARY,
+					new Number[] {
+							token.getLineNum(),
+							getErrorCount(),
+							elapsedTime
+					}));
 		}
-		catch (IOException e) {
+		catch (Exception ex) {
 			errorHandler.abortTranslation(PascalErrorCode.IO_ERROR, this);
 		}
 	}

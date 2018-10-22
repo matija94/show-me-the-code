@@ -82,10 +82,22 @@ def myFoldLeft[U, T](unit: U)(l: List[T], op: (U, T) => U): U = l match {
   case x :: _ => myFoldLeft(op(unit, x))(l.tail, op)
 }
 
-def myFoldRight[U, T](unit: U)(l: List[T], op: (U, T) => U): U = l match {
-  case List() => unit
-  case x :: _ => op(x, myFoldRight(unit)(l.tail, op))
+def reduceRight[T](l: List[T], op: (T, T) => T): T = l match {
+  case List() => throw new IllegalArgumentException("cannot reduce on empty list")
+  case List(x) => x
+  case x :: xs => op(x, reduceRight(xs, op))
 }
+
+def myFoldRight[U, T](unit: U)(l: List[T], op: (T, U) => U): U = l match {
+  case List() => unit
+  case x :: xs => op(x, myFoldRight(unit)(xs, op))
+}
+
+def mapFun[T, U](xs: List[T], f: T => U): List[U] =
+  (xs foldRight List[U]()) ( (x: T, y: List[U]) => f(x) :: y)
+
+def lengthFun[T](xs: List[T]): Int =
+  (xs foldLeft  0)((x: Int, _) => x+1)
 
 init(List(1,2,3))
 concat(List(1,2), List(3,4))
@@ -104,3 +116,7 @@ encode(List("a", "a", "a", "b", "b", "c", "c", "a"))
 
 reduceLeft(List(1,2,3,4,5), (x: Int ,y: Int) => x*y)
 myFoldRight(1)(List(1,2,3,4,5), (x: Int, y: Int) => x*y)
+reduceRight(List(1,2,3,4,5), (x: Int, y: Int) => x*y)
+
+lengthFun(List(1,2,3,4,5))
+mapFun(List(1,2,3,4,5), (x: Int) => x*x)
