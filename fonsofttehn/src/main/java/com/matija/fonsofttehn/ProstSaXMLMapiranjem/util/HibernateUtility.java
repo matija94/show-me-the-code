@@ -1,4 +1,4 @@
-package com.matija.fonsofttehn.prosto_sa_xml_map.util;
+package com.matija.fonsofttehn.ProstSaXMLMapiranjem.util;
 
 import org.hibernate.*;
 import org.hibernate.boot.Metadata;

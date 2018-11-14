@@ -1,18 +1,16 @@
-package com.matija.fonsofttehn.prosto_sa_xml_map.main;
+package com.matija.fonsofttehn.ProstSaXMLMapiranjem.main;
 
 import java.util.Iterator;
 import java.util.List;
 
-
+import com.matija.fonsofttehn.ProstSaXMLMapiranjem.model.Proizvod;
+import com.matija.fonsofttehn.ProstSaXMLMapiranjem.util.HibernateUtility;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
-import com.matija.fonsofttehn.prosto_sa_xml_map.model.Proizvod;
-import com.matija.fonsofttehn.prosto_sa_xml_map.util.HibernateUtility;
-
 
 public class Main {
 
@@ -39,9 +37,9 @@ public class Main {
     }
     
     public void kreirajIUbaciProizvod(int id, String naziv, double cena){
-        Session session= HibernateUtility.getSessionFactory().openSession();
+        Session session=HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-        Proizvod  p=new Proizvod();
+        Proizvod p=new Proizvod();
         p.setProizvodID(id);
         p.setNaziv(naziv);
         p.setCena(cena);

@@ -1,4 +1,4 @@
-package com.matija.fonsofttehn.prosto_sa_xml_map.model;
+package com.matija.fonsofttehn.ProstSaXMLMapiranjem.model;
 
 public class Proizvod {
 	    private int proizvodID;
