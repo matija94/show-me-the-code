@@ -19,3 +19,10 @@
                                str))]
     (= (sum-str-nums (subs str_int 0 (/ n 2)))
        (sum-str-nums (subs str_int (Math/ceil (/ n 2)))))))
+
+
+(defn prime-numbers67
+  [n]
+  (let [prime-number? (fn [num]
+                        (every? #(= false %) (map #(= (mod num %) 0) (range 2 num))))]
+    (drop 2 (take (+ n 2) (filter prime-number? (range))))))
