@@ -3,25 +3,8 @@
 
 (defmacro infix
   [[operand1 op operand2]]
-  (op operand1 operand2)
+  (list op operand1 operand2)
   )
-
-(println (macroexpand '(infix (10 + 25))))
-(println (infix (1 + 2)))
-
-(println '(+ 1 2))
-(println (list + 1 2))
-(println (eval '(+ 1 2)))
-(println (eval (list + 1 2)))
-
-
-
-(def uneval_list '(+ 1 2))
-(println uneval_list)
-(println (eval uneval_list))
-
-(println 'if)
-
 
 (defmacro print_and_ret
   [e]
@@ -29,36 +12,51 @@
     (println eval_e)
     eval_e))
 
-
-(println (print_and_ret (+ 1 2)))
-
-
 (defmacro my-print
   [exp]
   (list 'let ['result exp]
         (list 'println 'result)
         'result))
 
-
-(println (my-print (+ 1 2)))
-
-
-(println (list + 1 2))
+(defn code-criticism
+  [criticism code]
+  `(println ~criticism '~code))
 
 (defmacro code-critic
-  "Phrases are courtesy Hermes Conrad from Futurama"
   [bad good]
-  `(do (println "Great squid of Madrid, this is bad code:"
-                '~bad)
-       (println "Sweet gorilla of Manila, this is good code:"
-                '~good)))
-
-(code-critic (1 + 1) (+ 1 2))
-
-
-
-(println (quote (+ 1 2)))
-(println (eval '(+ 1 2)))
+  `(do ~@(map #(apply code-criticism %)
+            [["This is good code:" good]
+             ["This is bad code:" bad]])))
+(defmacro unless
+  [test & branches]
+  (conj (reverse branches) test 'if))
 
 
-(println (quote ~(1 + 2)))
+
+(def order-details-validations
+  {:name
+   ["Please enter a name" not-empty]
+
+   :email
+   ["Please enter an email address" not-empty
+
+    "Your email address doesn't look like an email address"
+    #(or (empty? %) (re-seq #"@" %))]})
+
+(defn error-messages-for
+  [to-validate message-validator-pairs]
+  (map first (filter #(not ((second %) to-validate))
+                     (partition 2 message-validator-pairs))))
+
+
+
+(defmacro when-valid
+  [data validator print-success fn-success]
+  `(let [result# (~validator ~data)]
+    (if result# (do
+                 ~print-success
+                 ~fn-success))
+    nil))
+
+(println (when-valid "mat" not-empty (println "is not empty") 1))
+(println (macroexpand '(when-valid "mat" not-empty (println "is not empty") 1)))

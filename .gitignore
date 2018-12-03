@@ -9,5 +9,6 @@ __pycache__/
 **/node_modules
 *.o
 **/.idea
+target/
 
 venv
