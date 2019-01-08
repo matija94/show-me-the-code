@@ -1,6 +1,6 @@
 package com.example
 
-import akka.actor.ActorSystem
+import akka.actor.{ActorSystem, PoisonPill}
 import akka.testkit.{TestKit, TestProbe}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
@@ -111,5 +111,43 @@ class DeviceSpec(system: ActorSystem) extends TestKit(system) with Matchers with
     val deviceActor2 = probe.lastSender
 
     deviceActor1 should ===(deviceActor2)
+  }
+
+  "be able to list active devices" in {
+    val probe = TestProbe()(system)
+    val groupActor = system.actorOf(DeviceGroup.props("group"))
+
+    groupActor.tell(DeviceManager.RequestTrackDevice("group", "device1"), probe.ref)
+    probe.expectMsg(DeviceManager.DeviceRegistered)
+
+    groupActor.tell(DeviceManager.RequestTrackDevice("group", "device2"), probe.ref)
+    probe.expectMsg(DeviceManager.DeviceRegistered)
+
+    groupActor.tell(DeviceGroup.RequestDeviceList(0), probe.ref)
+    probe.expectMsg(DeviceGroup.ReplyDeviceList(requestId = 0, ids = Set("device1", "device2")))
+  }
+
+  "be able to list active devices after one shuts down" in {
+    val probe = TestProbe()(system)
+    val groupActor = system.actorOf(DeviceGroup.props("group"))
+
+    groupActor.tell(DeviceManager.RequestTrackDevice("group", "device1"), probe.ref)
+    probe.expectMsg(DeviceManager.DeviceRegistered)
+    val toShutDown = probe.lastSender
+
+    groupActor.tell(DeviceManager.RequestTrackDevice("group", "device2"), probe.ref)
+    probe.expectMsg(DeviceManager.DeviceRegistered)
+
+    groupActor.tell(DeviceGroup.RequestDeviceList(0), probe.ref)
+    probe.expectMsg(DeviceGroup.ReplyDeviceList(requestId = 0, ids = Set("device1", "device2")))
+
+    probe.watch(toShutDown)
+    toShutDown ! PoisonPill
+    probe.expectTerminated(toShutDown)
+
+    probe.awaitAssert {
+      groupActor.tell(DeviceGroup.RequestDeviceList(1), probe.ref)
+      probe.expectMsg(DeviceGroup.ReplyDeviceList(requestId = 1, ids = Set("device2")))
+    }
   }
 }
