@@ -25,13 +25,18 @@ public class Template {
     @JoinColumn(name = "template_id")
     private List<TemplateField> templateFields;
 
+    @OneToMany
+    @JoinColumn(name = "template_id")
+    private List<Document> documents;
+
     public Template() {}
 
-    public Template(String name, String description, DateTime dateTime, List<TemplateField> templateFields) {
+    public Template(String name, String description, DateTime dateTime, List<TemplateField> templateFields, List<Document> documents) {
         this.name = name;
         this.description = description;
         this.dateTime = dateTime;
         this.templateFields = templateFields;
+        this.documents = documents;
     }
 
     public long getTemplateId() {
@@ -72,5 +77,13 @@ public class Template {
 
     public void setTemplateFields(List<TemplateField> templateFields) {
         this.templateFields = templateFields;
+    }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
     }
 }

@@ -25,6 +25,24 @@ public class TemplateField {
     @Column
     private boolean required;
 
+    @Column
+    private boolean isList;
+
+    @OneToMany
+    @JoinColumn(name = "template_field_id")
+    private List<TemplateField> templateFieldItems;
+
+    public TemplateField() {}
+
+    public TemplateField(String name, String description, TemplateFieldType templateFieldType, boolean required, boolean isList, List<TemplateField> templateFieldItems) {
+        this.name = name;
+        this.description = description;
+        this.templateFieldType = templateFieldType;
+        this.required = required;
+        this.isList = isList;
+        this.templateFieldItems = templateFieldItems;
+    }
+
     public long getTemplateFieldId() {
         return templateFieldId;
     }
@@ -63,5 +81,21 @@ public class TemplateField {
 
     public void setRequired(boolean required) {
         this.required = required;
+    }
+
+    public boolean isList() {
+        return isList;
+    }
+
+    public void setList(boolean list) {
+        isList = list;
+    }
+
+    public List<TemplateField> getTemplateFieldItems() {
+        return templateFieldItems;
+    }
+
+    public void setTemplateFieldItems(List<TemplateField> templateFieldItems) {
+        this.templateFieldItems = templateFieldItems;
     }
 }
