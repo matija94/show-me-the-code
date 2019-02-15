@@ -25,6 +25,15 @@ public class Template {
     @JoinColumn(name = "template_id")
     private List<TemplateField> templateFields;
 
+    public Template() {}
+
+    public Template(String name, String description, DateTime dateTime, List<TemplateField> templateFields) {
+        this.name = name;
+        this.description = description;
+        this.dateTime = dateTime;
+        this.templateFields = templateFields;
+    }
+
     public long getTemplateId() {
         return templateId;
     }

@@ -23,11 +23,7 @@ public class TemplateField {
     private TemplateFieldType templateFieldType;
 
     @Column
-    private boolean mandatory;
-
-    @OneToMany
-    @JoinColumn(name = "templateField_id")
-    private List<DocumentField> documentFields;
+    private boolean required;
 
     public long getTemplateFieldId() {
         return templateFieldId;
@@ -61,19 +57,11 @@ public class TemplateField {
         this.templateFieldType = templateFieldType;
     }
 
-    public boolean isMandatory() {
-        return mandatory;
+    public boolean getRequired() {
+        return required;
     }
 
-    public void setMandatory(boolean mandatory) {
-        this.mandatory = mandatory;
-    }
-
-    public List<DocumentField> getDocumentFields() {
-        return documentFields;
-    }
-
-    public void setDocumentFields(List<DocumentField> documentFields) {
-        this.documentFields = documentFields;
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 }
