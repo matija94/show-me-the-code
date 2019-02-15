@@ -14,9 +14,15 @@ public class Document {
     @Embedded
     private DateTime dateTime;
 
-    //TODO model document fields objects
+    @Column
+    private String data;
 
     public Document() {
+    }
+
+    public Document(DateTime dateTime, String data) {
+        this.dateTime = dateTime;
+        this.data = data;
     }
 
     public long getDocumentId() {
@@ -33,5 +39,13 @@ public class Document {
 
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

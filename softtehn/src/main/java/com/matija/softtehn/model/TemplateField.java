@@ -30,11 +30,15 @@ public class TemplateField {
 
     @OneToMany
     @JoinColumn(name = "template_field_id")
-    private List<TemplateField> templateFieldItems;
+    private List<TemplateFieldItem> templateFieldItems;
+
+    @OneToMany
+    @JoinColumn(name = "template_field_id")
+    private List<TemplateField> templateFields;
 
     public TemplateField() {}
 
-    public TemplateField(String name, String description, TemplateFieldType templateFieldType, boolean required, boolean isList, List<TemplateField> templateFieldItems) {
+    public TemplateField(String name, String description, TemplateFieldType templateFieldType, boolean required, boolean isList, List<TemplateFieldItem> templateFieldItems) {
         this.name = name;
         this.description = description;
         this.templateFieldType = templateFieldType;
@@ -91,11 +95,19 @@ public class TemplateField {
         isList = list;
     }
 
-    public List<TemplateField> getTemplateFieldItems() {
+    public List<TemplateFieldItem> getTemplateFieldItems() {
         return templateFieldItems;
     }
 
-    public void setTemplateFieldItems(List<TemplateField> templateFieldItems) {
+    public void setTemplateFieldItems(List<TemplateFieldItem> templateFieldItems) {
         this.templateFieldItems = templateFieldItems;
+    }
+
+    public List<TemplateField> getTemplateFields() {
+        return templateFields;
+    }
+
+    public void setTemplateFields(List<TemplateField> templateFields) {
+        this.templateFields = templateFields;
     }
 }
