@@ -21,7 +21,7 @@ public class Template {
     @Embedded
     private DateTime dateTime;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "template_id")
     private List<TemplateField> templateFields;
 

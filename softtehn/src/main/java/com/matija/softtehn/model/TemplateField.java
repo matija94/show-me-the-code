@@ -20,7 +20,7 @@ public class TemplateField {
 
     @Column
     @Enumerated
-    private TemplateFieldType templateFieldType;
+    private TemplateFieldType type;
 
     @Column
     private boolean required;
@@ -28,23 +28,20 @@ public class TemplateField {
     @Column
     private boolean isList;
 
-    @OneToMany
-    @JoinColumn(name = "template_field_id")
-    private List<TemplateFieldItem> templateFieldItems;
-
-    @OneToMany
-    @JoinColumn(name = "template_field_id")
-    private List<TemplateField> templateFields;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "complex_template_field_id")
+    private List<TemplateField> fields;
 
     public TemplateField() {}
 
-    public TemplateField(String name, String description, TemplateFieldType templateFieldType, boolean required, boolean isList, List<TemplateFieldItem> templateFieldItems) {
+    public TemplateField(String name, String description, TemplateFieldType type,
+                         boolean required, boolean isList, List<TemplateField> fields) {
         this.name = name;
         this.description = description;
-        this.templateFieldType = templateFieldType;
+        this.type = type;
         this.required = required;
         this.isList = isList;
-        this.templateFieldItems = templateFieldItems;
+        this.fields = fields;
     }
 
     public long getTemplateFieldId() {
@@ -71,12 +68,12 @@ public class TemplateField {
         this.description = description;
     }
 
-    public TemplateFieldType getTemplateFieldType() {
-        return templateFieldType;
+    public TemplateFieldType getType() {
+        return type;
     }
 
-    public void setTemplateFieldType(TemplateFieldType templateFieldType) {
-        this.templateFieldType = templateFieldType;
+    public void setType(TemplateFieldType type) {
+        this.type = type;
     }
 
     public boolean getRequired() {
@@ -87,27 +84,19 @@ public class TemplateField {
         this.required = required;
     }
 
+    public List<TemplateField> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<TemplateField> fields) {
+        this.fields = fields;
+    }
+
     public boolean isList() {
         return isList;
     }
 
     public void setList(boolean list) {
         isList = list;
-    }
-
-    public List<TemplateFieldItem> getTemplateFieldItems() {
-        return templateFieldItems;
-    }
-
-    public void setTemplateFieldItems(List<TemplateFieldItem> templateFieldItems) {
-        this.templateFieldItems = templateFieldItems;
-    }
-
-    public List<TemplateField> getTemplateFields() {
-        return templateFields;
-    }
-
-    public void setTemplateFields(List<TemplateField> templateFields) {
-        this.templateFields = templateFields;
     }
 }

@@ -1,7 +1,9 @@
 package com.matija.softtehn.model;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
+@Entity
 public class RevokedToken {
     @Id
     private String revokedTokenId;

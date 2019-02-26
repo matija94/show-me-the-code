@@ -5,11 +5,11 @@ import com.matija.softtehn.model.embeddables.DateTime;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity(name = "cluster")
 public class Group {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long groupId;
 
     @Column

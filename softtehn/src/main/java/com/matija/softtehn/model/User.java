@@ -2,7 +2,7 @@ package com.matija.softtehn.model;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "app_user")
 public class User {
 
     @Id

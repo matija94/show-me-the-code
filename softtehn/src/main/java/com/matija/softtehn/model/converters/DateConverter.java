@@ -9,7 +9,10 @@ public class DateConverter implements AttributeConverter<Date, Long> {
 
     @Override
     public Long convertToDatabaseColumn(Date date) {
-        return date.getTime();
+        if (date != null) {
+            return date.getTime();
+        }
+        else return null;
     }
 
     @Override
