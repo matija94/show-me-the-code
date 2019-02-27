@@ -1,6 +1,7 @@
-package com.matija.softtehn.repository;
+package com.matija.softtehn.repository.integration;
 
 import com.matija.softtehn.model.Template;
+import com.matija.softtehn.repository.TemplateRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.assertj.core.api.Assertions.*;
@@ -11,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class TemplateRepositoryIntegrationTest {
+public class TemplateRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;

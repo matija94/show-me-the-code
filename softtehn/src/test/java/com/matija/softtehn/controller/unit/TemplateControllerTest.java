@@ -1,7 +1,9 @@
-package com.matija.softtehn.controller;
+package com.matija.softtehn.controller.unit;
 
+import com.matija.softtehn.controller.TemplateController;
+import com.matija.softtehn.controller.Urls;
 import com.matija.softtehn.model.Template;
-import com.matija.softtehn.repository.TemplateRepository;
+import com.matija.softtehn.service.TemplateService;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.Test;
@@ -20,14 +22,14 @@ import java.util.Arrays;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest
+@WebMvcTest(TemplateController.class)
 public class TemplateControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private TemplateRepository templateRepository;
+    private TemplateService templateService;
 
     @Test
     public void givenTemplates_whenGetTemplates_thenReturnJsonArray() throws Exception {
@@ -36,7 +38,7 @@ public class TemplateControllerTest {
 
         List<Template> templates = Arrays.asList(template);
 
-        BDDMockito.given(templateRepository.findAll()).willReturn(templates);
+        BDDMockito.given(templateService.findAll()).willReturn(templates);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get(Urls.TEMPLATE)

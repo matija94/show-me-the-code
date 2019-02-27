@@ -1,6 +1,7 @@
-package com.matija.softtehn.repository;
+package com.matija.softtehn.repository.unit;
 
 import com.matija.softtehn.model.Template;
+import com.matija.softtehn.repository.TemplateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
 public class TemplateRepositoryTest {
 
     @MockBean
