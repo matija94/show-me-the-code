@@ -1,5 +1,6 @@
 package com.matija.softtehn.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.matija.softtehn.model.embeddables.DateTime;
 
 import javax.persistence.*;
@@ -11,11 +12,19 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long documentId;
 
+    @Transient
+    private String templateName;
+
     @Embedded
     private DateTime dateTime;
 
     @Column
     private String data;
+
+    @ManyToOne
+    @JoinColumn(name = "template_id")
+    @JsonIgnore
+    private Template template;
 
     public Document() {
     }
@@ -47,5 +56,21 @@ public class Document {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
+    }
+
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 }

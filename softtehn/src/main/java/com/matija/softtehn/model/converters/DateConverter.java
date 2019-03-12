@@ -17,6 +17,9 @@ public class DateConverter implements AttributeConverter<Date, Long> {
 
     @Override
     public Date convertToEntityAttribute(Long aLong) {
-        return new Date(aLong);
+        if (aLong != null) {
+            return new Date(aLong);
+        }
+        return null;
     }
 }

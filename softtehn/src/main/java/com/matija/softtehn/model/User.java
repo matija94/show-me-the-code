@@ -1,25 +1,36 @@
 package com.matija.softtehn.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
-@Entity(name = "app_user")
+@Entity
+@Table(name = "app_user", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")})
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
 
-    @Column
+    @NotBlank
+    @Email
+    @Column(nullable = false)
     private String email;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "group_id")
+    private Group group;
 
     @Column
     private boolean admin;
 
     public User() {}
 
-    public User(String email, boolean admin) {
+    public User(String email, boolean admin, Group group) {
         this.email = email;
         this.admin = admin;
+        this.group = group;
     }
 
     public long getUserId() {
@@ -44,5 +55,13 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

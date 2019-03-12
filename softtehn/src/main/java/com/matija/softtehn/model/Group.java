@@ -15,24 +15,17 @@ public class Group {
     @Column
     private String name;
 
+    @OneToMany(mappedBy = "group")
+    private List<Template> templates;
+
     @Embedded
     private DateTime dateTime;
 
-    @OneToMany
-    @JoinColumn(name = "group_id")
-    private List<User> users;
-
-    @OneToMany
-    @JoinColumn(name = "group_id")
-    private List<Template> templates;
-
     public Group() {}
 
-    public Group(String name, DateTime dateTime, List<User> users, List<Template> templates) {
+    public Group(String name, DateTime dateTime) {
         this.name = name;
         this.dateTime = dateTime;
-        this.users = users;
-        this.templates = templates;
     }
 
     public long getGroupId() {
@@ -65,13 +58,5 @@ public class Group {
 
     public void setTemplates(List<Template> templates) {
         this.templates = templates;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 }

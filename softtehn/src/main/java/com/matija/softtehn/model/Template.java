@@ -1,5 +1,6 @@
 package com.matija.softtehn.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.matija.softtehn.model.embeddables.DateTime;
 
 import javax.persistence.*;
@@ -25,18 +26,25 @@ public class Template {
     @JoinColumn(name = "template_id")
     private List<TemplateField> templateFields;
 
-    @OneToMany
-    @JoinColumn(name = "template_id")
+    @OneToMany(mappedBy = "template")
     private List<Document> documents;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    @JsonIgnore
+    private Group group;
 
     public Template() {}
 
-    public Template(String name, String description, DateTime dateTime, List<TemplateField> templateFields, List<Document> documents) {
+    public Template(String name, String description,
+                    DateTime dateTime, List<TemplateField> templateFields,
+                    List<Document> documents, Group group) {
         this.name = name;
         this.description = description;
         this.dateTime = dateTime;
         this.templateFields = templateFields;
         this.documents = documents;
+        this.group = group;
     }
 
     public long getTemplateId() {
@@ -85,5 +93,13 @@ public class Template {
 
     public void setDocuments(List<Document> documents) {
         this.documents = documents;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }
