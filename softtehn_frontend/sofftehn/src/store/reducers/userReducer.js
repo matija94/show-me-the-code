@@ -6,6 +6,7 @@ const userReducer = (state = initState, action) => {
 
     switch (action.type) {
         case USER_LOGIN:
+            console.log("USER LOGIN====", action.userEmail);
             return {
                 ...state
             };
@@ -19,6 +20,6 @@ const userReducer = (state = initState, action) => {
             return state;
     }
 
-}
+};
 
 export default userReducer;

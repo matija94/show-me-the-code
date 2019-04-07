@@ -7,24 +7,23 @@ class Template extends Component {
     name: null,
     templateDesc: null,
     active: false
-  }
+  };
 
   onChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     });
-  }
+  };
 
   expandField = (e) => {
     this.setState({
       active: true
     });
-  }
+  };
 
   render() {    
     return (
       <div>
-        
         <div className="row">
           <form className="col s12">
             <div className="row">

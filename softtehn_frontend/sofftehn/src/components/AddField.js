@@ -5,13 +5,13 @@ class AddField extends Component {
 
     state = {
         type: null
-    }
+    };
 
     inputType = (e) => {
         this.setState({
             type: e.target.value
         });
-    }
+    };
 
     pickFieldType = () => {
         switch (this.state.type) {
@@ -24,7 +24,7 @@ class AddField extends Component {
             default:
                 return null;
         }
-    }
+    };
 
     render() {
         return (
