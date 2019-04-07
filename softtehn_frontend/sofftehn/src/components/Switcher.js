@@ -8,6 +8,6 @@ const Switcher = () => {
             <Route path="/template" component={Template} />
         </Switch>
     )
-}
+};
 
 export default Switcher;
