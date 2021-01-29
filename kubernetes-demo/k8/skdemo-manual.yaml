@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: skdemo-manual
+spec:
+  containers:
+    - image: matija94/kubernetes-demo-spring
+      name: skdemo
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+
+EXPLAIN PLAN FOR
+SELECT personalis0_.CREATED_DATE as created_3_8_ from PERSONALISATION_DATA_FILE personalis0_ where 1=1 and personalis0_.CREATED_DATE is not null ORDER BY personalis0_.CREATED_DATE DESC FETCH NEXT 20 ROWS ONLY;
+
+select onsitepubl0_.id as id1_5_, onsitepubl0_.CREATED_BY as created_2_5_, onsitepubl0_.CREATED_DATE as created_3_5_, onsitepubl0_.UPDATED_BY as updated_4_5_, onsitepubl0_.UPDATED_DATE as updated_5_5_, onsitepubl0_.ARCHIVE_DATE as archive_6_5_, onsitepubl0_.DELETED as deleted7_5_, onsitepubl0_.EXPEDITED as expedite8_5_, onsitepubl0_.NAME as name9_5_, onsitepubl0_.ONSITE_MESSAGE_ID as onsite_11_5_, onsitepubl0_.PERSONALISATION_DATA_FILE_ID as persona12_5_, onsitepubl0_.PUBLISH_DATE as publish10_5_ from ONSITE_PUBLISHED_MESSAGE onsitepubl0_ where onsitepubl0_.ARCHIVE_DATE> TO_DATE('01/01/1970','DD/MM/YYYY') and onsitepubl0_.DELETED='N' order by onsitepubl0_.CREATED_DATE desc FETCH NEXT 20 ROWS ONLY
+
+
+  SELECT
+  PLAN_TABLE_OUTPUT
+  FROM
+  TABLE(DBMS_XPLAN.DISPLAY());
+
+
+  SELECT /*+ FIRST_ROWS(20) */ personalis0.id as id1_8_, personalis0_.CREATED_BY as created_2_8_, personalis0_.CREATED_DATE as created_3_8_, personalis0_.UPDATED_BY as updated_4_8_, personalis0_.UPDATED_DATE as updated_5_8_, personalis0_.DESCRIPTION as descript6_8_, personalis0_.FILE_NAME as file_nam7_8_, personalis0_.UPLOAD_COMPLETED as upload_c8_8_ from PERSONALISATION_DATA_FILE personalis0_ where 1=1 ORDER BY personalis0_.CREATED_DATE DESC FETCH NEXT 20 ROWS ONLY;
