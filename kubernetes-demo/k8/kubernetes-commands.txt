@@ -1,0 +1,25 @@
+-  /Users/matijalukovic/Library/Maven/apache-maven-3.6.3/bin/mvn clean install -X
+
+- Minikube start/stop
+- Minikube dashboard
+- Minikube service <name>(to get ip and port of exposed service)
+
+- docker build -t matija94/kubernetes-demo-spring .
+- docker run -p 8011:8080 kubernetes-demo-spring
+- docker image push matija94/kubernetes-demo-spring
+
+- Kubectl get <kind>(node/pod/service/replicationcontroller/replicaset/daemonset/job)
+- Kubectl get pods -o wide
+- Kubectl describe pod <name>
+- Kubectl cluster-info
+- Kubectl get pod <name> -o yaml
+- Kubectl delete pods <name>
+- Kubectl delete rc <name> --cascade=false (delete only rc, leave it's pods running, which are now unmanaged)
+- Kubectl label pod skdemo label_key=label_val
+- Kubectl label node minikube disk=ssd
+- Kubectl create -f <yaml_spec_path>
+- Kubectl edit rc <name> (to edit replication-controller yaml live)
+- Kubectl logs <pod-name> -c <container_name>
+- Kubectl port-forward <pod-name> 8888:8080 ( to test, debug pod directly, without service exposed)
+- Kubectl expose pod skdemo --type=LoadBalancer --name skdemo-http
+- Kubectl run skdemo --image=matija94/kubernetes-demo-spring --port=8080 --generator=run/v1

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: kubia
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - skdemo
+  template:
+    metadata:
+      labels:
+        app: skdemo
+    spec:
+      containers:
+        - name: skdemo
+          image: matija94/spring-kubernetes-demo
